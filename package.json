@@ -12,9 +12,11 @@
     "css-lint": "stylelint --config .stylelintrc --syntax scss \"src/scss/**/*.scss\" --fix",
     "css-prefix": "postcss --config postcss.config.js --replace \"dist/css/*.css\" \"!dist/css/*.min.css\"",
     "css-minify": "cleancss --level 1 --source-map --source-map-inline-sources --output dist/css/custom.css dist/css/custom.css",
-    "build": "webpack --progress --profile --display-error-details",
+    "build": "webpack --progress --profile",
+    "debug": "webpack --progress --profile --display-error-details --json > ./logs/stats.json",
     "clean": "shx rm -rf ./dist && shx echo clean done",
-    "deploy": "shx rm -rf ../mywebci/assets/dist && shx cp -R ./dist ../mywebci/assets/dist && shx echo deploy done"
+    "deploy": "shx rm -rf ../mywebci/assets/dist && shx cp -R ./dist ../mywebci/assets/dist && shx echo deploy done",
+    "visual": "webpack-bundle-analyzer logs/stats.json dist/js"
   },
   "keywords": [],
   "author": "moon lee <lee.moonkyu@gmail.com>",
@@ -40,6 +42,7 @@
     "stylelint-scss": "^3.3.0",
     "url-loader": "^1.1.1",
     "webpack": "^4.17.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {

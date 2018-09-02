@@ -4,4 +4,3 @@ import { faGooglePlusSquare } from "@fortawesome/free-brands-svg-icons/";
 
 library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare);
 dom.i2svg()
-

@@ -1,15 +1,13 @@
 import $ from 'jquery';
 import 'fullcalendar';
 
-import "fullcalendar/dist/locale/en-au";
-
 import "fullcalendar/dist/fullcalendar.min.css";
 
 
 $(function() {
   var containerEl = $('#calendar');
 
-  var localCode = "en-au";
+  var localeCode = "en-au";
 
   containerEl.fullCalendar({
     header: {
@@ -18,7 +16,7 @@ $(function() {
       right: 'month,agendaWeek,agendaDay,listWeek'
     },
     defaultDate: '2018-08-12',
-    locale: localCode,
+    locale: localeCode,
     navLinks: true, // can click day/week names to navigate views
     editable: true,
     eventLimit: true, // allow "more" link when too many events
