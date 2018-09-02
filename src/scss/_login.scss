@@ -1,0 +1,106 @@
+.login-wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+  font-size: 13px;
+  line-height: 1.471;
+}
+
+.login-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 60%;
+  height: 100%;
+  padding-top: 16px;
+  background-color: rgb(33, 184, 243);
+}
+
+.login-right {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background-color: white;
+}
+
+.form-signin {
+  position: relative;
+  min-width: 280px;
+  padding: 5%;
+  margin: 10% 20%;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin h1 {
+  margin: 10px 0 60px;
+  font: normal 25px Helvetica, Arial, sans-serif;
+  line-height: 20px;
+  letter-spacing: -.05em;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-input {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.form-signin input[type="email"],
+.form-signin input[type="password"] {
+  width: 100%;
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: #777;
+  border: 1px solid #c8c8c8;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, .08) inset;
+}
+
+.form-signin input[type="email"]:focus,
+.form-signin input[type="password"]:focus {
+  background-color: #fff;
+  border: 1px solid #a878af;
+  outline: none;
+  box-shadow: 0 0 2px #a97aad inset;
+}
+
+.form-signin button[type="submit"] {
+  float: right;
+  margin-bottom: 20px;
+}
+
+.seperator {
+  position: relative;
+  margin-top: 35px;
+  font-size: 24px;
+  color: #b7bfc6;
+}
+
+.seperator::before,
+.seperator::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 0;
+  width: 45%;
+  height: 1px;
+  content: "";
+  border-top: 1px solid #e0e6e8;
+}
+
+.seperator::before {
+  right: 0;
+  left: auto;
+}
