@@ -9,13 +9,6 @@ module.exports = {
 
     mode: "production",
 
-    entry: {
-        custom: ["./src/js/custom.js", "./src/scss/mycss.scss"],
-        bootstrap: "./src/js/bootstrap.js",
-        fonts: "./src/js/fontawesome.js",
-        fullcalendar: "./src/js/fullcalendar.js"
-    },
-
     output: {
         filename: "[name].js",
         chunkFilename: "[name].js",
@@ -48,8 +41,6 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(['dist']),
-
         new MiniCssExtractPlugin(
             {
                 filename: "../css/[name].css",

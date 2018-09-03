@@ -1,6 +1,4 @@
-import $ from 'jquery';
 import 'fullcalendar';
-
 import "fullcalendar/dist/fullcalendar.min.css";
 
 
@@ -17,6 +15,7 @@ $(function() {
     },
     defaultDate: '2018-08-12',
     locale: localeCode,
+    aspectRatio: 1.86,
     navLinks: true, // can click day/week names to navigate views
     editable: true,
     eventLimit: true, // allow "more" link when too many events

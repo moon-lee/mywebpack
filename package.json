@@ -1,22 +1,18 @@
 {
   "name": "mywebpack",
   "version": "1.0.0",
+  "sideEffects": false,
   "description": "",
   "main": "index.js",
   "scripts": {
     "all": "npm-run-all --sequential build deploy",
-    "css": "npm-run-all --parallel css-clean css-lint css-compile --sequential css-prefix css-minify css-deploy",
-    "css-clean": "shx rm -rf dist/css/custom.* && shx echo css clean done",
-    "css-deploy": "shx rm -rf ../mywebci/assets/css/custom.* && shx cp -R dist/css/custom.* ../mywebci/assets/dist/css && shx echo css deploy done",
-    "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss/mycss.scss dist/css/custom.css",
-    "css-lint": "stylelint --config .stylelintrc --syntax scss \"src/scss/**/*.scss\" --fix",
-    "css-prefix": "postcss --config postcss.config.js --replace \"dist/css/*.css\" \"!dist/css/*.min.css\"",
-    "css-minify": "cleancss --level 1 --source-map --source-map-inline-sources --output dist/css/custom.css dist/css/custom.css",
+    "custom": "npm-run-all --sequential entry deploy",
     "build": "webpack --progress --profile",
-    "debug": "webpack --progress --profile --display-error-details --json > ./logs/stats.json",
+    "debug": "webpack --profile --display-error-details --json > ./logs/stats.json",
     "clean": "shx rm -rf ./dist && shx echo clean done",
     "deploy": "shx rm -rf ../mywebci/assets/dist && shx cp -R ./dist ../mywebci/assets/dist && shx echo deploy done",
-    "visual": "webpack-bundle-analyzer logs/stats.json dist/js"
+    "visual": "webpack-bundle-analyzer logs/stats.json dist/js",
+    "entry": "webpack  custom=./src/js/custom.js custom=./src/scss/mycss.scss --config webpack.entry.js --progress --profile"
   },
   "keywords": [],
   "author": "moon lee <lee.moonkyu@gmail.com>",

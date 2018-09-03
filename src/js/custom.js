@@ -1,0 +1,2 @@
+import "./myscript";
+import "./vendors";
