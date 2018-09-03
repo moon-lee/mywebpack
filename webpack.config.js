@@ -10,7 +10,7 @@ module.exports = {
     mode: "production",
 
     entry: {
-        custom: ["./src/js/custom.js", "./src/scss/mycss.scss"],
+        custom: ["./src/js/myscript.js", "./src/scss/mycss.scss"],
         bootstrap: "./src/js/bootstrap.js",
         fonts: "./src/js/fontawesome.js",
         fullcalendar: "./src/js/fullcalendar.js"
@@ -93,7 +93,7 @@ module.exports = {
     resolve: {
         extensions: [".js", ".css", ".scss"],
         alias: {
-            "jquery": "jquery/dist/jquery.js"
+            "jquery": "jquery/dist/jquery.slim.min.js"
         }
     },
 
@@ -111,7 +111,7 @@ module.exports = {
                     test: /[\\/]node_modules[\\/]moment[\\/]/,
                     chunks: "all",
                     priority: 2
-                },
+                }              
             }
         }
     }
