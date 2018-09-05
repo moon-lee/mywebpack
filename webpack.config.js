@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require("autoprefixer");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 
@@ -11,7 +12,6 @@ module.exports = {
 
     entry: {
         custom: ["./src/js/myscript.js", "./src/scss/mycss.scss"],
-        bootstrap: "./src/js/bootstrap.js",
         fonts: "./src/js/fontawesome.js",
         fullcalendar: "./src/js/fullcalendar.js"
     },
@@ -50,6 +50,30 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist']),
 
+        new CopyWebpackPlugin(
+            [
+                {
+                    from: "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+                    to: "../css/"
+                },
+                {
+                    from: "./node_modules/jquery/dist/jquery.slim.min.js",
+                    to: "../js/"
+                },
+                {
+                    from:  "./node_modules/popper.js/dist/umd/popper.min.js",
+                    to: "../js/"
+                },
+                {
+                    from: "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+                    to: "../js/"
+                }
+            ],
+            {
+                debug: 'debug'
+            }
+        ), 
+
         new MiniCssExtractPlugin(
             {
                 filename: "../css/[name].css",
@@ -68,7 +92,7 @@ module.exports = {
             }
         ),
 
-        new webpack.ProvidePlugin(
+/*         new webpack.ProvidePlugin(
             {
                 $: "jquery",
                 jQuery: "jquery",
@@ -76,7 +100,7 @@ module.exports = {
                 Popper: ["popper.js", "defualt"]
             }
 
-        ),
+        ), */
 
         new webpack.ContextReplacementPlugin(
             /moment[\/\\]locale$/, /en-au/
@@ -90,22 +114,26 @@ module.exports = {
 
     devtool: "source-map",
 
+    externals: {
+        jquery: "jQuery"
+    },
+
     resolve: {
         extensions: [".js", ".css", ".scss"],
-        alias: {
+/*          alias: {
             "jquery": "jquery/dist/jquery.slim.min.js"
-        }
+        }  */
     },
 
     optimization: {
         splitChunks: {
             cacheGroups: {
-                "bundles-web": {
+/*                 "bundles-web": {
                     name: 'bundles.web',
                     test: /[\\/]node_modules[\\/](jquery|bootstrap|popper.js)[\\/]/,
                     chunks: "all",
                     priority: 2
-                },
+                }, */
                 "bundles-moment": {
                     name: 'bundles.moment',
                     test: /[\\/]node_modules[\\/]moment[\\/]/,
