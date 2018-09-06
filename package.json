@@ -6,14 +6,11 @@
   "main": "index.js",
   "scripts": {
     "all": "npm-run-all --sequential build deploy",
-    "custom": "npm-run-all --sequential entry cls-exclude deploy",
     "build": "webpack --progress --profile",
     "debug": "webpack --profile --display-error-details --json > ./logs/stats.json",
     "clean": "shx rm -rf ./dist && shx echo clean done",
-    "cls-exclude": "shx rm -rf ./dist/js/*.exclude.* && shx echo clean exclude done",
     "deploy": "shx rm -rf ../mywebci/assets/dist && shx cp -R ./dist ../mywebci/assets/dist && shx echo deploy done",
-    "visual": "webpack-bundle-analyzer logs/stats.json dist/js",
-    "entry": "webpack  custom=./src/js/custom.js custom=./src/scss/mycss.scss --config webpack.entry.js --progress --profile"
+    "visual": "webpack-bundle-analyzer logs/stats.json dist/js"
   },
   "keywords": [],
   "author": "moon lee <lee.moonkyu@gmail.com>",
