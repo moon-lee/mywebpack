@@ -12,7 +12,7 @@ module.exports = {
     mode: "production",
 
     entry: {
-        custom: ["./src/js/myscript.js", "./src/scss/mycss.scss"],
+        custom: ["./src/js/mainscripts.js", "./src/scss/mycss.scss"],
         fonts: "./src/js/fontawesome.js",
         fullcalendar: "./src/js/fullcalendar.js"
     },
@@ -55,6 +55,10 @@ module.exports = {
             [
                 {
                     from: "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+                    to: "../css/"
+                },
+                {
+                    from: "./node_modules/fullcalendar/dist/fullcalendar.min.css",
                     to: "../css/"
                 },
                 {

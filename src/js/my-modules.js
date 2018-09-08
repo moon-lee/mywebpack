@@ -1,12 +1,13 @@
-(function ($) {
-    "use strict"; // Start of use strict
+function sidebar_toggle() {
+    console.log("sidebar toggle ready!!!");    
 
-    console.log("sidebar toggle ready!!!");
-        
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });  
+}
 
+function addclass_active() {
+    console.log("sidebar list add active class!!!");
 
     $('.sidebar-list > ul > li').find('a').click(function (e) {
         var $li = $(this).parent();
@@ -16,5 +17,7 @@
             $li.addClass('active');
         }
     });
+}
 
-})(jQuery); // End of use strict
+export { sidebar_toggle, addclass_active };
+

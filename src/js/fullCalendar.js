@@ -1,18 +1,19 @@
 import 'fullcalendar';
-import "fullcalendar/dist/fullcalendar.min.css";
 
-(function ($) {
+function init_fullcalendar() {
   var localeCode = "en-au";
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
-  var started; 
+  var started;
   var ended;
   var categoryClass;
+  
+  console.log("fullcalendar loaded!!!");  
 
   $('#calendar').fullCalendar({
-    themeSystem: "bootstrap4",
+    //themeSystem: "bootstrap4",
     header: {
       left: 'prev,next today',
       center: 'title',
@@ -76,4 +77,8 @@ import "fullcalendar/dist/fullcalendar.min.css";
       calendar.fullCalendar('unselect');
     }
   })
-})(jQuery); // End of use strict;
+}
+
+$(document).ready(function () {
+  init_fullcalendar();
+});
