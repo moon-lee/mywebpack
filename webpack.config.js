@@ -62,7 +62,7 @@ module.exports = {
                     to: "../css/"
                 },
                 {
-                    from: "./node_modules/jquery/dist/jquery.slim.min.js",
+                    from: "./node_modules/jquery/dist/jquery.min.js",
                     to: "../js/"
                 },
                 {

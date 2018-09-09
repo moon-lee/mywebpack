@@ -1,84 +1,85 @@
 import 'fullcalendar';
 
 function init_fullcalendar() {
-  var localeCode = "en-au";
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
-  var started;
-  var ended;
-  var categoryClass;
-  
-  console.log("fullcalendar loaded!!!");  
 
-  $('#calendar').fullCalendar({
-    //themeSystem: "bootstrap4",
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay,listWeek'
-    },
-    locale: localeCode,
-    aspectRatio: 1.86,
-    navLinks: true, // can click day/week names to navigate views
-    editable: true,
-    eventLimit: true, // allow "more" link when too many events
-    selectable: true,
-    selectHelper: true,
+	var localeCode = "en-au";
+	var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
+	var started;
+	var ended;
+	var categoryClass;
 
-    select: function (start, end, allDay) {
-      $('#fc_create').click();
+	console.log("fullcalendar loaded!!!");
 
-      started = start;
-      ended = end;
+	$('#calendar').fullCalendar({
+		//themeSystem: "bootstrap4",
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay,listWeek'
+		},
+		locale: localeCode,
+		aspectRatio: 1.86,
+		navLinks: true, // can click day/week names to navigate views
+		editable: true,
+		eventLimit: true, // allow "more" link when too many events
+		selectable: true,
+		selectHelper: true,
 
-      $(".antosubmit").on("click", function () {
-        var title = $("#title").val();
-        if (end) {
-          ended = end;
-        }
+		select: function (start, end, allDay) {
+			$('#fc_create').click();
 
-        categoryClass = $("#event_type").val();
+			started = start;
+			ended = end;
 
-        if (title) {
-          calendar.fullCalendar('renderEvent', {
-            title: title,
-            start: started,
-            end: end,
-            allDay: allDay
-          },
-            true // make the event "stick"
-          );
-        }
+			$(".antosubmit").on("click", function () {
+				var title = $("#title").val();
+				if (end) {
+					ended = end;
+				}
 
-        $('#title').val('');
+				categoryClass = $("#event_type").val();
 
-        calendar.fullCalendar('unselect');
+				if (title) {
+					calendar.fullCalendar('renderEvent', {
+						title: title,
+						start: started,
+						end: end,
+						allDay: allDay
+					},
+						true // make the event "stick"
+					);
+				}
 
-        $('.antoclose').click();
+				$('#title').val('');
 
-        return false;
-      });
-    },
-    eventClick: function (calEvent, jsEvent, view) {
-      $('#fc_edit').click();
-      $('#title2').val(calEvent.title);
+				calendar.fullCalendar('unselect');
 
-      categoryClass = $("#event_type").val();
+				$('.antoclose').click();
 
-      $(".antosubmit2").on("click", function () {
-        calEvent.title = $("#title2").val();
+				return false;
+			});
+		},
+		eventClick: function (calEvent, jsEvent, view) {
+			$('#fc_edit').click();
+			$('#title2').val(calEvent.title);
 
-        calendar.fullCalendar('updateEvent', calEvent);
-        $('.antoclose2').click();
-      });
+			categoryClass = $("#event_type").val();
 
-      calendar.fullCalendar('unselect');
-    }
-  })
+			$(".antosubmit2").on("click", function () {
+				calEvent.title = $("#title2").val();
+
+				calendar.fullCalendar('updateEvent', calEvent);
+				$('.antoclose2').click();
+			});
+
+			calendar.fullCalendar('unselect');
+		}
+	})
 }
 
 $(document).ready(function () {
-  init_fullcalendar();
+	init_fullcalendar();
 });
