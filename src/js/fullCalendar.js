@@ -3,10 +3,7 @@ import 'fullcalendar';
 function init_fullcalendar() {
 
 	var localeCode = "en-au";
-	var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();
+
 	var started;
 	var ended;
 	var categoryClass;
@@ -27,12 +24,19 @@ function init_fullcalendar() {
 		eventLimit: true, // allow "more" link when too many events
 		selectable: true,
 		selectHelper: true,
-		events: {
-			url: "dashboard/eventslist",
-			error: function () {
-				alert("Sorry, there was a problem!");
+		eventSources: [
+			{
+				url: "dashboard/eventslist",
+			
+				error: function (xhr, status, errorThrown ) {
+					alert("Sorry, there was a problem!");
+					console.log("Error: " + errorThrown);
+					console.log("Status: " + status);
+					console.dir(xhr);
+				},
+				color: '#9DD9ED'
 			}
-		},
+		],
 
 		select: function (start, end, allDay) {
 			$('#fc_create').click();
@@ -49,7 +53,7 @@ function init_fullcalendar() {
 				categoryClass = $("#event_type").val();
 
 				if (title) {
-					calendar.fullCalendar('renderEvent', {
+					$('#calendar').fullCalendar('renderEvent', {
 						title: title,
 						start: started,
 						end: end,
@@ -61,7 +65,7 @@ function init_fullcalendar() {
 
 				$('#title').val('');
 
-				calendar.fullCalendar('unselect');
+				$('#calendar').fullCalendar('unselect');
 
 				$('.antoclose').click();
 
@@ -77,13 +81,31 @@ function init_fullcalendar() {
 			$(".antosubmit2").on("click", function () {
 				calEvent.title = $("#title2").val();
 
-				calendar.fullCalendar('updateEvent', calEvent);
+				$('#calendar').fullCalendar('updateEvent', calEvent);
 				$('.antoclose2').click();
 			});
 
-			calendar.fullCalendar('unselect');
+			$('#calendar').fullCalendar('unselect');
 		}
 	})
+}
+
+function getMonthDateRange(year, month) {
+	var moment = require('moment');
+
+	// month in moment is 0 based, so 9 is actually october, subtract 1 to compensate
+	// array is 'year', 'month', 'day', etc
+	var startDate = moment([year, month - 1]);
+
+	// Clone the value before .endOf()
+	var endDate = moment(startDate).endOf('month');
+
+	// just for demonstration:
+	console.log(startDate.toDate());
+	console.log(endDate.toDate());
+
+	// make sure to call toDate() for plain JavaScript date type
+	return { start: startDate, end: endDate };
 }
 
 $(document).ready(function () {

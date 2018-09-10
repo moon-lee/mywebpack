@@ -28,6 +28,10 @@ function get_events() {
             type: "POST",
             url: url,
             dataType: "json",
+            // data: {
+            //     startdate: '2018-01-01',
+            //     enddate: '2018-12-31'
+            // },
         })
         .done(function (data) {
             $.each(data, function (key, value) {
