@@ -31,7 +31,10 @@ function get_events() {
         })
         .done(function (data) {
             $.each(data, function (key, value) {
-                $("<div>").text(value.name + "," + value.age).appendTo("body");
+                $("<p>").text("ID : " + value.id).appendTo("body");
+                $("<p>").text("Summary : " + value.title).appendTo("body"); 
+                $("<p>").text("Start date : " + value.start).appendTo("body");
+                $("<p>").text("End date : " + value.end).appendTo("body");
             });
             // $("<h1>").text(json.name).appendTo("body");
             // $("<div class=\"content\">").html(json.name).appendTo("body");

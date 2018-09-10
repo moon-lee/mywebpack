@@ -27,6 +27,12 @@ function init_fullcalendar() {
 		eventLimit: true, // allow "more" link when too many events
 		selectable: true,
 		selectHelper: true,
+		events: {
+			url: "dashboard/eventslist",
+			error: function () {
+				alert("Sorry, there was a problem!");
+			}
+		},
 
 		select: function (start, end, allDay) {
 			$('#fc_create').click();
