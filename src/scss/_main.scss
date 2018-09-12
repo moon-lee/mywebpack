@@ -93,11 +93,6 @@
     margin: 10px;
 }
 
-#calendar {
-    max-width: 65%;
-    margin: 0 auto;
-}
-
 .content-footer {
     position: absolute;
     bottom: 0;
@@ -110,9 +105,7 @@
     box-shadow: -1px -1px 10px rgba(42, 63, 84, 1);
 }
 
-.modal-dialog {
-    max-width: 600px;
-    font-family: "Helvetcai Neue", Roboto, Arial, "Droid Sans", sans-serif;
-    font-size: 12px;
-    line-height: 1.471;
+#calendar {
+    max-width: 65%;
+    margin: 0 auto;
 }
