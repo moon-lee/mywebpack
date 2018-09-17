@@ -1,5 +1,8 @@
 .app-wrapper {
     display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
 }
 
 .sidebar-wrapper {
@@ -93,10 +96,12 @@
 
 .content-body {
     margin-top: 25px;
+    align-items: stretch;
 }
 
 .cd-title {
     background: #cccccc;
+    max-width: 100%;
 }
 
 .content-footer {
