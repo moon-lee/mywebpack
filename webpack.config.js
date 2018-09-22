@@ -12,9 +12,10 @@ module.exports = {
     mode: "production",
 
     entry: {
-        custom: ["./src/js/mainscripts.js", "./src/scss/mycss.scss"],
-        fonts: "./src/js/fontawesome.js",
-        fullcalendar: "./src/js/fullcalendar.js"
+        myScripts: ["./src/js/myModules.js", "./src/scss/mycss.scss"],
+        vendorFonts: "./src/js/myFontawesome.js",
+        vendorCalendar: "./src/js/myFullcalendar.js",
+        vendorChart: "./src/js/myCharts.js"
     },
 
     output: {

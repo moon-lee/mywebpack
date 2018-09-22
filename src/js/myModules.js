@@ -1,4 +1,4 @@
-export function sidebar_toggle() {
+function sidebar_toggle() {
     console.log("sidebar toggle ready!!!");
 
     $('#sidebarCollapse').on('click', function () {
@@ -6,7 +6,7 @@ export function sidebar_toggle() {
     });
 }
 
-export function addclass_active() {
+function addclass_active() {
     console.log("sidebar list add active class!!!");
 
     $('.sidebar-list > ul > li').find('a').click(function (e) {
@@ -18,5 +18,11 @@ export function addclass_active() {
         }
     });
 }
+
+$(document).ready(function () {
+    //call function
+    addclass_active();
+    sidebar_toggle();
+});
 
 
