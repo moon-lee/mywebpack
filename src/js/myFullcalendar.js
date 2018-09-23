@@ -1,4 +1,6 @@
 import "fullcalendar";
+import "../../node_modules/fullcalendar/dist/fullcalendar.min.css"
+
 
 function init_fullcalendar() {
 

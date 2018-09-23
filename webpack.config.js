@@ -59,10 +59,6 @@ module.exports = {
                     to: "../css/"
                 },
                 {
-                    from: "./node_modules/fullcalendar/dist/fullcalendar.min.css",
-                    to: "../css/"
-                },
-                {
                     from: "./node_modules/jquery/dist/jquery.min.js",
                     to: "../js/"
                 },

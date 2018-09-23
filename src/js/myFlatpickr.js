@@ -1,9 +1,10 @@
 import flatpickr from "flatpickr";
+import "../../node_modules/flatpickr/dist/flatpickr.min.css"
+
 
 function payment_datepick() {
     console.log("payment datepicker ready");
-    var ctx = $("#paymentDate");
-    var fp = flatpickr(ctx, {});
+    flatpickr("#paymentDate", {});
 }
 
 $(document).ready(function () {
