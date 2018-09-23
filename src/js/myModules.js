@@ -1,3 +1,6 @@
+import * as myFonts from "./myFontawesome";
+
+
 function sidebar_toggle() {
     console.log("sidebar toggle ready!!!");
 
@@ -23,6 +26,8 @@ $(document).ready(function () {
     //call function
     addclass_active();
     sidebar_toggle();
+
+    myFonts.init_fonts();
 });
 
 

@@ -1,4 +1,4 @@
-import 'fullcalendar';
+import "fullcalendar";
 
 function init_fullcalendar() {
 

@@ -12,10 +12,18 @@ import { faGooglePlusSquare } from "@fortawesome/free-brands-svg-icons/faGoogleP
 
 // dom.i2svg();
 
-$(document).ready(function () {
+export function init_fonts() {
     console.log("fonts Ready");
 
     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
 
     dom.i2svg();
-});
+}
+
+// $(document).ready(function () {
+//     console.log("fonts Ready");
+
+//     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
+
+//     dom.i2svg();
+// });
