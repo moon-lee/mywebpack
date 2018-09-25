@@ -1,4 +1,5 @@
 import * as myFonts from "./myFontawesome";
+import * as myUtils from "./myUtils";
 
 
 function sidebar_toggle() {
@@ -22,10 +23,25 @@ function addclass_active() {
     });
 }
 
+function format_input() {
+
+    console.log("input format ready");
+    $("input[data-format-type='currency']").on({
+        keyup: function () {
+            myUtils.formatCurrency($(this));
+        },
+        blur: function () {
+            myUtils.formatCurrency($(this), "blur");
+        }
+    });
+    
+}
+
 $(document).ready(function () {
     //call function
     addclass_active();
     sidebar_toggle();
+    format_input();
 
     myFonts.init_fonts();
 });
