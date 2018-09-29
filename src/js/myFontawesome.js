@@ -8,10 +8,6 @@ import { faWeight } from "@fortawesome/free-solid-svg-icons/faWeight";
 import { faMoneyCheckAlt } from "@fortawesome/free-solid-svg-icons/faMoneyCheckAlt";
 import { faGooglePlusSquare } from "@fortawesome/free-brands-svg-icons/faGooglePlusSquare";
 
-// library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
-
-// dom.i2svg();
-
 export function init_fonts() {
     console.log("fonts Ready");
 
@@ -19,11 +15,3 @@ export function init_fonts() {
 
     dom.i2svg();
 }
-
-// $(document).ready(function () {
-//     console.log("fonts Ready");
-
-//     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
-
-//     dom.i2svg();
-// });
