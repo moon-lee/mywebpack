@@ -68,6 +68,10 @@ function payment_crud() {
             myUtils.formatCurrency($(this), "blur");
         }
     });
+    //refresh page
+    $('#addPaymentinfo').on('hidden.bs.modal', function () {
+        location.reload();
+    })
 
 }
 
