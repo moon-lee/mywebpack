@@ -8,16 +8,13 @@ function demo_chart() {
         type: "POST",
         datatype: "JSON",
         success: function (data) {
-            console.log("get data from server");
 
-            console.log(data);
             var pay_date = [];
             var gross_pay = [];
             var net_pay = [];
             var gap_pay = [];
             data = JSON.parse(data);
 
-            console.log(data.length);
             for (var i = 0; i < data.length; i++) {
                 pay_date.push(data[i].pay_date);
                 gross_pay.push(data[i].pay_gross - data[i].pay_net);
@@ -121,7 +118,6 @@ function demo_chart() {
                         if (!meta.hidden) {
 
                             if (i == 1) {
-                                console.log("here is dataset 1");
                                 meta.data.forEach(function (element, index) {
                                     total = parseInt(dataset.data[index]) + parseInt(save_data[index]);
 
@@ -131,7 +127,6 @@ function demo_chart() {
                                     ctx.fillText(total, position.x, position.y - (fontSize / 2) - padding);
                                 });
                             } else {
-                                console.log("here is dataset 0");
                                 meta.data.forEach(function (element, index) {
                                     var dataString = dataset.data[index];
                                     save_data.push(dataString);
