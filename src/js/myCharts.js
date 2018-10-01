@@ -1,7 +1,62 @@
 import Chart from "chart.js";
 
-function demo_chart() {
-    console.log("initialize chart");
+const chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+};
+
+// Define a plugin to provide data labels
+Chart.plugins.register({
+    afterDatasetsDraw: function (chart) {
+        var ctx = chart.ctx;
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+
+        var fontSize = 14;
+        var fontStyle = 'normal';
+        var fontFamily = 'Helvetica Neue';
+        ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+        // Make sure alignment settings are correct
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        var save_data = [];
+
+        chart.data.datasets.forEach(function (dataset, i) {
+            var meta = chart.getDatasetMeta(i);
+            var total = 0;
+            if (!meta.hidden) {
+
+                if (i == 1) {
+                    meta.data.forEach(function (element, index) {
+                        total = parseInt(dataset.data[index]) + parseInt(save_data[index]);
+
+                        total = "$" + total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                        var padding = 5;
+                        var position = element.tooltipPosition();
+                        ctx.fillText(total, position.x, position.y - (fontSize / 2) - padding);
+                    });
+                } else {
+                    meta.data.forEach(function (element, index) {
+                        var dataString = dataset.data[index];
+                        save_data.push(dataString);
+                        dataString = "$" + parseInt(dataString).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                        var padding = 5;
+                        var position = element.tooltipPosition();
+                        ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                    });
+                }
+            }
+        });
+    }
+});
+
+
+function payment_chart_1() {
+    console.log("chart 1");
 
     $.ajax({
         url: "payments/list_paydata",
@@ -82,6 +137,7 @@ function demo_chart() {
 
                     yAxes: [{
                         stacked: true,
+                        position: 'right',
                         scaleLabel: {
                             fontColor: '#000',
                             display: true,
@@ -97,51 +153,8 @@ function demo_chart() {
                 }
             };
 
-            // Define a plugin to provide data labels
-            Chart.plugins.register({
-                afterDatasetsDraw: function (chart) {
-                    var ctx = chart.ctx;
-                    ctx.fillStyle = 'rgb(0, 0, 0)';
 
-                    var fontSize = 14;
-                    var fontStyle = 'normal';
-                    var fontFamily = 'Helvetica Neue';
-                    ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-                    // Make sure alignment settings are correct
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    var save_data = [];
-
-                    chart.data.datasets.forEach(function (dataset, i) {
-                        var meta = chart.getDatasetMeta(i);
-                        var total = 0;
-                        if (!meta.hidden) {
-
-                            if (i == 1) {
-                                meta.data.forEach(function (element, index) {
-                                    total = parseInt(dataset.data[index]) + parseInt(save_data[index]);
-
-                                    total = "$" + total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                                    var padding = 5;
-                                    var position = element.tooltipPosition();
-                                    ctx.fillText(total, position.x, position.y - (fontSize / 2) - padding);
-                                });
-                            } else {
-                                meta.data.forEach(function (element, index) {
-                                    var dataString = dataset.data[index];
-                                    save_data.push(dataString);
-                                    dataString = "$" + parseInt(dataString).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                                    var padding = 5;
-                                    var position = element.tooltipPosition();
-                                    ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-
-            var ctx = $('#paymentChart');
+            var ctx = $('#paymentChart2');
 
             var myChart = new Chart(ctx, {
                 type: 'bar',
@@ -158,7 +171,47 @@ function demo_chart() {
     });
 }
 
+function payment_chart_2() {
+    console.log("chart2");
+
+    var chartdata = {
+        datasets: [{
+            data: [10, 20, 30],
+            backgroundColor: [
+                chartColors.red,
+                chartColors.yellow,
+                chartColors.blue
+            ]
+        }],
+        labels: [
+            'Red',
+            'Yellow',
+            'Blue'
+        ]
+    };
+
+    var chartOptions = {
+        responsive: true,
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        }
+    };
+
+    var ctx = $('#paymentChart1');
+
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: chartdata,
+        options: chartOptions
+    });
+
+
+
+}
+
 $(document).ready(function () {
     //call function
-    demo_chart();
+    payment_chart_1();
+    payment_chart_2();
 });
