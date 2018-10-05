@@ -89,13 +89,14 @@ function payment_crud() {
         if (item_cnt < max_items) {
             item_cnt++;
             var selectedOpt = $("#detailOpts").find("option:selected");
-            console.log("aa:" + selectedOpt.val());
             if (selectedOpt.val() > 0) {
                 var clonedElement = $(".dynamic-element").first().clone(true).appendTo(".modal-body").show();
                 clonedElement.find("label").text(selectedOpt.text());
+                selected_options();
+                flitered_options();
+                attach_options();
                 attach_delete();
             }
-
         }
     });
 
@@ -107,14 +108,19 @@ function payment_crud() {
                 text: $(this).text()
             });
         });
-        console.log(select_opts);
     }
 
-    function selected_options() {
-        selected_opts = [];
-        var elements = $(".dynamic-element:first").nextAll().find("#payItems");
-        elements.find("option:selected").each(function () {
+    function attach_options() {
+        $("#detailOpts").empty().data("options");
+        flitered_opts.forEach(function (flitered) {
+            $("#detailOpts").append(
+                $("<option>").text(flitered.text).val(flitered.value));
+        });
+    }
 
+
+    function selected_options() {
+        $("#detailOpts").find("option:selected").each(function () {
             var idx = selected_opts.findIndex(option => option.value === $(this).val());
 
             if (idx === -1) {
@@ -124,7 +130,6 @@ function payment_crud() {
                 });
             }
         });
-        console.log(selected_opts);
     }
 
     function flitered_options() {
@@ -139,22 +144,23 @@ function payment_crud() {
                 });
             }
         });
-
-        console.log("flitered");
-        console.log(flitered_opts);
     }
 
-    $(".dynamic-element").find("#payItems").change(function () {
-        selected_options();
-        flitered_options();
+    function delete_options(text) {
+        var idx = selected_opts.findIndex(selected => selected.text === text);
+        if (idx > -1) {
+            selected_opts.splice(idx, 1);
+        }
+    }
 
-        console.log("hit here" + item_cnt);
-    });
 
     function attach_delete() {
         $(".removeDetail").off();
         $(".removeDetail").click(function (event) {
-            //event.preventDefault();
+            var deleted_opt = $(this).closest(".form-group").find("label").text();
+            delete_options(deleted_opt);
+            flitered_options();
+            attach_options();
             $(this).closest(".form-group").remove();
             if (item_cnt > 0) {
                 item_cnt--;
@@ -164,8 +170,6 @@ function payment_crud() {
 }
 
 $(document).ready(function () {
-
-
     //call function
     myFonts.init_fonts();
 
