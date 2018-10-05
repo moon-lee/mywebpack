@@ -56,8 +56,6 @@ Chart.plugins.register({
 
 
 function payment_chart_1() {
-    console.log("chart 1");
-
     $.ajax({
         url: "payments/list_paydata",
         type: "POST",
@@ -172,8 +170,6 @@ function payment_chart_1() {
 }
 
 function payment_chart_2() {
-    console.log("chart2");
-
     var chartdata = {
         datasets: [{
             data: [10, 20, 30],

@@ -1,6 +1,12 @@
 import * as myFonts from "./myFontawesome";
 import * as myUtils from "./myUtils";
 
+var max_items = 10;
+var item_cnt = 0;
+var selected_opts = [];
+var select_opts = [];
+var flitered_opts = [];
+
 function sidebar_toggle() {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
@@ -22,8 +28,10 @@ function payment_crud() {
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
         $("#form_payment").find("input").next().empty();
-        $("#grossPay").val(""); 
+        $("#grossPay").val("");
         $("#netPay").val("");
+        $(".dynamic-element").find("input").val("");
+        // $("#payDetails").val("");
         $("#addPaymentinfo").modal("show");
     });
     //Submit Data
@@ -57,7 +65,7 @@ function payment_crud() {
     $("#form_payment").find("input").change(function () {
         $(this).removeClass("is-invalid");
         $(this).next().empty();
-    }); 
+    });
 
     //format currency
     $("input[data-format-type='currency']").on({
@@ -70,12 +78,94 @@ function payment_crud() {
     });
     //refresh page
     $('#addPaymentinfo').on('hidden.bs.modal', function () {
-        location.reload();
-    })
+        //location.reload();
+    });
 
+    $("#addDetails").click(function () {
+        if (item_cnt === 0) {
+            select_options();
+        }
+
+        if (item_cnt < max_items) {
+            item_cnt++;
+            var selectedOpt = $("#detailOpts").find("option:selected");
+            console.log("aa:" + selectedOpt.val());
+            if (selectedOpt.val() > 0) {
+                var clonedElement = $(".dynamic-element").first().clone(true).appendTo(".modal-body").show();
+                clonedElement.find("label").text(selectedOpt.text());
+                attach_delete();
+            }
+
+        }
+    });
+
+    function select_options() {
+        select_opts = [];
+        $("#detailOpts").find("option").each(function () {
+            select_opts.push({
+                value: $(this).val(),
+                text: $(this).text()
+            });
+        });
+        console.log(select_opts);
+    }
+
+    function selected_options() {
+        selected_opts = [];
+        var elements = $(".dynamic-element:first").nextAll().find("#payItems");
+        elements.find("option:selected").each(function () {
+
+            var idx = selected_opts.findIndex(option => option.value === $(this).val());
+
+            if (idx === -1) {
+                selected_opts.push({
+                    value: $(this).val(),
+                    text: $(this).text()
+                });
+            }
+        });
+        console.log(selected_opts);
+    }
+
+    function flitered_options() {
+        flitered_opts = [];
+        select_opts.forEach(function (select) {
+            var idx = selected_opts.findIndex(selected => selected.value === select.value);
+
+            if (idx === -1) {
+                flitered_opts.push({
+                    value: select.value,
+                    text: select.text,
+                });
+            }
+        });
+
+        console.log("flitered");
+        console.log(flitered_opts);
+    }
+
+    $(".dynamic-element").find("#payItems").change(function () {
+        selected_options();
+        flitered_options();
+
+        console.log("hit here" + item_cnt);
+    });
+
+    function attach_delete() {
+        $(".removeDetail").off();
+        $(".removeDetail").click(function (event) {
+            //event.preventDefault();
+            $(this).closest(".form-group").remove();
+            if (item_cnt > 0) {
+                item_cnt--;
+            }
+        });
+    }
 }
 
 $(document).ready(function () {
+
+
     //call function
     myFonts.init_fonts();
 
