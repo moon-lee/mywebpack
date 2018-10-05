@@ -30,10 +30,13 @@ function payment_crud() {
         $("#form_payment").find("input").next().empty();
         $("#grossPay").val("");
         $("#netPay").val("");
-        $(".dynamic-element").find("input").val("");
+        $(".dynamic-element:first").nextAll().remove();
+
+        // $(".dynamic-element").find("input").val("");
         // $("#payDetails").val("");
         $("#addPaymentinfo").modal("show");
     });
+
     //Submit Data
     $("#form_payment").submit(function (event) {
         event.preventDefault();
@@ -61,6 +64,7 @@ function payment_crud() {
             }
         });
     });
+
     // Clear Error
     $("#form_payment").find("input").change(function () {
         $(this).removeClass("is-invalid");
@@ -78,6 +82,13 @@ function payment_crud() {
     });
     //refresh page
     $('#addPaymentinfo').on('hidden.bs.modal', function () {
+        console.log("close here");
+        var elements = $(".dynamic-element:first").nextAll();
+        elements.find("label").each(function () {
+            delete_options($(this).text());
+            flitered_options();
+            attach_options();
+        });
         //location.reload();
     });
 
