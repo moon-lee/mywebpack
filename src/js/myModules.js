@@ -48,8 +48,21 @@ function payment_crud() {
                     $("#addPaymentinfo").modal("hide");
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
-                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
-                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                        var dynamic_element_name = data.inputerror[i].substring(0,10);
+                        console.log(dynamic_element_name);
+                        if (dynamic_element_name === "paydetails") {
+
+                            console.log(data.inputerror[i]);
+                            var elements_idx = parseInt(data.inputerror[i].match(/\d/g));
+                            console.log(elements_idx);
+                         
+                            $('[name="paydetails[]"]').eq(elements_idx).addClass('is-invalid');
+                            $('[name="paydetails[]"]').eq(elements_idx).next().text(data.error_string[i]);
+
+                        } else {
+                            $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                            $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                        }
                     }
                 }
             },
@@ -67,6 +80,8 @@ function payment_crud() {
         $(this).removeClass("is-invalid");
         $(this).next().empty();
     });
+
+
 
     //format currency
     $("input[data-format-type='currency']").on({
