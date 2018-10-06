@@ -100,10 +100,11 @@ function payment_crud() {
             if (selectedOpt.val() > 0) {
                 var clonedElement = $(".dynamic-element").first().clone(true).appendTo(".modal-body").show();
                 clonedElement.find("#payItems").val(selectedOpt.val());
+                clonedElement.find("#payItems").attr("name","payitems[]");
+                clonedElement.find("#payDetails").attr("name", "paydetails[]");
                 clonedElement.find("label").text(selectedOpt.text());
                 selected_options();
                 flitered_options();
-                //attach_options();
                 attach_delete();
             }
         }
