@@ -31,9 +31,6 @@ function payment_crud() {
         $("#grossPay").val("");
         $("#netPay").val("");
         $(".dynamic-element:first").nextAll().remove();
-
-        // $(".dynamic-element").find("input").val("");
-        // $("#payDetails").val("");
         $("#addPaymentinfo").modal("show");
     });
 
@@ -87,7 +84,7 @@ function payment_crud() {
         elements.find("label").each(function () {
             delete_options($(this).text());
             flitered_options();
-            attach_options();
+            //attach_options();
         });
         //location.reload();
     });
@@ -102,10 +99,11 @@ function payment_crud() {
             var selectedOpt = $("#detailOpts").find("option:selected");
             if (selectedOpt.val() > 0) {
                 var clonedElement = $(".dynamic-element").first().clone(true).appendTo(".modal-body").show();
+                clonedElement.find("#payItems").val(selectedOpt.val());
                 clonedElement.find("label").text(selectedOpt.text());
                 selected_options();
                 flitered_options();
-                attach_options();
+                //attach_options();
                 attach_delete();
             }
         }
@@ -155,6 +153,12 @@ function payment_crud() {
                 });
             }
         });
+
+        $("#detailOpts").empty().data("options");
+        flitered_opts.forEach(function (flitered) {
+            $("#detailOpts").append(
+                $("<option>").text(flitered.text).val(flitered.value));
+        });
     }
 
     function delete_options(text) {
@@ -171,7 +175,7 @@ function payment_crud() {
             var deleted_opt = $(this).closest(".form-group").find("label").text();
             delete_options(deleted_opt);
             flitered_options();
-            attach_options();
+            //attach_options();
             $(this).closest(".form-group").remove();
             if (item_cnt > 0) {
                 item_cnt--;
