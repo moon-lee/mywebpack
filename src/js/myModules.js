@@ -79,12 +79,10 @@ function payment_crud() {
     });
     //refresh page
     $('#addPaymentinfo').on('hidden.bs.modal', function () {
-        console.log("close here");
         var elements = $(".dynamic-element:first").nextAll();
         elements.find("label").each(function () {
             delete_options($(this).text());
             flitered_options();
-            //attach_options();
         });
         //location.reload();
     });
@@ -120,16 +118,7 @@ function payment_crud() {
         });
     }
 
-    function attach_options() {
-        $("#detailOpts").empty().data("options");
-        flitered_opts.forEach(function (flitered) {
-            $("#detailOpts").append(
-                $("<option>").text(flitered.text).val(flitered.value));
-        });
-    }
-
-
-    function selected_options() {
+     function selected_options() {
         $("#detailOpts").find("option:selected").each(function () {
             var idx = selected_opts.findIndex(option => option.value === $(this).val());
 
@@ -176,7 +165,6 @@ function payment_crud() {
             var deleted_opt = $(this).closest(".form-group").find("label").text();
             delete_options(deleted_opt);
             flitered_options();
-            //attach_options();
             $(this).closest(".form-group").remove();
             if (item_cnt > 0) {
                 item_cnt--;
