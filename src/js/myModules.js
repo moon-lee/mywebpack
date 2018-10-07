@@ -28,8 +28,12 @@ function payment_crud() {
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
         $("#form_payment").find("input").next().empty();
+        $("#form_payment").find("select").removeClass("is-invalid");
+        $("#form_payment").find("select").next().empty();
         $("#grossPay").val("");
         $("#netPay").val("");
+        $("#withHolding").val("");
+        $("#form_payment").find("select").val("0");
         $(".dynamic-element:first").nextAll().remove();
         $("#addPaymentinfo").modal("show");
     });
@@ -80,8 +84,28 @@ function payment_crud() {
         $(this).removeClass("is-invalid");
         $(this).next().empty();
     });
+    $("#form_payment").find("select").change(function () {
+        $(this).removeClass("is-invalid");
+        $(this).next().empty();    
+    });
 
+    $("#grossPay").on("keyup", function () {
+        var gross = $(this).val().replace(/,/g, "");
+        var net = $("#netPay").val().replace(/,/g, "");
+        console.log("grossay key up");
+        var payg = parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2);
+        console.log(payg);
+        myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
+    })
 
+    $("#netPay").on("keyup", function () {
+        var gross = $("#grossPay").val().replace(/,/g, "");
+        var net = $(this).val().replace(/,/g, "");
+        console.log("netpay key up");
+        var payg = parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2);
+        console.log(payg);
+        myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
+    })
 
     //format currency
     $("input[data-format-type='currency']").on({

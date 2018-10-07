@@ -1,5 +1,7 @@
 export function formatNumber(n) {
     // format number 1000000 to 1,234,567
+    //const regex = /^\d{1,3}(,\d{3})*(\.\d\d)?$/mg;
+    //return Number.parseFloat(n).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
