@@ -9,10 +9,12 @@ import { faMoneyCheckAlt } from "@fortawesome/free-solid-svg-icons/faMoneyCheckA
 import { faGooglePlusSquare } from "@fortawesome/free-brands-svg-icons/faGooglePlusSquare";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons/faPlusSquare";
 import { faMinusSquare } from "@fortawesome/free-regular-svg-icons/faMinusSquare";
+import { faCogs } from "@fortawesome/free-solid-svg-icons/faCogs";
+import { faPalette } from "@fortawesome/free-solid-svg-icons/faPalette";
 
 
 export function init_fonts() {
     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
-    library.add(faPlusSquare, faMinusSquare);
+    library.add(faPlusSquare, faMinusSquare, faCogs, faPalette);
     dom.i2svg();
 }

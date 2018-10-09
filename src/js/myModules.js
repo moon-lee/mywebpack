@@ -92,18 +92,14 @@ function payment_crud() {
     $("#grossPay").on("keyup", function () {
         var gross = $(this).val().replace(/,/g, "");
         var net = $("#netPay").val().replace(/,/g, "");
-        console.log("grossay key up");
         var payg = parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2);
-        console.log(payg);
         myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
     })
 
     $("#netPay").on("keyup", function () {
         var gross = $("#grossPay").val().replace(/,/g, "");
         var net = $(this).val().replace(/,/g, "");
-        console.log("netpay key up");
         var payg = parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2);
-        console.log(payg);
         myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
     })
 
@@ -212,12 +208,32 @@ function payment_crud() {
     }
 }
 
+
+function getNewColor() {
+    $("#getColor").click(function () {
+        var symbols, color;
+        symbols ="0123456789ABCDEF";
+
+        color = "#";
+
+        for (var i = 0; i < 6; i ++ ) {
+            color += symbols[Math.floor(Math.random() * 16)];
+        }
+
+        $(".cd-color").css("background", color);
+        $("#hex").text(color);
+
+    });
+
+}
+
 $(document).ready(function () {
     //call function
     myFonts.init_fonts();
 
     sidebar_toggle();
     payment_crud();
+    getNewColor();
 });
 
 

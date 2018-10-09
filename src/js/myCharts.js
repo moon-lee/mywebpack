@@ -62,38 +62,45 @@ function payment_chart_1() {
         datatype: "JSON",
         success: function (data) {
 
-            var pay_date = [];
-            var gross_pay = [];
-            var net_pay = [];
-            var gap_pay = [];
+            var pay_date = [], gross_pay = [], net_pay = [], withholding_pay = [];
+            var base_pay = [], overtime_1_5_pay = [], overtime_2_pay = [], shift_pay = [];
+            var personal_pay = [], holiday_pay = [], holiday_load_pay= [];
+
             data = JSON.parse(data);
 
             for (var i = 0; i < data.length; i++) {
                 pay_date.push(data[i].pay_date);
-                gross_pay.push(data[i].pay_gross - data[i].pay_net);
+                gross_pay.push(data[i].pay_gross);
                 net_pay.push(data[i].pay_net);
-
+                withholding_pay.push(data[i].pay_withholding);
+                base_pay.push(data[i].pay_base);
+                overtime_1_5_pay.push(data[i].pay_overtime_1_5);
+                overtime_2_pay.push(data[i].pay_overtime_2);
+                shift_pay.push(data[i].pay_shift);
+                personal_pay.push(data[i].pay_personal_leave);
+                holiday_pay.push(data[i].pay_holiday_pay);
+                holiday_load_pay.push(data[i].pay_holiday_load);
             }
 
             var chartdata = {
                 labels: pay_date,
                 datasets: [
                     {
-                        label: "NET PAY",
-                        data: net_pay,
-                        fill: 'origin',
-                        backgroundColor: 'rgba(30,144,255, 0.5)',
-                        borderColor: 'rgba(30,120,255, 1)'
-                    },
-                    {
                         label: "GROSS PAY",
-                        data: gross_pay,
+                        data: withholding_pay,
                         fill: '-1',
                         backgroundColor: 'rgba(255,99,71, 0.5)',
                         borderColor: 'rgba(255,79,61, 1)'
 
                         // backgroundColor: 'rgba(34,139,34, 0.5)',
                         // borderColor: 'rgba(12,139,12, 1)'
+                    },
+                    {
+                        label: "NET PAY",
+                        data: net_pay,
+                        fill: 'origin',
+                        backgroundColor: 'rgba(30,144,255, 0.5)',
+                        borderColor: 'rgba(30,120,255, 1)'
                     },
 
                 ]
@@ -108,7 +115,7 @@ function payment_chart_1() {
                         label: function (tooltipItem, data) {
                             var label = data.datasets[tooltipItem.datasetIndex].label;
                             var value = tooltipItem.yLabel;
-                            if (tooltipItem.datasetIndex == 1) {
+                            if (tooltipItem.datasetIndex == 0) {
                                 var total = 0;
                                 for (var i = 0; i < data.datasets.length; i++)
                                     total += parseInt(data.datasets[i].data[tooltipItem.index]);
