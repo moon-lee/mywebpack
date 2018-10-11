@@ -7,8 +7,16 @@ const chartColors = {
     green: 'rgb(75, 192, 192)',
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
-    grey: 'rgb(201, 203, 207)'
+    grey: 'rgb(201, 203, 207)',
+    sb0: 'rgb(147, 204, 235)',
+    sb1: 'rgb(125, 193, 231)',
+    sb2: 'rgb(104, 183, 227)',
+    sb3: 'rgb(82, 173, 223)',
+    sb4: 'rgb(60, 163, 219)',
+    sb5: 'rgb(40, 152, 214)',
+    sb6: 'rgb(58, 157, 58)',
 };
+
 
 // Define a plugin to provide data labels
 Chart.plugins.register({
@@ -25,30 +33,30 @@ Chart.plugins.register({
         ctx.textBaseline = 'middle';
         var save_data = [];
 
+        var idx = chart.data.datasets.length;
+
         chart.data.datasets.forEach(function (dataset, i) {
             var meta = chart.getDatasetMeta(i);
-            var total = 0;
-            if (!meta.hidden) {
-
-                if (i == 1) {
-                    meta.data.forEach(function (element, index) {
-                        total = parseInt(dataset.data[index]) + parseInt(save_data[index]);
-
-                        total = "$" + total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                        var padding = 5;
-                        var position = element.tooltipPosition();
-                        ctx.fillText(total, position.x, position.y - (fontSize / 2) - padding);
-                    });
-                } else {
-                    meta.data.forEach(function (element, index) {
-                        var dataString = dataset.data[index];
+             if (!meta.hidden) {
+                meta.data.forEach(function (element, index) {
+                    var dataString = dataset.data[index];
+                    var datavalue = parseFloat(dataString);
+                    if (parseFloat(dataString)) {
                         save_data.push(dataString);
-                        dataString = "$" + parseInt(dataString).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                        var padding = 5;
+                        dataString = "$" + parseFloat(dataString).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
                         var position = element.tooltipPosition();
-                        ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-                    });
-                }
+
+                        if (datavalue < 35) {
+                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - 1);
+                        } else if (datavalue < 65) {
+                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 2);
+                        } else if (datavalue >= 65) {
+                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 6);
+                        }
+                    }
+                });
+                // }
             }
         });
     }
@@ -64,7 +72,7 @@ function payment_chart_1() {
 
             var pay_date = [], gross_pay = [], net_pay = [], withholding_pay = [];
             var base_pay = [], overtime_1_5_pay = [], overtime_2_pay = [], shift_pay = [];
-            var personal_pay = [], holiday_pay = [], holiday_load_pay= [];
+            var personal_pay = [], holiday_pay = [], holiday_load_pay = [];
 
             data = JSON.parse(data);
 
@@ -82,25 +90,65 @@ function payment_chart_1() {
                 holiday_load_pay.push(data[i].pay_holiday_load);
             }
 
+            var color = Chart.helpers.color;
             var chartdata = {
                 labels: pay_date,
                 datasets: [
                     {
-                        label: "GROSS PAY",
-                        data: withholding_pay,
-                        fill: '-1',
-                        backgroundColor: 'rgba(255,99,71, 0.5)',
-                        borderColor: 'rgba(255,79,61, 1)'
-
-                        // backgroundColor: 'rgba(34,139,34, 0.5)',
-                        // borderColor: 'rgba(12,139,12, 1)'
+                        label: "BASE",
+                        data: base_pay,
+                        fill: 'origin',
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(6.5).rgbString()
                     },
                     {
-                        label: "NET PAY",
-                        data: net_pay,
-                        fill: 'origin',
-                        backgroundColor: 'rgba(30,144,255, 0.5)',
-                        borderColor: 'rgba(30,120,255, 1)'
+                        label: "SHIFT",
+                        data: shift_pay,
+                        fill: '-1',
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(5.5).rgbString()
+                    },
+                    {
+                        label: "OVERTIME(1.5)",
+                        data: overtime_1_5_pay,
+                        fill: 1,
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(4.5).rgbString()
+                    },
+                    {
+                        label: "OVERTIME(2)",
+                        data: overtime_2_pay,
+                        fill: 1,
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(3.5).rgbString()
+                    },
+                    {
+                        label: "PERSONAL LEAVE",
+                        data: personal_pay,
+                        fill: 1,
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(2.5).rgbString()
+                    },
+                    {
+                        label: "HOLIDAY PAY",
+                        data: holiday_pay,
+                        fill: 1,
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(1.5).rgbString()
+                    },
+                    {
+                        label: "HOLIDAY LOAD",
+                        data: holiday_load_pay,
+                        fill: 1,
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.sb0).alpha(0.5).rgbString()
+                    },
+                    {
+                        label: "WITHHOLDING (PAYG)",
+                        data: withholding_pay,
+                        fill: 1,
+                        stack: "Stack 0",
+                        backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString()
                     },
 
                 ]
@@ -115,16 +163,36 @@ function payment_chart_1() {
                         label: function (tooltipItem, data) {
                             var label = data.datasets[tooltipItem.datasetIndex].label;
                             var value = tooltipItem.yLabel;
-                            if (tooltipItem.datasetIndex == 0) {
-                                var total = 0;
-                                for (var i = 0; i < data.datasets.length; i++)
-                                    total += parseInt(data.datasets[i].data[tooltipItem.index]);
-                                value = total;
+                             if (value) {
+                                return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                             }
+                       },
+                        footer: function (tooltipItems, data) {
+                            var sum = 0;
+                            tooltipItems.forEach(function (tooltipItem) {
+                                if (tooltipItem.datasetIndex < 7) {
+                                    sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                                }
+                            });
+                            var dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            return 'GROSS: ' + dataString;
+                        },
+                        afterFooter: function (tooltipItems, data) {
+                            var sum = 0;
+                            tooltipItems.forEach(function (tooltipItem) {
+                                if (tooltipItem.datasetIndex < 7) {
+                                    sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                                } else {
+                                    sum -= parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                                }
+                            });
+                            var dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            return 'NET: ' + dataString;
+                        },
+                    },
+                    footerFontStyle: 'normal',
+                    backgroundColor: chartColors.sb6
 
-                            return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                        }
-                    }
                 },
                 hover: {
                     mode: 'nearest',
