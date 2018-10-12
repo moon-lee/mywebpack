@@ -124,14 +124,14 @@ function payment_chart_1() {
                         data: overtime_2_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.yellow).alpha(3.5).rgbString()
+                        backgroundColor: color(chartColors.green).alpha(1.5).rgbString()
                     },
                     {
                         label: "PERSONAL LEAVE",
                         data: personal_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.yellow).alpha(2.5).rgbString()
+                        backgroundColor: color(chartColors.purple).alpha(0.5).rgbString()
                     },
                     {
                         label: "HOLIDAY PAY",
