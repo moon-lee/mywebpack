@@ -24,7 +24,7 @@ Chart.plugins.register({
         var ctx = chart.ctx;
         ctx.fillStyle = 'rgb(0, 0, 0)';
 
-        var fontSize = 14;
+        var fontSize = 12;
         var fontStyle = 'normal';
         var fontFamily = 'Helvetica Neue';
         ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
@@ -37,22 +37,26 @@ Chart.plugins.register({
 
         chart.data.datasets.forEach(function (dataset, i) {
             var meta = chart.getDatasetMeta(i);
-             if (!meta.hidden) {
+            if (!meta.hidden) {
                 meta.data.forEach(function (element, index) {
                     var dataString = dataset.data[index];
                     var datavalue = parseFloat(dataString);
-                    if (parseFloat(dataString)) {
-                        save_data.push(dataString);
-                        dataString = "$" + parseFloat(dataString).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    var position = element.tooltipPosition();
+                    save_data.push(dataString);
 
-                        var position = element.tooltipPosition();
-
+                    if (datavalue > 0) {
+                        dataString = "$" + datavalue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                         if (datavalue < 35) {
-                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - 1);
+                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - 2);
                         } else if (datavalue < 65) {
-                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 2);
+                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 4);
                         } else if (datavalue >= 65) {
-                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 6);
+                            ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 8);
+                        } 
+                    } else if (datavalue < 0) {
+                        dataString = "-$" + datavalue.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                        if (datavalue < 0) {
+                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - 8);   
                         }
                     }
                 });
@@ -99,56 +103,56 @@ function payment_chart_1() {
                         data: base_pay,
                         fill: 'origin',
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(6.5).rgbString()
+                        backgroundColor: color(chartColors.blue).alpha(0.5).rgbString()
                     },
                     {
                         label: "SHIFT",
                         data: shift_pay,
                         fill: '-1',
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(5.5).rgbString()
+                        backgroundColor: color(chartColors.orange).alpha(0.5).rgbString()
                     },
                     {
                         label: "OVERTIME(1.5)",
                         data: overtime_1_5_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(4.5).rgbString()
+                        backgroundColor: color(chartColors.green).alpha(0.5).rgbString()
                     },
                     {
                         label: "OVERTIME(2)",
                         data: overtime_2_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(3.5).rgbString()
+                        backgroundColor: color(chartColors.yellow).alpha(3.5).rgbString()
                     },
                     {
                         label: "PERSONAL LEAVE",
                         data: personal_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(2.5).rgbString()
+                        backgroundColor: color(chartColors.yellow).alpha(2.5).rgbString()
                     },
                     {
                         label: "HOLIDAY PAY",
                         data: holiday_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(1.5).rgbString()
+                        backgroundColor: color(chartColors.yellow).alpha(1.5).rgbString()
                     },
                     {
                         label: "HOLIDAY LOAD",
                         data: holiday_load_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.sb0).alpha(0.5).rgbString()
+                        backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString()
                     },
                     {
                         label: "WITHHOLDING (PAYG)",
                         data: withholding_pay,
                         fill: 1,
                         stack: "Stack 0",
-                        backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString()
+                        backgroundColor: color(chartColors.red).alpha(0.5).rgbString()
                     },
 
                 ]
@@ -163,10 +167,12 @@ function payment_chart_1() {
                         label: function (tooltipItem, data) {
                             var label = data.datasets[tooltipItem.datasetIndex].label;
                             var value = tooltipItem.yLabel;
-                             if (value) {
+                            if (value < 0) {
+                                return label + " : -$" + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            } else if (value > 0) {
                                 return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                             }
-                       },
+                        },
                         footer: function (tooltipItems, data) {
                             var sum = 0;
                             tooltipItems.forEach(function (tooltipItem) {
@@ -174,7 +180,13 @@ function payment_chart_1() {
                                     sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
                                 }
                             });
-                            var dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            var dataString = "";
+                            if (sum < 0) {
+                                dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+                            } else {
+                                dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            }
                             return 'GROSS: ' + dataString;
                         },
                         afterFooter: function (tooltipItems, data) {
@@ -186,7 +198,13 @@ function payment_chart_1() {
                                     sum -= parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
                                 }
                             });
-                            var dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            var dataString = "";
+                            if (sum < 0) {
+                                dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+                            } else {
+                                dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                            }
                             return 'NET: ' + dataString;
                         },
                     },
@@ -219,7 +237,11 @@ function payment_chart_1() {
                         ticks: {
                             beginAtZero: true,
                             callback: function (value, index, values) {
-                                return '$' + value + '.00';
+                                if (value < 0) {
+                                    return '-$' + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                                } else {
+                                    return '$' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                                }
                             }
                         }
                     }]
