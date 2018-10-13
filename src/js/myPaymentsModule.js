@@ -1,23 +1,22 @@
 import * as myUtils from "./myUtils";
 
-var max_items = 10;
-var item_cnt = 0;
-var selected_opts = [];
-var select_opts = [];
-var flitered_opts = [];
-
 export function payment_crud() {
     // Open Modal
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
-        $("#form_payment").find("input").next().empty();
-        $("#form_payment").find("select").removeClass("is-invalid");
-        $("#form_payment").find("select").next().empty();
+        $("#form_payment").find("input invalid-tooltip").empty();
         $("#grossPay").val("");
         $("#netPay").val("");
         $("#withHolding").val("");
-        $("#form_payment").find("select").val("0");
-        $(".dynamic-element:first").nextAll().remove();
+        $("#overTime_15").val("");
+        $("#shiftAllow").val("");
+        $("#baseHour").val("");
+        $("#overTime_2").val("");
+        $("#personalLeave").val("");
+        $("#holidayPay").val("");
+        $("#holidayLoad").val("");
+        $("#holidayHours").val("");
+        $("#superAnnuation").val("");
         $("#addPaymentinfo").modal("show");
     });
 
@@ -35,21 +34,8 @@ export function payment_crud() {
                     $("#addPaymentinfo").modal("hide");
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
-                        var dynamic_element_name = data.inputerror[i].substring(0, 10);
-                        console.log(dynamic_element_name);
-                        if (dynamic_element_name === "paydetails") {
-
-                            console.log(data.inputerror[i]);
-                            var elements_idx = parseInt(data.inputerror[i].match(/\d/g));
-                            console.log(elements_idx);
-
-                            $('[name="paydetails[]"]').eq(elements_idx).addClass('is-invalid');
-                            $('[name="paydetails[]"]').eq(elements_idx).next().text(data.error_string[i]);
-
-                        } else {
-                            $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
-                            $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
-                        }
+                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
                     }
                 }
             },
@@ -65,11 +51,7 @@ export function payment_crud() {
     // Clear Error
     $("#form_payment").find("input").change(function () {
         $(this).removeClass("is-invalid");
-        $(this).next().empty();
-    });
-    $("#form_payment").find("select").change(function () {
-        $(this).removeClass("is-invalid");
-        $(this).next().empty();
+        $(this).next("invalid-tooltip").empty();
     });
 
     $("#grossPay").on("keyup", function () {
@@ -97,96 +79,7 @@ export function payment_crud() {
     });
     //refresh page
     $('#addPaymentinfo').on('hidden.bs.modal', function () {
-        var elements = $(".dynamic-element:first").nextAll();
-        elements.find("label").each(function () {
-            delete_options($(this).text());
-            flitered_options();
-        });
         //location.reload();
     });
 
-    $("#addDetails").click(function () {
-        if (item_cnt === 0) {
-            select_options();
-        }
-
-        if (item_cnt < max_items) {
-            item_cnt++;
-            var selectedOpt = $("#detailOpts").find("option:selected");
-            if (selectedOpt.val() > 0) {
-                var clonedElement = $(".dynamic-element").first().clone(true).appendTo(".modal-body").show();
-                clonedElement.find("#payItems").val(selectedOpt.val());
-                clonedElement.find("#payItems").attr("name", "payitems[]");
-                clonedElement.find("#payDetails").attr("name", "paydetails[]");
-                clonedElement.find("label").text(selectedOpt.text());
-                selected_options();
-                flitered_options();
-                attach_delete();
-            }
-        }
-    });
-
-    function select_options() {
-        select_opts = [];
-        $("#detailOpts").find("option").each(function () {
-            select_opts.push({
-                value: $(this).val(),
-                text: $(this).text()
-            });
-        });
-    }
-
-    function selected_options() {
-        $("#detailOpts").find("option:selected").each(function () {
-            var idx = selected_opts.findIndex(option => option.value === $(this).val());
-
-            if (idx === -1) {
-                selected_opts.push({
-                    value: $(this).val(),
-                    text: $(this).text()
-                });
-            }
-        });
-    }
-
-    function flitered_options() {
-        flitered_opts = [];
-        select_opts.forEach(function (select) {
-            var idx = selected_opts.findIndex(selected => selected.value === select.value);
-
-            if (idx === -1) {
-                flitered_opts.push({
-                    value: select.value,
-                    text: select.text,
-                });
-            }
-        });
-
-        $("#detailOpts").empty().data("options");
-        flitered_opts.forEach(function (flitered) {
-            $("#detailOpts").append(
-                $("<option>").text(flitered.text).val(flitered.value));
-        });
-    }
-
-    function delete_options(text) {
-        var idx = selected_opts.findIndex(selected => selected.text === text);
-        if (idx > -1) {
-            selected_opts.splice(idx, 1);
-        }
-    }
-
-
-    function attach_delete() {
-        $(".removeDetail").off();
-        $(".removeDetail").click(function (event) {
-            var deleted_opt = $(this).closest(".form-group").find("label").text();
-            delete_options(deleted_opt);
-            flitered_options();
-            $(this).closest(".form-group").remove();
-            if (item_cnt > 0) {
-                item_cnt--;
-            }
-        });
-    }
 }

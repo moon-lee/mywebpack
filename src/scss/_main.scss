@@ -137,7 +137,7 @@
 
 #hex {
     display: block;
-    color: white;
+    color: #ffffff;
     font-size: 40px;
     text-transform: uppercase;
     margin: 20px;
@@ -146,8 +146,8 @@
 .color button {
     background: none;
     outline: none;
-    color: white;
-    border: 3px solid white;
+    color: #ffffff;
+    border: 3px solid #ffffff;
     cursor: pointer;
     font-size: 24px;
 }
@@ -173,4 +173,12 @@
     position: relative;
     margin: auto;
     width: 100%;
+}
+
+.modal-body p{
+    border-bottom: 2px solid #919292;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #727272;
 }
