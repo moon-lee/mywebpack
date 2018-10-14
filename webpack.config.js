@@ -14,7 +14,7 @@ module.exports = {
     entry: {
         myScripts: ["./src/js/myModules.js", "./src/scss/mycss.scss"],
         vendorCalendar: "./src/js/myFullcalendar.js",
-        vendorChart: "./src/js/myCharts.js",
+        //vendorChart: "./src/js/myCharts.js",
         vendorFlatpickr: "./src/js/myFlatpickr.js"
     },
 

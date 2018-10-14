@@ -8,18 +8,10 @@ const chartColors = {
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
     grey: 'rgb(201, 203, 207)',
-    sb0: 'rgb(147, 204, 235)',
-    sb1: 'rgb(125, 193, 231)',
-    sb2: 'rgb(104, 183, 227)',
-    sb3: 'rgb(82, 173, 223)',
-    sb4: 'rgb(60, 163, 219)',
-    sb5: 'rgb(40, 152, 214)',
-    sb6: 'rgb(58, 157, 58)',
+    grey2: '#727272'
 };
 
-
-// Define a plugin to provide data labels
-Chart.plugins.register({
+var plugin = {
     afterDatasetsDraw: function (chart) {
         var ctx = chart.ctx;
         ctx.fillStyle = 'rgb(0, 0, 0)';
@@ -32,8 +24,6 @@ Chart.plugins.register({
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         var save_data = [];
-
-        var idx = chart.data.datasets.length;
 
         chart.data.datasets.forEach(function (dataset, i) {
             var meta = chart.getDatasetMeta(i);
@@ -52,11 +42,11 @@ Chart.plugins.register({
                             ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 4);
                         } else if (datavalue >= 65) {
                             ctx.fillText(dataString, position.x, position.y + (fontSize / 2) + 8);
-                        } 
+                        }
                     } else if (datavalue < 0) {
                         dataString = "-$" + datavalue.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                         if (datavalue < 0) {
-                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - 8);   
+                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - 8);
                         }
                     }
                 });
@@ -64,198 +54,185 @@ Chart.plugins.register({
             }
         });
     }
+}
+
+var color = Chart.helpers.color;
+
+
+var payment_BarChartData = {
+    labels: [],
+    datasets: [
+        {
+            label: "BASE",
+            data: [],
+            fill: 'origin',
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
+            id: "pay_base"
+        },
+        {
+            label: "SHIFT",
+            data: [],
+            fill: '-1',
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
+            id: "pay_shift"
+        },
+        {
+            label: "OVERTIME(1.5)",
+            data: [],
+            fill: 1,
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
+            id: "pay_overtime_1_5"
+        },
+        {
+            label: "OVERTIME(2)",
+            data: [],
+            fill: 1,
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.green).alpha(1.5).rgbString(),
+            id: "pay_overtime_2"
+        },
+        {
+            label: "PERSONAL LEAVE",
+            data: [],
+            fill: 1,
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.purple).alpha(0.5).rgbString(),
+            id: "pay_personal_leave"
+        },
+        {
+            label: "HOLIDAY PAY",
+            data: [],
+            fill: 1,
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.yellow).alpha(1.5).rgbString(),
+            id: "pay_holiday_pay"
+        },
+        {
+            label: "HOLIDAY LOAD",
+            data: [],
+            fill: 1,
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
+            id: "pay_holiday_load"
+        },
+        {
+            label: "WITHHOLDING (PAYG)",
+            data: [],
+            fill: 1,
+            stack: "Stack 0",
+            backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
+            id: "pay_withholding"
+        },
+
+    ]
+};
+
+var payment_BarChartOptions = {
+    responsive: true,
+
+    tooltips: {
+        mode: 'index',
+        callbacks: {
+            label: function (tooltipItem, data) {
+                var label = data.datasets[tooltipItem.datasetIndex].label;
+                var value = tooltipItem.yLabel;
+                if (value < 0) {
+                    return label + " : -$" + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                } else if (value > 0) {
+                    return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                }
+            },
+            footer: function (tooltipItems, data) {
+                var sum = 0;
+                tooltipItems.forEach(function (tooltipItem) {
+                    if (tooltipItem.datasetIndex < 7) {
+                        sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                    }
+                });
+                var dataString = "";
+                if (sum < 0) {
+                    dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+                } else {
+                    dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                }
+                return 'GROSS: ' + dataString;
+            },
+            afterFooter: function (tooltipItems, data) {
+                var sum = 0;
+                tooltipItems.forEach(function (tooltipItem) {
+                    sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                });
+                var dataString = "";
+                if (sum < 0) {
+                    dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+                } else {
+                    dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                }
+                return 'NET: ' + dataString;
+            },
+        },
+        footerFontStyle: 'normal',
+        backgroundColor: chartColors.grey2
+
+    },
+    hover: {
+        mode: 'nearest',
+        intersect: true
+    },
+    scales: {
+        xAxes: [{
+            stacked: true,
+            scaleLabel: {
+                fontColor: '#000',
+                display: true,
+                labelString: 'Payments Date'
+            }
+        }],
+
+        yAxes: [{
+            stacked: true,
+            position: 'right',
+            scaleLabel: {
+                fontColor: '#000',
+                display: true,
+                labelString: 'Amounts'
+            },
+            ticks: {
+                beginAtZero: true,
+                callback: function (value, index, values) {
+                    if (value < 0) {
+                        return '-$' + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    } else {
+                        return '$' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    }
+                }
+            }
+        }]
+    }
+};
+
+var payment_barctx = $('#paymentBarChart');
+export var paymentBarChart = new Chart(payment_barctx, {
+    type: 'bar',
+    plugins: [plugin],
+    data: payment_BarChartData,
+    options: payment_BarChartOptions
 });
 
+function get_payment_detail() {
 
-function payment_chart_1() {
     $.ajax({
         url: "payments/list_paydata",
         type: "POST",
         datatype: "JSON",
         success: function (data) {
-
-            var pay_date = [], gross_pay = [], net_pay = [], withholding_pay = [];
-            var base_pay = [], overtime_1_5_pay = [], overtime_2_pay = [], shift_pay = [];
-            var personal_pay = [], holiday_pay = [], holiday_load_pay = [];
-
             data = JSON.parse(data);
-
-            for (var i = 0; i < data.length; i++) {
-                pay_date.push(data[i].pay_date);
-                gross_pay.push(data[i].pay_gross);
-                net_pay.push(data[i].pay_net);
-                withholding_pay.push(data[i].pay_withholding);
-                base_pay.push(data[i].pay_base);
-                overtime_1_5_pay.push(data[i].pay_overtime_1_5);
-                overtime_2_pay.push(data[i].pay_overtime_2);
-                shift_pay.push(data[i].pay_shift);
-                personal_pay.push(data[i].pay_personal_leave);
-                holiday_pay.push(data[i].pay_holiday_pay);
-                holiday_load_pay.push(data[i].pay_holiday_load);
-            }
-
-            var color = Chart.helpers.color;
-            var chartdata = {
-                labels: pay_date,
-                datasets: [
-                    {
-                        label: "BASE",
-                        data: base_pay,
-                        fill: 'origin',
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.blue).alpha(0.5).rgbString()
-                    },
-                    {
-                        label: "SHIFT",
-                        data: shift_pay,
-                        fill: '-1',
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.orange).alpha(0.5).rgbString()
-                    },
-                    {
-                        label: "OVERTIME(1.5)",
-                        data: overtime_1_5_pay,
-                        fill: 1,
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.green).alpha(0.5).rgbString()
-                    },
-                    {
-                        label: "OVERTIME(2)",
-                        data: overtime_2_pay,
-                        fill: 1,
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.green).alpha(1.5).rgbString()
-                    },
-                    {
-                        label: "PERSONAL LEAVE",
-                        data: personal_pay,
-                        fill: 1,
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.purple).alpha(0.5).rgbString()
-                    },
-                    {
-                        label: "HOLIDAY PAY",
-                        data: holiday_pay,
-                        fill: 1,
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.yellow).alpha(1.5).rgbString()
-                    },
-                    {
-                        label: "HOLIDAY LOAD",
-                        data: holiday_load_pay,
-                        fill: 1,
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString()
-                    },
-                    {
-                        label: "WITHHOLDING (PAYG)",
-                        data: withholding_pay,
-                        fill: 1,
-                        stack: "Stack 0",
-                        backgroundColor: color(chartColors.red).alpha(0.5).rgbString()
-                    },
-
-                ]
-            };
-
-            var chartOptions = {
-                responsive: true,
-
-                tooltips: {
-                    mode: 'index',
-                    callbacks: {
-                        label: function (tooltipItem, data) {
-                            var label = data.datasets[tooltipItem.datasetIndex].label;
-                            var value = tooltipItem.yLabel;
-                            if (value < 0) {
-                                return label + " : -$" + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                            } else if (value > 0) {
-                                return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                            }
-                        },
-                        footer: function (tooltipItems, data) {
-                            var sum = 0;
-                            tooltipItems.forEach(function (tooltipItem) {
-                                if (tooltipItem.datasetIndex < 7) {
-                                    sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-                                }
-                            });
-                            var dataString = "";
-                            if (sum < 0) {
-                                dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-
-                            } else {
-                                dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                            }
-                            return 'GROSS: ' + dataString;
-                        },
-                        afterFooter: function (tooltipItems, data) {
-                            var sum = 0;
-                            tooltipItems.forEach(function (tooltipItem) {
-                                if (tooltipItem.datasetIndex < 7) {
-                                    sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-                                } else {
-                                    sum -= parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-                                }
-                            });
-                            var dataString = "";
-                            if (sum < 0) {
-                                dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-
-                            } else {
-                                dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                            }
-                            return 'NET: ' + dataString;
-                        },
-                    },
-                    footerFontStyle: 'normal',
-                    backgroundColor: chartColors.sb6
-
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
-                        stacked: true,
-                        scaleLabel: {
-                            fontColor: '#000',
-                            display: true,
-                            labelString: 'Payments Date'
-                        }
-                    }],
-
-                    yAxes: [{
-                        stacked: true,
-                        position: 'right',
-                        scaleLabel: {
-                            fontColor: '#000',
-                            display: true,
-                            labelString: 'Amounts'
-                        },
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function (value, index, values) {
-                                if (value < 0) {
-                                    return '-$' + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                                } else {
-                                    return '$' + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                                }
-                            }
-                        }
-                    }]
-                }
-            };
-
-
-            var ctx = $('#paymentChart2');
-
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: chartdata,
-                options: chartOptions
-            });
+            listPaymentData(paymentBarChart, data);
         },
         error: function (xhr, status, errorThrown) {
             alert("Sorry, there was a problem!");
@@ -264,47 +241,127 @@ function payment_chart_1() {
             console.dir(xhr);
         }
     });
+
 }
 
-function payment_chart_2() {
-    var chartdata = {
-        datasets: [{
-            data: [10, 20, 30],
-            backgroundColor: [
-                chartColors.red,
-                chartColors.yellow,
-                chartColors.blue
-            ]
-        }],
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
-    };
+function listPaymentData(chart, data) {
+    var pay_date = [], gross_pay = [], net_pay = [], withholding_pay = [];
+    var base_pay = [], overtime_1_5_pay = [], overtime_2_pay = [], shift_pay = [];
+    var personal_pay = [], holiday_pay = [], holiday_load_pay = [];
 
-    var chartOptions = {
-        responsive: true,
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-    };
+    for (var i = 0; i < data.length; i++) {
+        pay_date.push(data[i].pay_date);
+        gross_pay.push(data[i].pay_gross);
+        net_pay.push(data[i].pay_net);
+        withholding_pay.push(data[i].pay_withholding);
+        base_pay.push(data[i].pay_base);
+        overtime_1_5_pay.push(data[i].pay_overtime_1_5);
+        overtime_2_pay.push(data[i].pay_overtime_2);
+        shift_pay.push(data[i].pay_shift);
+        personal_pay.push(data[i].pay_personal_leave);
+        holiday_pay.push(data[i].pay_holiday_pay);
+        holiday_load_pay.push(data[i].pay_holiday_load);
+    }
 
-    var ctx = $('#paymentChart1');
-
-    var myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: chartdata,
-        options: chartOptions
+    pay_date.forEach(function (element) {
+        chart.data.labels.push(element);
     });
 
+    chart.data.datasets.forEach(function (dataset) {
+        switch (dataset.id) {
+            case "pay_base":
+                base_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_shift":
+                shift_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_overtime_1_5":
+                overtime_1_5_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_overtime_2":
+                overtime_2_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_personal_leave":
+                personal_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_holiday_pay":
+                holiday_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_holiday_load":
+                holiday_load_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+            case "pay_withholding":
+                withholding_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
 
+            default:
+            // break;
+        }
+    });
 
+    chart.update();
+}
+
+var payment_PieChartData = {
+    datasets: [{
+        data: [],
+        backgroundColor: [
+            chartColors.red,
+            chartColors.yellow,
+            chartColors.blue
+        ]
+    }],
+    labels: [
+        'Red',
+        'Yellow',
+        'Blue'
+    ]
+};
+
+var payment_PieChartOptions = {
+    responsive: true,
+    animation: {
+        animateScale: true,
+        animateRotate: true
+    }
+};
+
+var payment_piectx = $('#paymentPieChart');
+var paymentPieChart = new Chart(payment_piectx, {
+    type: 'doughnut',
+    plugins: [plugin],
+    data: payment_PieChartData,
+    options: payment_PieChartOptions
+});
+
+function get_payment_summary() {
+    var data = [30, 50, 80];
+    paymentPieChart.data.datasets.forEach((dataset) => {
+        data.forEach(function (element) {
+            dataset.data.push(element);
+        });
+    });
+    paymentPieChart.update();
 }
 
 $(document).ready(function () {
     //call function
-    payment_chart_1();
-    payment_chart_2();
+    get_payment_detail();
+    get_payment_summary();
 });
