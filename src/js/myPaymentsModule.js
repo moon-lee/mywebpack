@@ -34,38 +34,6 @@ export function payment_crud() {
                 if (data.status) {
                     $("#addPaymentinfo").modal("hide");
                     addPaymentData(myChart.paymentBarChart, data.saved_data);
-
-                    // myChart.paymentBarChart.data.labels.push(data.saved_data.pay_date);
-                    // myChart.paymentBarChart.data.datasets.forEach(function (dataset) {
-                    //     switch (dataset.id) {
-                    //         case "pay_base":
-                    //             dataset.data.push(data.saved_data.pay_base);
-                    //             break;
-                    //         case "pay_shift":
-                    //             dataset.data.push(data.saved_data.pay_shift);
-                    //             break;
-                    //         case "pay_overtime_1_5":
-                    //             dataset.data.push(data.saved_data.pay_overtime_1_5);
-                    //             break;
-                    //         case "pay_overtime_2":
-                    //             dataset.data.push(data.saved_data.pay_overtime_2);
-                    //             break;
-                    //         case "pay_personal_leave":
-                    //             dataset.data.push(data.saved_data.pay_personal_leave);
-                    //             break;
-                    //         case "pay_holiday_pay":
-                    //             dataset.data.push(data.saved_data.pay_holiday_pay);
-                    //             break;
-                    //         case "pay_holiday_load":
-                    //             dataset.data.push(data.saved_data.pay_holiday_load);
-                    //             break;
-                    //         case "pay_withholding":
-                    //             dataset.data.push(data.saved_data.pay_withholding);
-                    //             break;
-                    //         default:
-                    //     }
-                    // });
-                    // myChart.paymentBarChart.update();
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
                         $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
