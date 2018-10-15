@@ -132,7 +132,10 @@ var payment_BarChartData = {
 
 var payment_BarChartOptions = {
     responsive: true,
-
+    legend: {
+        position: 'left',
+        padding:20,
+    },
     tooltips: {
         mode: 'index',
         callbacks: {
@@ -319,18 +322,21 @@ function listPaymentData(chart, data) {
 }
 
 var payment_PieChartData = {
-    datasets: [{
-        data: [],
-        backgroundColor: [
-            chartColors.red,
-            chartColors.yellow,
-            chartColors.blue
-        ]
-    }],
-    labels: [
-        'Red',
-        'Yellow',
-        'Blue'
+    labels: [],
+    datasets: [
+        {
+            data: [],
+            backgroundColor: [
+                color(chartColors.blue).alpha(0.5).rgbString(),
+                color(chartColors.orange).alpha(0.5).rgbString(),
+                color(chartColors.green).alpha(0.5).rgbString(),
+                color(chartColors.green).alpha(1.5).rgbString(),
+                color(chartColors.purple).alpha(0.5).rgbString(),
+                color(chartColors.yellow).alpha(1.5).rgbString(),
+                color(chartColors.yellow).alpha(0.5).rgbString(),
+                color(chartColors.red).alpha(0.5).rgbString()
+            ]
+        }
     ]
 };
 
@@ -339,6 +345,27 @@ var payment_PieChartOptions = {
     animation: {
         animateScale: true,
         animateRotate: true
+    },
+    legend: {
+        display: false
+    },
+    tooltips: {
+        mode: 'nearest',
+        callbacks: {
+            label: function (tooltipItem, data) {
+                var label = data.labels[tooltipItem.index];
+                var value = parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                if (value < 0) {
+                    return label + " : -$" + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                } else if (value > 0) {
+                    return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                }
+            
+            }
+        },
+        footerFontStyle: 'normal',
+        backgroundColor: chartColors.grey2
+
     }
 };
 
@@ -351,13 +378,60 @@ var paymentPieChart = new Chart(payment_piectx, {
 });
 
 function get_payment_summary() {
-    var data = [30, 50, 80];
-    paymentPieChart.data.datasets.forEach((dataset) => {
-        data.forEach(function (element) {
+
+    $.ajax({
+        url: "payments/summary_paydata",
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            data = JSON.parse(data);
+            summaryPaymentData(paymentPieChart, data);
+        },
+        error: function (xhr, status, errorThrown) {
+            alert("Sorry, there was a problem!");
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
+        }
+    });
+
+
+}
+
+function summaryPaymentData(chart, data) {
+
+    var summarydata = [];
+    for (var key in data) {
+        for (var id in data[key]) {
+            console.log("[" + id + "][" + data[key][id] + "]");
+        }
+    }
+
+    for (var key in data) {
+        for (var id in data[key]) {
+            switch (id) {
+                case "sum_gross":
+                case "sum_net":
+                case "sum_super":
+                case "sum_holiday_leave":
+                    break;
+                default:
+                    chart.data.labels.push(id);
+                    summarydata.push(data[key][id]);
+                    break;
+            }
+        }
+    };
+
+    console.log(summarydata);
+
+    chart.data.datasets.forEach(function (dataset) {
+        summarydata.forEach(function (element) {
             dataset.data.push(element);
         });
     });
-    paymentPieChart.update();
+
+    chart.update();
 }
 
 $(document).ready(function () {
