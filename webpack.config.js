@@ -12,9 +12,9 @@ module.exports = {
     mode: "production",
 
     entry: {
-        myScripts: ["./src/js/myModules.js", "./src/scss/mycss.scss"],
+        myCommon: ["./src/js/myCommonModule.js", "./src/scss/mycss.scss"],
+        myPayments: "./src/js/myPaymentsModule.js",
         vendorCalendar: "./src/js/myFullcalendar.js",
-        //vendorChart: "./src/js/myCharts.js",
         vendorFlatpickr: "./src/js/myFlatpickr.js"
     },
 

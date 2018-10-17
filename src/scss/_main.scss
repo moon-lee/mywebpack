@@ -115,6 +115,14 @@
     border-top-color: #00a65a;
 }
 
+.cd-payment p {
+    border-bottom: 2px solid #00f889;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #00a058;
+}
+
 .cd-weight {
     border-top-color: #f39c12;
 }
@@ -181,4 +189,8 @@
     font-weight: 500;
     color: #ffffff;
     background-color: #727272;
+}
+
+.table-summary {
+    margin-top: 60px;
 }

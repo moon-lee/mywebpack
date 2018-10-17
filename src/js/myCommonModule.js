@@ -1,5 +1,4 @@
 import * as myFonts from "./myFontawesome";
-import * as myPayments from "./myPaymentsModule";
 
 function sidebar_toggle() {
     $('#sidebarCollapse').on('click', function () {
@@ -37,9 +36,7 @@ function getNewColor() {
 $(document).ready(function () {
     //call function
     myFonts.init_fonts();
-
     sidebar_toggle();
-    myPayments.payment_crud();
     getNewColor();
 });
 

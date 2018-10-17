@@ -401,12 +401,7 @@ function get_payment_summary() {
 function summaryPaymentData(chart, data) {
 
     var summarydata = [];
-    for (var key in data) {
-        for (var id in data[key]) {
-            console.log("[" + id + "][" + data[key][id] + "]");
-        }
-    }
-
+ 
     for (var key in data) {
         for (var id in data[key]) {
             switch (id) {
@@ -422,8 +417,6 @@ function summaryPaymentData(chart, data) {
             }
         }
     };
-
-    console.log(summarydata);
 
     chart.data.datasets.forEach(function (dataset) {
         summarydata.forEach(function (element) {
