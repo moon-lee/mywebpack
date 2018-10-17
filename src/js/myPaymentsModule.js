@@ -527,15 +527,31 @@ function summaryPaymentData(chart, data) {
 
     for (var key in data) {
         for (var id in data[key]) {
+            var value = data[key][id];
             switch (id) {
                 case "sum_gross":
+                    $("#tbody_summary #sum_gross").text(function (){
+                        return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    break;
                 case "sum_net":
+                    $("#tbody_summary #sum_net").text(function () {
+                        return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    break;
                 case "sum_super":
+                    $("#tbody_summary #sum_super").text(function () {
+                        return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    break;
                 case "sum_holiday_leave":
+                    $("#tbody_summary #sum_holiday_leave").text(function () {
+                        return value + "[hours]";
+                    });
                     break;
                 default:
                     chart.data.labels.push(id);
-                    summarydata.push(data[key][id]);
+                    summarydata.push(value);
                     break;
             }
         }
