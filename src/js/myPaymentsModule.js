@@ -523,8 +523,7 @@ function get_payment_summary() {
 function summaryPaymentData(chart, data) {
 
     var summarydata = [];
-    chart.data.label =[];
-    chart.data.datasets.data =[];
+    chart.data.labels = [];
 
     for (var key in data) {
         for (var id in data[key]) {
@@ -543,6 +542,7 @@ function summaryPaymentData(chart, data) {
     };
     
     chart.data.datasets.forEach(function (dataset) {
+        dataset.data = [];
         summarydata.forEach(function (element) {
             dataset.data.push(element);
         });
