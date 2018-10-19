@@ -317,7 +317,9 @@ function payment_crud() {
                 data = JSON.parse(data);
                 if (data.status) {
                     $("#addPaymentinfo").modal("hide");
-                    addPaymentData(paymentBarChart, data.saved_data);
+                    //addPaymentData(paymentBarChart, data.saved_data);
+                    get_payment_detail(1);
+                    payment_pagination();
                     get_payment_summary();
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
