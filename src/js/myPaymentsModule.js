@@ -405,15 +405,16 @@ function addPaymentData(chart, data) {
     chart.update();
 }
 
-function get_payment_detail() {
+function get_payment_detail(page) {
 
     $.ajax({
-        url: "payments/list_paydata",
+        url: "payments/pagination_paydata/"+page,
         type: "POST",
         datatype: "JSON",
         success: function (data) {
             data = JSON.parse(data);
-            listPaymentData(paymentBarChart, data);
+            $("#payments_pagination_link").html(data.pagination_link);
+            listPaymentData(paymentBarChart, data.payment_details);
         },
         error: function (xhr, status, errorThrown) {
             alert("Sorry, there was a problem!");
@@ -444,6 +445,7 @@ function listPaymentData(chart, data) {
         holiday_load_pay.push(data[i].pay_holiday_load);
     }
 
+    chart.data.labels = [];
     pay_date.forEach(function (element) {
         chart.data.labels.push(element);
     });
@@ -451,41 +453,49 @@ function listPaymentData(chart, data) {
     chart.data.datasets.forEach(function (dataset) {
         switch (dataset.id) {
             case "pay_base":
+                dataset.data = [];
                 base_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_shift":
+                dataset.data = [];
                 shift_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_overtime_1_5":
+                dataset.data = [];
                 overtime_1_5_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_overtime_2":
+                dataset.data = [];
                 overtime_2_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_personal_leave":
+                dataset.data = [];
                 personal_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_holiday_pay":
+                dataset.data = [];
                 holiday_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_holiday_load":
+                dataset.data = [];
                 holiday_load_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
             case "pay_withholding":
+                dataset.data = [];
                 withholding_pay.forEach(function (element) {
                     dataset.data.push(element);
                 });
@@ -502,7 +512,7 @@ function listPaymentData(chart, data) {
 function get_payment_summary() {
 
     $.ajax({
-        url: "payments/summary_paydata",
+        url: "/wom/payments/summary_paydata",
         type: "POST",
         datatype: "JSON",
         success: function (data) {
@@ -567,9 +577,18 @@ function summaryPaymentData(chart, data) {
     chart.update();
 }
 
+function payment_pagination() {
+    $(document).on("click", ".pagination li a", function(event){
+        event.preventDefault();
+        var page = $(this).data("ci-pagination-page");
+        get_payment_detail(page);
+    });    
+}
+
 $(document).ready(function () {
     //call function
     payment_crud();
-    get_payment_detail();
+    get_payment_detail(1);
+    payment_pagination();
     get_payment_summary();
 });
