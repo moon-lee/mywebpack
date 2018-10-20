@@ -16,7 +16,7 @@ function init_fullcalendar() {
 		},
 		locale: localeCode,
 		firstDay: 0,
-		aspectRatio: 1.86,
+		//aspectRatio: 1.86,
 
 		eventLimit: true, // allow "more" link when too many events
 
