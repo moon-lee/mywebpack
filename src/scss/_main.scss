@@ -123,6 +123,16 @@
     background-color: #00a058;
 }
 
+.payments_container .page-item.active .page-link {
+    color: #ffffff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.payments_container .page-link {
+    color: #28a745;
+}
+
 .cd-weight {
     border-top-color: #f39c12;
 }
