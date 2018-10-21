@@ -1,5 +1,6 @@
 import * as myUtils from "./myUtils";
 import Chart from "chart.js";
+import flatpickr from "flatpickr";
 
 
 const chartColors = {
@@ -587,9 +588,20 @@ function payment_pagination() {
     });    
 }
 
+function payment_datepick() {
+    flatpickr("#paymentDate", {
+        defaultDate: "today",
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        weekNumbers: true,
+    });
+}
+
 $(document).ready(function () {
     //call function
     payment_crud();
+    payment_datepick();
     get_payment_detail(1);
     payment_pagination();
     get_payment_summary();
