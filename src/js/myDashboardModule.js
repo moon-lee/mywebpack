@@ -6,24 +6,11 @@ var fp_task = $("#taskDueDate").flatpickr({
     altFormat: "F j, Y",
     dateFormat: "Y-m-d",
     weekNumbers: true,
+    onChange: function (selectedDates, dateStr, instance) {
+        $("#taskDueDate").next().removeClass("is-invalid");
+        $("#taskDueDate").next().next().empty();
+    }
 });
-function payment_datepick() {
-    // flatpickr("#taskDueDate", {
-    //     defaultDate: "today",
-    //     altInput: true,
-    //     altFormat: "F j, Y",
-    //     dateFormat: "Y-m-d",
-    //     weekNumbers: true,
-    // });
-
-    // $("#taskDueDate").flatpickr({
-    //     //defaultDate: "today",
-    //     altInput: true,
-    //     altFormat: "F j, Y",
-    //     dateFormat: "Y-m-d",
-    //     weekNumbers: true,
-    // });
-}
 
 function todolist_crud() {
     $("#addTaskList").click(function (event) {
@@ -47,6 +34,7 @@ function todolist_crud() {
         $(this).removeClass("is-invalid");
         $(this).next().empty();
     });
+
 
     //Submit Data
     $("#form_task").submit(function (event) {
@@ -90,5 +78,5 @@ function todolist_crud() {
 $(document).ready(function () {
     //call function
     todolist_crud();
-    payment_datepick();
+   // payment_datepick();
 });
