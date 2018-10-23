@@ -285,6 +285,17 @@ var paymentPieChart = new Chart(payment_piectx, {
     options: payment_PieChartOptions
 });
 
+var fp_task = $("#paymentDate").flatpickr({
+    defaultDate: "today",
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    weekNumbers: true,
+    onChange: function (selectedDates, dateStr, instance) {
+        $("#paymentDate").next().removeClass("is-invalid");
+        $("#paymentDate").next().next().empty();
+    }
+});
 
 function payment_crud() {
     // Open Modal
@@ -303,6 +314,7 @@ function payment_crud() {
         $("#holidayLoad").val("");
         $("#holidayHours").val("");
         $("#superAnnuation").val("");
+        fp_task.clear();
         $("#addPaymentinfo").modal("show");
     });
 
@@ -324,8 +336,14 @@ function payment_crud() {
                     get_payment_summary();
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
-                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
-                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                        if (data.inputerror[i] == "bpaymentdate") {
+                            $('[name="' + data.inputerror[i] + '"]').next().addClass('is-invalid');
+                            $('[name="' + data.inputerror[i] + '"]').next().next().text(data.error_string[i]);
+
+                        } else {
+                            $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                            $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                        }
                     }
                 }
             },
@@ -411,7 +429,7 @@ function addPaymentData(chart, data) {
 function get_payment_detail(page) {
 
     $.ajax({
-        url: "payments/pagination_paydata/"+page,
+        url: "payments/pagination_task/"+page,
         type: "POST",
         datatype: "JSON",
         success: function (data) {
@@ -588,20 +606,11 @@ function payment_pagination() {
     });    
 }
 
-function payment_datepick() {
-    flatpickr("#paymentDate", {
-        defaultDate: "today",
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
-        weekNumbers: true,
-    });
-}
+
 
 $(document).ready(function () {
     //call function
     payment_crud();
-    payment_datepick();
     get_payment_detail(1);
     payment_pagination();
     get_payment_summary();

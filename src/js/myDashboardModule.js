@@ -12,7 +12,7 @@ var fp_task = $("#taskDueDate").flatpickr({
     }
 });
 
-function todolist_crud() {
+function tasklist_crud() {
     $("#addTaskList").click(function (event) {
         $("#form_task").find("input").removeClass("is-invalid");
         $("#form_task").find("input invalid-tooltip").empty();
@@ -75,8 +75,38 @@ function todolist_crud() {
     });
 }
 
+function get_task_detail(page) {
+
+    $.ajax({
+        url: "dashboard/pagination_task/" + page,
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            data = JSON.parse(data);
+            $("#task_pagination_link").html(data.pagination_link);
+            console.log(data.task_details);
+            //listPaymentData(paymentBarChart, data.task_details);
+        },
+        error: function (xhr, status, errorThrown) {
+            alert("Sorry, there was a problem!");
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
+        }
+    });
+}
+
+function task_pagination() {
+    $(document).on("click", ".pagination li a", function (event) {
+        event.preventDefault();
+        var page = $(this).data("ci-pagination-page");
+        get_task_detail(page);
+    });
+}
 $(document).ready(function () {
     //call function
-    todolist_crud();
+    tasklist_crud();
+    get_task_detail(1);
+    task_pagination();
    // payment_datepick();
 });
