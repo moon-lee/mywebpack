@@ -115,7 +115,7 @@
     border-top-color: #00a65a;
 }
 
-.payments_container > .cd-payment p {
+.payments_container>.cd-payment p {
     border-bottom: 2px solid #00f889;
     font-size: 16px;
     font-weight: 500;
@@ -192,7 +192,7 @@
     width: 100%;
 }
 
-.modal-body p{
+.modal-body p {
     border-bottom: 2px solid #919292;
     font-size: 16px;
     font-weight: 500;
@@ -206,73 +206,91 @@
 
 /* Widget: TODO LIST */
 .task-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: auto;
-}
-.task-list > li {
-  border-radius: 2px;
-  padding: 10px;
-  background: #f4f4f4;
-  margin-bottom: 2px;
-  border-left: 2px solid #e6e7e8;
-  color: #444;
-}
-.task-list > li:last-of-type {
-  margin-bottom: 0;
-}
-.task-list > li > input[type='checkbox'] {
-  margin: 0 10px 0 5px;
-}
-.task-list > li .text {
-  display: inline-block;
-  margin-left: 5px;
-  font-weight: 600;
-}
-.task-list > li .badge {
-  margin-left: 10px;
-  font-size: 9px;
-}
-.task-list > li .tools {
-  display: none;
-  float: right;
-  color: #dd4b39;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: auto;
 }
 
-.task-list > li .tools > .fa-edit,
-.task-list > li .tools > .fa-trash-alt {
+.task-list>li {
+    border-radius: 2px;
+    padding: 10px;
+    background: #f4f4f4;
+    margin-bottom: 2px;
+    border-left: 2px solid #e6e7e8;
+    color: #444;
+}
+
+.task-list>li:last-of-type {
+    margin-bottom: 0;
+}
+
+.task-list>li>input[type='checkbox'] {
+    margin: 0 10px 0 5px;
+}
+
+.task-list>li .text {
+    display: inline-block;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.task-list>li .badge {
+    margin-left: 10px;
+    font-size: 9px;
+}
+
+.task-list>li .tools {
+    display: none;
+    float: right;
+    color: #dd4b39;
+}
+
+.task-list>li .tools>.fa-icon {
     margin-right: 5px;
     cursor: pointer;
 }
 
-.task-list > li:hover .tools {
-  display: inline-block;
+.task-list>li:hover .tools {
+    display: inline-block;
 }
-.task-list > li.done {
-  color: #999;
+
+.task-list>li.done {
+    color: #999;
 }
-.task-list > li.done .text {
-  text-decoration: line-through;
-  font-weight: 500;
+
+.task-list>li.done .text {
+    text-decoration: line-through;
+    font-weight: 500;
 }
 
 .task-list .danger {
-  border-left-color: #dd4b39;
+    border-left-color: #dd4b39;
 }
+
 .task-list .warning {
-  border-left-color: #f39c12;
+    border-left-color: #f39c12;
 }
+
 .task-list .info {
-  border-left-color: #00c0ef;
+    border-left-color: #00c0ef;
 }
+
 .task-list .success {
-  border-left-color: #00a65a;
+    border-left-color: #00a65a;
 }
+
 .task-list .primary {
-  border-left-color: #3c8dbc;
+    border-left-color: #3c8dbc;
 }
+
 .task-list .handle {
-  display: inline-block;
-  cursor: move;
+    display: inline-block;
+    cursor: move;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -.125em;
 }

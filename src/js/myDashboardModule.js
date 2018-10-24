@@ -48,9 +48,8 @@ function tasklist_crud() {
                 data = JSON.parse(data);
                 if (data.status) {
                     $("#addTask").modal("hide");
-                    // get_payment_detail(1);
-                    // payment_pagination();
-                    // get_payment_summary();
+                    get_task_detail(1);
+                    //task_pagination();
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
 
@@ -84,8 +83,8 @@ function get_task_detail(page) {
         success: function (data) {
             data = JSON.parse(data);
             $("#task_pagination_link").html(data.pagination_link);
-            console.log(data.task_details);
-            //listPaymentData(paymentBarChart, data.task_details);
+            $("#task_details").html(data.task_details);
+
         },
         error: function (xhr, status, errorThrown) {
             alert("Sorry, there was a problem!");
@@ -103,10 +102,38 @@ function task_pagination() {
         get_task_detail(page);
     });
 }
+
+function task_delete() {
+    $(document).on("click", ".task-list li #delete_task", function (event) {
+        event.preventDefault();
+        var element = $(this).parents(".task_item").find(".badge");
+        var task_id = element.data("task-id");
+
+        if (confirm("Are you sure you wish to delete this task?")) {
+            $.ajax({
+                url: "dashboard/delete_taskitem/" + task_id,
+                type: "POST",
+                datatype: "JSON",
+                success: function (data) {
+                    data = JSON.parse(data);
+                    get_task_detail(1);
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + status);
+                    console.dir(xhr);
+                }
+            });
+        }
+    });
+}
+
+
 $(document).ready(function () {
     //call function
     tasklist_crud();
     get_task_detail(1);
     task_pagination();
-   // payment_datepick();
+    task_delete();
 });

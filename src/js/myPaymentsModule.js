@@ -429,7 +429,7 @@ function addPaymentData(chart, data) {
 function get_payment_detail(page) {
 
     $.ajax({
-        url: "payments/pagination_task/"+page,
+        url: "payments/pagination_paydata/" + page,
         type: "POST",
         datatype: "JSON",
         success: function (data) {
