@@ -95,9 +95,13 @@ function tasklist_crud() {
 
         if (confirm("Are you sure you wish to delete this task?")) {
             $.ajax({
-                url: "dashboard/delete_taskitem/" + task_id,
+                url: "dashboard/update_taskstatus/",
                 type: "POST",
                 datatype: "JSON",
+                data: {
+                    id: task_id,
+                    task_status: 99
+                },
                 success: function (data) {
                     data = JSON.parse(data);
                     get_task_detail(1);
@@ -137,10 +141,7 @@ function tasklist_crud() {
                 id: task_id,
                 task_status: task_status
             },
-            success: function (data) {
-                // data = JSON.parse(data);
-                // get_task_detail(1);
-            },
+            success: function (data) {},
             error: function (xhr, status, errorThrown) {
                 alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);
@@ -172,78 +173,6 @@ function get_task_detail(page) {
         }
     });
 }
-
-// function task_pagination() {
-//     $(document).on("click", ".pagination li a", function (event) {
-//         event.preventDefault();
-//         var page = $(this).data("ci-pagination-page");
-//         get_task_detail(page);
-//     });
-// }
-
-// function task_delete() {
-//     $(document).on("click", ".task-list li #delete_task", function (event) {
-//         event.preventDefault();
-//         var element = $(this).parents(".task_item").find(".badge");
-//         var task_id = element.data("task-id");
-
-//         if (confirm("Are you sure you wish to delete this task?")) {
-//             $.ajax({
-//                 url: "dashboard/delete_taskitem/" + task_id,
-//                 type: "POST",
-//                 datatype: "JSON",
-//                 success: function (data) {
-//                     data = JSON.parse(data);
-//                     get_task_detail(1);
-//                 },
-//                 error: function (xhr, status, errorThrown) {
-//                     alert("Sorry, there was a problem!");
-//                     console.log("Error: " + errorThrown);
-//                     console.log("Status: " + status);
-//                     console.dir(xhr);
-//                 }
-//             });
-//         }
-//     });
-// }
-
-// function task_completed() {
-//     $(document).on("click", ".task-list li input", function (event) {
-//         console.log($(this));
-
-//         var element_parent = $(this).parents(".task_item");
-//         var task_id = element_parent.find(".badge").data("task-id");
-//         element_parent.toggleClass("done");
-//         var task_status = 0;
-
-//         if (element_parent.is('.done')) {
-//             task_status = 1;
-//         } else {
-//             task_status = 0;
-//         }
-
-
-//         $.ajax({
-//             url: "dashboard/update_taskstatus/",
-//             type: "POST",
-//             datatype: "JSON",
-//             data: {
-//                 id: task_id,
-//                 task_status: task_status
-//             },
-//             success: function (data) {
-//                 // data = JSON.parse(data);
-//                 // get_task_detail(1);
-//             },
-//             error: function (xhr, status, errorThrown) {
-//                 alert("Sorry, there was a problem!");
-//                 console.log("Error: " + errorThrown);
-//                 console.log("Status: " + status);
-//                 console.dir(xhr);
-//             }
-//         });
-//     });
-// }
 
 
 $(document).ready(function () {
