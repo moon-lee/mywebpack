@@ -6,11 +6,11 @@ function sidebar_toggle() {
     });
 
     $('.sidebar-list > ul > li').find('a').click(function (e) {
-        var $li = $(this).parent();
-        if ($li.is('.active')) {
-            $li.removeClass('active');
+        var parent_element = $(this).parent();
+        if (parent_element.is('.active')) {
+            parent_element.removeClass('active');
         } else {
-            $li.addClass('active');
+            parent_element.addClass('active');
         }
     });
 }

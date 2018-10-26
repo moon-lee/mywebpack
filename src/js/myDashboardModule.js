@@ -21,6 +21,7 @@ function tasklist_crud() {
         $("#form_task").find("select").val("0");
         fp_task.clear();
         $("#taskItem").val("");
+        $("#taskItemLength").text("[" + $("#taskItem").val().length + "/" + $("#taskItem").attr('maxlength') + "]");
 
         $("#addTask").modal("show");
     });
@@ -32,7 +33,7 @@ function tasklist_crud() {
     });
     $("#form_task").find("select").change(function () {
         $(this).removeClass("is-invalid");
-        $(this).next().empty();
+        $(this).next("invalid-tooltip").empty();
     });
 
 
@@ -72,38 +73,21 @@ function tasklist_crud() {
             }
         });
     });
-}
 
-function get_task_detail(page) {
-
-    $.ajax({
-        url: "dashboard/pagination_task/" + page,
-        type: "POST",
-        datatype: "JSON",
-        success: function (data) {
-            data = JSON.parse(data);
-            $("#task_pagination_link").html(data.pagination_link);
-            $("#task_details").html(data.task_details);
-
-        },
-        error: function (xhr, status, errorThrown) {
-            alert("Sorry, there was a problem!");
-            console.log("Error: " + errorThrown);
-            console.log("Status: " + status);
-            console.dir(xhr);
-        }
+    $("#taskItem").on("keyup", function () {
+        var maxLength = $(this).attr('maxlength');
+        var currentLength = "[" + $(this).val().length + "/" + maxLength + "]";
+        $("#taskItemLength").text(currentLength);
     });
-}
 
-function task_pagination() {
+    //task pagination click event
     $(document).on("click", ".pagination li a", function (event) {
         event.preventDefault();
         var page = $(this).data("ci-pagination-page");
         get_task_detail(page);
     });
-}
 
-function task_delete() {
+    //Delete task
     $(document).on("click", ".task-list li #delete_task", function (event) {
         event.preventDefault();
         var element = $(this).parents(".task_item").find(".badge");
@@ -127,13 +111,143 @@ function task_delete() {
             });
         }
     });
+
+
+    //Update task status
+    $(document).on("click", ".task-list li input", function (event) {
+        console.log($(this));
+
+        var element_parent = $(this).parents(".task_item");
+        var task_id = element_parent.find(".badge").data("task-id");
+        element_parent.toggleClass("done");
+        var task_status = 0;
+
+        if (element_parent.is('.done')) {
+            task_status = 1;
+        } else {
+            task_status = 0;
+        }
+
+
+        $.ajax({
+            url: "dashboard/update_taskstatus/",
+            type: "POST",
+            datatype: "JSON",
+            data: {
+                id: task_id,
+                task_status: task_status
+            },
+            success: function (data) {
+                // data = JSON.parse(data);
+                // get_task_detail(1);
+            },
+            error: function (xhr, status, errorThrown) {
+                alert("Sorry, there was a problem!");
+                console.log("Error: " + errorThrown);
+                console.log("Status: " + status);
+                console.dir(xhr);
+            }
+        });
+    });
+
 }
+
+function get_task_detail(page) {
+
+    $.ajax({
+        url: "dashboard/pagination_task/" + page,
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            data = JSON.parse(data);
+            $("#task_pagination_link").html(data.pagination_link);
+            $("#task_details").html(data.task_details);
+
+        },
+        error: function (xhr, status, errorThrown) {
+            alert("Sorry, there was a problem!");
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
+        }
+    });
+}
+
+// function task_pagination() {
+//     $(document).on("click", ".pagination li a", function (event) {
+//         event.preventDefault();
+//         var page = $(this).data("ci-pagination-page");
+//         get_task_detail(page);
+//     });
+// }
+
+// function task_delete() {
+//     $(document).on("click", ".task-list li #delete_task", function (event) {
+//         event.preventDefault();
+//         var element = $(this).parents(".task_item").find(".badge");
+//         var task_id = element.data("task-id");
+
+//         if (confirm("Are you sure you wish to delete this task?")) {
+//             $.ajax({
+//                 url: "dashboard/delete_taskitem/" + task_id,
+//                 type: "POST",
+//                 datatype: "JSON",
+//                 success: function (data) {
+//                     data = JSON.parse(data);
+//                     get_task_detail(1);
+//                 },
+//                 error: function (xhr, status, errorThrown) {
+//                     alert("Sorry, there was a problem!");
+//                     console.log("Error: " + errorThrown);
+//                     console.log("Status: " + status);
+//                     console.dir(xhr);
+//                 }
+//             });
+//         }
+//     });
+// }
+
+// function task_completed() {
+//     $(document).on("click", ".task-list li input", function (event) {
+//         console.log($(this));
+
+//         var element_parent = $(this).parents(".task_item");
+//         var task_id = element_parent.find(".badge").data("task-id");
+//         element_parent.toggleClass("done");
+//         var task_status = 0;
+
+//         if (element_parent.is('.done')) {
+//             task_status = 1;
+//         } else {
+//             task_status = 0;
+//         }
+
+
+//         $.ajax({
+//             url: "dashboard/update_taskstatus/",
+//             type: "POST",
+//             datatype: "JSON",
+//             data: {
+//                 id: task_id,
+//                 task_status: task_status
+//             },
+//             success: function (data) {
+//                 // data = JSON.parse(data);
+//                 // get_task_detail(1);
+//             },
+//             error: function (xhr, status, errorThrown) {
+//                 alert("Sorry, there was a problem!");
+//                 console.log("Error: " + errorThrown);
+//                 console.log("Status: " + status);
+//                 console.dir(xhr);
+//             }
+//         });
+//     });
+// }
 
 
 $(document).ready(function () {
     //call function
     tasklist_crud();
     get_task_detail(1);
-    task_pagination();
-    task_delete();
 });

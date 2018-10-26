@@ -233,11 +233,21 @@
     display: inline-block;
     margin-left: 5px;
     font-weight: 600;
+    width: 18em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.task-list>li .text:hover {
+    text-overflow: initial;
+    overflow: initial;
+    white-space: initial;
 }
 
 .task-list>li .badge {
     margin-left: 10px;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .task-list>li .tools {
@@ -284,10 +294,7 @@
     border-left-color: #3c8dbc;
 }
 
-.task-list .handle {
-    display: inline-block;
-    cursor: move;
-}
+
 
 .icon {
     width: 1em;
