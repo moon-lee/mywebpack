@@ -330,9 +330,7 @@ function payment_crud() {
                 data = JSON.parse(data);
                 if (data.status) {
                     $("#addPaymentinfo").modal("hide");
-                    //addPaymentData(paymentBarChart, data.saved_data);
                     get_payment_detail(1);
-                    payment_pagination();
                     get_payment_summary();
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
@@ -385,45 +383,7 @@ function payment_crud() {
             myUtils.formatCurrency($(this), "blur");
         }
     });
-    //refresh page
-    $('#addPaymentinfo').on('hidden.bs.modal', function () {
-        //location.reload();
-    });
 
-}
-
-function addPaymentData(chart, data) {
-    chart.data.labels.push(data.pay_date);
-    chart.data.datasets.forEach(function (dataset) {
-        switch (dataset.id) {
-            case "pay_base":
-                dataset.data.push(data.pay_base);
-                break;
-            case "pay_shift":
-                dataset.data.push(data.pay_shift);
-                break;
-            case "pay_overtime_1_5":
-                dataset.data.push(data.pay_overtime_1_5);
-                break;
-            case "pay_overtime_2":
-                dataset.data.push(data.pay_overtime_2);
-                break;
-            case "pay_personal_leave":
-                dataset.data.push(data.pay_personal_leave);
-                break;
-            case "pay_holiday_pay":
-                dataset.data.push(data.pay_holiday_pay);
-                break;
-            case "pay_holiday_load":
-                dataset.data.push(data.pay_holiday_load);
-                break;
-            case "pay_withholding":
-                dataset.data.push(data.pay_withholding);
-                break;
-            default:
-        }
-    });
-    chart.update();
 }
 
 function get_payment_detail(page) {
