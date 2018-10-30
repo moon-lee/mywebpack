@@ -11,7 +11,8 @@ const chartColors = {
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
     grey: 'rgb(201, 203, 207)',
-    grey2: '#727272'
+    grey2: '#727272',
+    ramdon: '#28a745'
 };
 
 var plugin = {
@@ -63,14 +64,13 @@ var color = Chart.helpers.color;
 
 var payment_BarChartData = {
     labels: [],
-    datasets: [
-        {
+    datasets: [{
             label: "BASE",
             data: [],
             fill: 'origin',
             stack: "Stack 0",
             backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
-            id: "pay_base"
+            id: "pay_base",
         },
         {
             label: "SHIFT",
@@ -83,7 +83,7 @@ var payment_BarChartData = {
         {
             label: "OVERTIME(1.5)",
             data: [],
-            fill: 1,
+            //fill: 1,
             stack: "Stack 0",
             backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
             id: "pay_overtime_1_5"
@@ -127,62 +127,146 @@ var payment_BarChartData = {
             stack: "Stack 0",
             backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
             id: "pay_withholding"
-        },
-
+        }
     ]
 };
+
+var tooltips_callbacks = {
+    label: function (tooltipItem, data) {
+        var label = data.datasets[tooltipItem.datasetIndex].label;
+        var value = tooltipItem.yLabel;
+        if (value < 0) {
+            return label + " : -$" + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        } else if (value > 0) {
+            return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        }
+    },
+    footer: function (tooltipItems, data) {
+        var sum = 0;
+        tooltipItems.forEach(function (tooltipItem) {
+            if (tooltipItem.datasetIndex < 7) {
+                sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+            }
+        });
+        var dataString = "";
+        if (sum < 0) {
+            dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+        } else {
+            dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        }
+        return 'GROSS: ' + dataString;
+    },
+    afterFooter: function (tooltipItems, data) {
+        var sum = 0;
+        tooltipItems.forEach(function (tooltipItem) {
+            sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+        });
+        var dataString = "";
+        if (sum < 0) {
+            dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+        } else {
+            dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        }
+        return 'NET: ' + dataString;
+    },
+
+};
+
+var customTooltips = function (tooltip) {
+    // Tooltip Element
+    var tooltipEl = document.getElementById('chartjs-tooltip');
+    if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.id = 'chartjs-tooltip';
+        tooltipEl.innerHTML = '<table></table>';
+
+        this._chart.canvas.parentNode.appendChild(tooltipEl);
+    }
+    // Hide if no tooltip
+    if (tooltip.opacity === 0) {
+        tooltipEl.style.opacity = 0;
+        return;
+    }
+    // Set caret Position
+    tooltipEl.classList.remove('above', 'below', 'no-transform');
+    if (tooltip.yAlign) {
+        tooltipEl.classList.add(tooltip.yAlign);
+    } else {
+        tooltipEl.classList.add('no-transform');
+    }
+
+    function getBody(bodyItem) {
+        console.log(bodyItem);
+        return bodyItem.lines;
+    }
+    // Set Text
+    if (tooltip.body) {
+        var titleLines = tooltip.title || [];
+        console.log(tooltip.title);
+        var bodyLines = tooltip.body.map(getBody);
+        var innerHtml = '<thead>';
+        var sumGross = 0,
+            sumNet = 0;
+        titleLines.forEach(function (title) {
+            innerHtml += '<tr><th>' + title + '<button class="float-right">Delete data</button></th></tr>';
+        });
+        innerHtml += '</thead><tbody>';
+        bodyLines.forEach(function (body, i) {
+            var colors = tooltip.labelColors[i];
+            var style = 'background:' + colors.backgroundColor;
+            style += '; border-color:' + colors.borderColor;
+            style += '; border-width: 2px';
+            var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+            var formattedbody = myUtils.splitString(body.toString(), ":");
+            if (formattedbody !== undefined) {
+                innerHtml += '<tr><td>' + span + formattedbody + '</td></tr>';
+            }
+            sumNet += myUtils.getValue(body.toString(), ":");
+            if (i < 7) {
+                sumGross += myUtils.getValue(body.toString(), ":");
+            }
+        });
+
+        var footstyle = 'background:' + chartColors.ramdon;
+        footstyle += '; border-color:' + chartColors.ramdon;
+        footstyle += '; border-width: 2px';
+        var footerSpan = '<span class="chartjs-tooltip-key" style="' + footstyle + '"></span>';
+
+        innerHtml += '</tbody>';
+        innerHtml += '<tfoot>';
+        innerHtml += '<tr><td>' + footerSpan + 'Gross: ' + myUtils.formatString(sumGross) + '</td></tr>';
+        innerHtml += '<tr><td>' + footerSpan + 'Net: ' + myUtils.formatString(sumNet) + '</td></tr>';
+        innerHtml += '</tfoot>'
+
+        //console.log(innerHtml);
+
+        var tableRoot = tooltipEl.querySelector('table');
+        tableRoot.innerHTML = innerHtml;
+    }
+
+
+    var positionY = this._chart.canvas.offsetTop;
+    var positionX = this._chart.canvas.offsetLeft;
+    var shiftX = -100;
+    var shiftY = 100;
+    // Display, position, and set styles for font
+    tooltipEl.style.left = shiftX + positionX + tooltip.caretX + 'px';
+    tooltipEl.style.top = shiftY + positionY + tooltip.caretY + 'px';
+
+    tooltipEl.style.opacity = 1;
+    tooltipEl.style.fontFamily = tooltip._bodyFontFamily;
+    tooltipEl.style.fontSize = tooltip.bodyFontSize + 'px';
+    tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
+    tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+};
+
 var payment_BarChartOptions = {
     responsive: true,
     legend: {
         position: 'left',
         padding: 20,
-    },
-    tooltips: {
-        mode: 'index',
-        callbacks: {
-            label: function (tooltipItem, data) {
-                var label = data.datasets[tooltipItem.datasetIndex].label;
-                var value = tooltipItem.yLabel;
-                if (value < 0) {
-                    return label + " : -$" + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                } else if (value > 0) {
-                    return label + " : $" + value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                }
-            },
-            footer: function (tooltipItems, data) {
-                var sum = 0;
-                tooltipItems.forEach(function (tooltipItem) {
-                    if (tooltipItem.datasetIndex < 7) {
-                        sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-                    }
-                });
-                var dataString = "";
-                if (sum < 0) {
-                    dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-
-                } else {
-                    dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                }
-                return 'GROSS: ' + dataString;
-            },
-            afterFooter: function (tooltipItems, data) {
-                var sum = 0;
-                tooltipItems.forEach(function (tooltipItem) {
-                    sum += parseFloat(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-                });
-                var dataString = "";
-                if (sum < 0) {
-                    dataString = "-$" + parseFloat(sum).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-
-                } else {
-                    dataString = "$" + parseFloat(sum).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                }
-                return 'NET: ' + dataString;
-            },
-        },
-        footerFontStyle: 'normal',
-        backgroundColor: chartColors.grey2
-
     },
     hover: {
         mode: 'nearest',
@@ -217,7 +301,15 @@ var payment_BarChartOptions = {
                 }
             }
         }]
+    },
+    tooltips: {
+        mode: 'index',
+        // position: 'nearest',
+        // callbacks: tooltips_callbacks,
+        enabled: false,
+        custom: customTooltips,
     }
+
 };
 
 var payment_barctx = $('#paymentBarChart');
@@ -231,21 +323,19 @@ var paymentBarChart = new Chart(payment_barctx, {
 
 var payment_PieChartData = {
     labels: [],
-    datasets: [
-        {
-            data: [],
-            backgroundColor: [
-                color(chartColors.blue).alpha(0.5).rgbString(),
-                color(chartColors.orange).alpha(0.5).rgbString(),
-                color(chartColors.green).alpha(0.5).rgbString(),
-                color(chartColors.green).alpha(1.5).rgbString(),
-                color(chartColors.purple).alpha(0.5).rgbString(),
-                color(chartColors.yellow).alpha(1.5).rgbString(),
-                color(chartColors.yellow).alpha(0.5).rgbString(),
-                color(chartColors.red).alpha(0.5).rgbString()
-            ]
-        }
-    ]
+    datasets: [{
+        data: [],
+        backgroundColor: [
+            color(chartColors.blue).alpha(0.5).rgbString(),
+            color(chartColors.orange).alpha(0.5).rgbString(),
+            color(chartColors.green).alpha(0.5).rgbString(),
+            color(chartColors.green).alpha(1.5).rgbString(),
+            color(chartColors.purple).alpha(0.5).rgbString(),
+            color(chartColors.yellow).alpha(1.5).rgbString(),
+            color(chartColors.yellow).alpha(0.5).rgbString(),
+            color(chartColors.red).alpha(0.5).rgbString()
+        ]
+    }]
 };
 
 var payment_PieChartOptions = {
@@ -408,9 +498,17 @@ function get_payment_detail(page) {
 }
 
 function listPaymentData(chart, data) {
-    var pay_date = [], gross_pay = [], net_pay = [], withholding_pay = [];
-    var base_pay = [], overtime_1_5_pay = [], overtime_2_pay = [], shift_pay = [];
-    var personal_pay = [], holiday_pay = [], holiday_load_pay = [];
+    var pay_date = [],
+        gross_pay = [],
+        net_pay = [],
+        withholding_pay = [];
+    var base_pay = [],
+        overtime_1_5_pay = [],
+        overtime_2_pay = [],
+        shift_pay = [];
+    var personal_pay = [],
+        holiday_pay = [],
+        holiday_load_pay = [];
 
     for (var i = 0; i < data.length; i++) {
         pay_date.push(data[i].pay_date);
@@ -481,9 +579,8 @@ function listPaymentData(chart, data) {
                     dataset.data.push(element);
                 });
                 break;
-
             default:
-            // break;
+                // break;
         }
     });
 
@@ -521,7 +618,7 @@ function summaryPaymentData(chart, data) {
             var value = data[key][id];
             switch (id) {
                 case "sum_gross":
-                    $("#tbody_summary #sum_gross").text(function (){
+                    $("#tbody_summary #sum_gross").text(function () {
                         return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                     });
                     break;
@@ -547,7 +644,7 @@ function summaryPaymentData(chart, data) {
             }
         }
     };
-    
+
     chart.data.datasets.forEach(function (dataset) {
         dataset.data = [];
         summarydata.forEach(function (element) {
@@ -559,11 +656,11 @@ function summaryPaymentData(chart, data) {
 }
 
 function payment_pagination() {
-    $(document).on("click", ".pagination li a", function(event){
+    $(document).on("click", ".pagination li a", function (event) {
         event.preventDefault();
         var page = $(this).data("ci-pagination-page");
         get_payment_detail(page);
-    });    
+    });
 }
 
 

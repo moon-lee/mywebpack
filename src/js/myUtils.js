@@ -12,7 +12,9 @@ export function formatCurrency(input, blur) {
     var input_val = input.val();
 
     // don't validate empty input
-    if (input_val === "") { return; }
+    if (input_val === "") {
+        return;
+    }
 
     // original length
     var original_len = input_val.length;
@@ -69,3 +71,33 @@ export function formatCurrency(input, blur) {
     caret_pos = updated_len - original_len + caret_pos;
     input[0].setSelectionRange(caret_pos, caret_pos);
 }
+
+export function splitString(stringToSplit, separator) {
+    var idxFirst = stringToSplit.indexOf(separator);
+
+    var sublable = stringToSplit.substring(0, idxFirst).trim();
+    var subvalue = stringToSplit.substring(idxFirst + 1).trim();
+ 
+    if (parseFloat(subvalue) < 0) {
+        return sublable += " : -$" + parseFloat(subvalue).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    } else if (subvalue > 0) {
+        return sublable += " : $" + parseFloat(subvalue).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    }
+}
+
+export function formatString(str) {
+
+    if (parseFloat(str) < 0) {
+        return "-$" + parseFloat(str).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    } else if (str > 0) {
+        return "$" + parseFloat(str).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    }
+}
+
+export function getValue(stringToSplit, separator) {
+    var idxFirst = stringToSplit.indexOf(separator);
+    var subvalue = stringToSplit.substring(idxFirst + 1).trim();
+
+    return parseFloat(subvalue);
+}
+

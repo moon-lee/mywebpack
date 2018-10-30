@@ -9,6 +9,7 @@ import { faMoneyCheckAlt } from "@fortawesome/free-solid-svg-icons/faMoneyCheckA
 import { faGooglePlusSquare } from "@fortawesome/free-brands-svg-icons/faGooglePlusSquare";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons/faPlusSquare";
 import { faMinusSquare } from "@fortawesome/free-regular-svg-icons/faMinusSquare";
+import { faCog } from "@fortawesome/free-solid-svg-icons/faCog";
 import { faCogs } from "@fortawesome/free-solid-svg-icons/faCogs";
 import { faPalette } from "@fortawesome/free-solid-svg-icons/faPalette";
 import { faClipboard } from "@fortawesome/free-regular-svg-icons/faClipboard";
@@ -20,7 +21,7 @@ import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 
 export function init_fonts() {
     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
-    library.add(faPlusSquare, faMinusSquare, faCogs, faPalette);
+    library.add(faPlusSquare, faMinusSquare, faCog, faCogs, faPalette);
     library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlus, faClock);
     dom.i2svg();
 }

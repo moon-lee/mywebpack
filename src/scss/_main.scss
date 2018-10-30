@@ -294,10 +294,26 @@
     border-left-color: #3c8dbc;
 }
 
-
-
 .icon {
     width: 1em;
     height: 1em;
     vertical-align: -.125em;
+}
+
+#chartjs-tooltip {
+    opacity: 1;
+    position:absolute;
+    background: rgba(0, 0, 0, .5);
+    color: white;
+    border-radius: 3px;
+    transition: all .1s ease;
+    pointer-events: none;
+    transform: translate(-50%, 0);
+}
+
+.chartjs-tooltip-key {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
 }
