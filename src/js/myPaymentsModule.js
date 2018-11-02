@@ -484,22 +484,21 @@ function payment_crud() {
         $("#paymentContextMenu").removeClass("show").hide();
     });
 
+    $("body").on("click", function () {
+        $("#paymentContextMenu").removeClass("show").hide();
+    });
+
     payment_barctx.contextmenu(function (event) {
         event.preventDefault();
         var activePoints = paymentBarChart.getElementAtEvent(event);
-        console.table(activePoints);
         if (activePoints.length > 0) {
-            // var clickedDatasetIndex = activePoints[0]._datasetIndex;
-            // var clickedElementindex = activePoints[0]._index;
-            // var label = paymentBarChart.data.labels[clickedElementindex];
-            // var value = paymentBarChart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
-            // console.log("Clicked: " + label + " - " + value);
+            var clickedElementindex = activePoints[0]._index;
+            var label = paymentBarChart.data.labels[clickedElementindex];
 
             var chartTop = activePoints[0]._chart.canvas.offsetTop;
             var chartLeft = activePoints[0]._chart.canvas.offsetLeft;
             var contextTop = event.offsetY + chartTop;
             var contextLeft = event.offsetX + chartLeft;
-            // console.log("x(event):[" + event.offsetX + "],y:[" + event.offsetY + "]");
 
             $("#paymentContextMenu").css({
                 display: "block",
@@ -507,11 +506,14 @@ function payment_crud() {
                 left: contextLeft,
                 top: contextTop
             }).addClass("show");
+            $("#paymentContextMenu .dropdown-item").data("paymentDate", label);
         }
     });
 
     $("#paymentContextMenu a").on("click", function () {
         $(this).parent().removeClass("show").hide();
+        console.log($(this).text());
+        console.log($(this).data("paymentDate"));
     });
 
 }
