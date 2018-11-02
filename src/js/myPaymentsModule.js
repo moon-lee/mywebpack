@@ -198,19 +198,19 @@ var customTooltips = function (tooltip) {
     }
 
     function getBody(bodyItem) {
-        console.log(bodyItem);
+        //console.log(bodyItem);
         return bodyItem.lines;
     }
     // Set Text
     if (tooltip.body) {
         var titleLines = tooltip.title || [];
-        console.log(tooltip.title);
+        //console.log(tooltip.title);
         var bodyLines = tooltip.body.map(getBody);
         var innerHtml = '<thead>';
         var sumGross = 0,
             sumNet = 0;
         titleLines.forEach(function (title) {
-            innerHtml += '<tr><th>' + title + '<button class="float-right">Delete data</button></th></tr>';
+            innerHtml += '<tr><th>' + title + '</th></tr>';
         });
         innerHtml += '</thead><tbody>';
         bodyLines.forEach(function (body, i) {
@@ -249,11 +249,14 @@ var customTooltips = function (tooltip) {
 
     var positionY = this._chart.canvas.offsetTop;
     var positionX = this._chart.canvas.offsetLeft;
-    var shiftX = -100;
-    var shiftY = 100;
+    var shiftX = -80;
+    var shiftY = 80;
     // Display, position, and set styles for font
     tooltipEl.style.left = shiftX + positionX + tooltip.caretX + 'px';
     tooltipEl.style.top = shiftY + positionY + tooltip.caretY + 'px';
+
+    // console.log("canvas x:[" + positionX + "],y:[" + positionY + "]");
+    // console.log("x:[" + tooltip.caretX + "],y:[" + tooltip.caretY + "]");
 
     tooltipEl.style.opacity = 1;
     tooltipEl.style.fontFamily = tooltip._bodyFontFamily;
@@ -304,7 +307,7 @@ var payment_BarChartOptions = {
     },
     tooltips: {
         mode: 'index',
-        // position: 'nearest',
+        position: 'average',
         // callbacks: tooltips_callbacks,
         enabled: false,
         custom: customTooltips,
@@ -319,6 +322,8 @@ var paymentBarChart = new Chart(payment_barctx, {
     data: payment_BarChartData,
     options: payment_BarChartOptions
 });
+
+
 
 
 var payment_PieChartData = {
@@ -472,6 +477,41 @@ function payment_crud() {
         blur: function () {
             myUtils.formatCurrency($(this), "blur");
         }
+    });
+
+    payment_barctx.on("click", function (event) {
+        event.preventDefault();
+        $("#paymentContextMenu").removeClass("show").hide();
+    });
+
+    payment_barctx.contextmenu(function (event) {
+        event.preventDefault();
+        var activePoints = paymentBarChart.getElementAtEvent(event);
+        console.table(activePoints);
+        if (activePoints.length > 0) {
+            // var clickedDatasetIndex = activePoints[0]._datasetIndex;
+            // var clickedElementindex = activePoints[0]._index;
+            // var label = paymentBarChart.data.labels[clickedElementindex];
+            // var value = paymentBarChart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+            // console.log("Clicked: " + label + " - " + value);
+
+            var chartTop = activePoints[0]._chart.canvas.offsetTop;
+            var chartLeft = activePoints[0]._chart.canvas.offsetLeft;
+            var contextTop = event.offsetY + chartTop;
+            var contextLeft = event.offsetX + chartLeft;
+            // console.log("x(event):[" + event.offsetX + "],y:[" + event.offsetY + "]");
+
+            $("#paymentContextMenu").css({
+                display: "block",
+                position: "absolute",
+                left: contextLeft,
+                top: contextTop
+            }).addClass("show");
+        }
+    });
+
+    $("#paymentContextMenu a").on("click", function () {
+        $(this).parent().removeClass("show").hide();
     });
 
 }
