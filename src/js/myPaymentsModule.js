@@ -31,7 +31,11 @@ var plugin = {
 
         chart.data.datasets.forEach(function (dataset, i) {
             var meta = chart.getDatasetMeta(i);
-            if (!meta.hidden) {
+
+            // console.log(meta);
+            // console.log(i);
+
+            if (!chart.data.datasets[i].hidden) {
                 meta.data.forEach(function (element, index) {
                     var dataString = dataset.data[index];
                     var datavalue = parseFloat(dataString);
@@ -127,6 +131,13 @@ var payment_BarChartData = {
             stack: "Stack 0",
             backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
             id: "pay_withholding"
+        },
+        {
+            label: "ID",
+            data: [],
+            stack: "Stack 0",
+            hidden: true,
+            id: "pay_id"
         }
     ]
 };
@@ -229,18 +240,16 @@ var customTooltips = function (tooltip) {
             }
         });
 
-        var footstyle = 'background:' + chartColors.ramdon;
-        footstyle += '; border-color:' + chartColors.ramdon;
+        var footstyle = 'background:' + color(chartColors.purple).alpha(0.5).rgbString();
+        footstyle += '; border-color:' + color(chartColors.purple).alpha(0.5).rgbString();
         footstyle += '; border-width: 2px';
         var footerSpan = '<span class="chartjs-tooltip-key" style="' + footstyle + '"></span>';
 
         innerHtml += '</tbody>';
         innerHtml += '<tfoot>';
-        innerHtml += '<tr><td>' + footerSpan + 'Gross: ' + myUtils.formatString(sumGross) + '</td></tr>';
-        innerHtml += '<tr><td>' + footerSpan + 'Net: ' + myUtils.formatString(sumNet) + '</td></tr>';
+        innerHtml += '<tr><td>' + footerSpan + 'GROSS: ' + myUtils.formatString(sumGross) + '</td></tr>';
+        innerHtml += '<tr><td>' + footerSpan + 'NET: ' + myUtils.formatString(sumNet) + '</td></tr>';
         innerHtml += '</tfoot>'
-
-        //console.log(innerHtml);
 
         var tableRoot = tooltipEl.querySelector('table');
         tableRoot.innerHTML = innerHtml;
@@ -270,6 +279,12 @@ var payment_BarChartOptions = {
     legend: {
         position: 'left',
         padding: 20,
+        labels: {
+            filter: function (legendItem, data) {
+                // console.log(legendItem);
+                return legendItem.text != "ID";
+            }
+        }
     },
     hover: {
         mode: 'nearest',
@@ -312,7 +327,6 @@ var payment_BarChartOptions = {
         enabled: false,
         custom: customTooltips,
     }
-
 };
 
 var payment_barctx = $('#paymentBarChart');
@@ -490,10 +504,15 @@ function payment_crud() {
 
     payment_barctx.contextmenu(function (event) {
         event.preventDefault();
-        var activePoints = paymentBarChart.getElementAtEvent(event);
+
+        var activePoints = paymentBarChart.getElementsAtEvent(event);
         if (activePoints.length > 0) {
+
             var clickedElementindex = activePoints[0]._index;
             var label = paymentBarChart.data.labels[clickedElementindex];
+            var meta = paymentBarChart.getDatasetMeta(8);
+            var value = meta.controller._data[activePoints[0]._index]
+            // console.log("Clicked: " + label + " - " + value);
 
             var chartTop = activePoints[0]._chart.canvas.offsetTop;
             var chartLeft = activePoints[0]._chart.canvas.offsetLeft;
@@ -506,16 +525,63 @@ function payment_crud() {
                 left: contextLeft,
                 top: contextTop
             }).addClass("show");
-            $("#paymentContextMenu .dropdown-item").data("paymentDate", label);
+            $("#paymentContextMenu .dropdown-item").data("paymentDetailKey", {
+                payDate: label,
+                payId: value
+            });
         }
     });
 
     $("#paymentContextMenu a").on("click", function () {
         $(this).parent().removeClass("show").hide();
-        console.log($(this).text());
-        console.log($(this).data("paymentDate"));
+
+        var selectOpt = $(this).text();
+        var selectedId = $(this).data("paymentDetailKey").payId;
+        var selectedDate = $(this).data("paymentDetailKey").payDate;
+
+
+        switch (selectOpt) {
+            case "Update":
+                // console.log(selectOpt);
+                break;
+            case "Delete":
+                // console.log(selectOpt);
+                delete_payment_detail(selectedId, selectedDate);
+                break;
+            default:
+                // break;
+        }
+
     });
 
+}
+
+function delete_payment_detail(payment_id, payment_date) {
+
+    console.log("selecte id :" + payment_id + ", selecte date :" + payment_date);
+
+    if (confirm("Are you sure you wish to delete this detail?")) {
+        $.ajax({
+            url: "payments/delete_payment_detail/",
+            type: "POST",
+            datatype: "JSON",
+            data: {
+                id: payment_id,
+                pay_date: payment_date,
+                pay_status: 99
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                //get_task_detail(1);
+            },
+            error: function (xhr, status, errorThrown) {
+                alert("Sorry, there was a problem!");
+                console.log("Error: " + errorThrown);
+                console.log("Status: " + status);
+                console.dir(xhr);
+            }
+        });
+    }
 }
 
 function get_payment_detail(page) {
@@ -552,6 +618,8 @@ function listPaymentData(chart, data) {
         holiday_pay = [],
         holiday_load_pay = [];
 
+    var pay_id = [];
+
     for (var i = 0; i < data.length; i++) {
         pay_date.push(data[i].pay_date);
         gross_pay.push(data[i].pay_gross);
@@ -564,6 +632,8 @@ function listPaymentData(chart, data) {
         personal_pay.push(data[i].pay_personal_leave);
         holiday_pay.push(data[i].pay_holiday_pay);
         holiday_load_pay.push(data[i].pay_holiday_load);
+
+        pay_id.push(data[i].id);
     }
 
     chart.data.labels = [];
@@ -618,6 +688,13 @@ function listPaymentData(chart, data) {
             case "pay_withholding":
                 dataset.data = [];
                 withholding_pay.forEach(function (element) {
+                    dataset.data.push(element);
+                });
+                break;
+
+            case "pay_id":
+                dataset.data = [];
+                pay_id.forEach(function (element) {
                     dataset.data.push(element);
                 });
                 break;
