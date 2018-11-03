@@ -558,7 +558,7 @@ function payment_crud() {
 
 function delete_payment_detail(payment_id, payment_date) {
 
-    console.log("selecte id :" + payment_id + ", selecte date :" + payment_date);
+    //console.log("selecte id :" + payment_id + ", selecte date :" + payment_date);
 
     if (confirm("Are you sure you wish to delete this detail?")) {
         $.ajax({
@@ -572,7 +572,8 @@ function delete_payment_detail(payment_id, payment_date) {
             },
             success: function (data) {
                 data = JSON.parse(data);
-                //get_task_detail(1);
+                get_payment_detail(1);
+                get_payment_summary();
             },
             error: function (xhr, status, errorThrown) {
                 alert("Sorry, there was a problem!");
