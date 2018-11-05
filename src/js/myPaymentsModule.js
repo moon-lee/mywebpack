@@ -747,6 +747,13 @@ function summaryPaymentData(chart, data) {
                         return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                     });
                     break;
+                case "sum_withholding":
+                    $("#tbody_summary #sum_withholding").text(function () {
+                        return "-$" + parseFloat(value).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    chart.data.labels.push(id);
+                    summarydata.push(value);
+                    break;
                 case "sum_super":
                     $("#tbody_summary #sum_super").text(function () {
                         return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
@@ -754,7 +761,27 @@ function summaryPaymentData(chart, data) {
                     break;
                 case "sum_holiday_leave":
                     $("#tbody_summary #sum_holiday_leave").text(function () {
-                        return value + "[hours]";
+                        return value;
+                    });
+                    break;
+                case "est_gross":
+                    $("#tbody_summary #est_gross").text(function () {
+                        return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    break;
+                case "est_net":
+                    $("#tbody_summary #est_net").text(function () {
+                        return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    break;
+                case "est_withholding":
+                    $("#tbody_summary #est_withholding").text(function () {
+                        return "-$" + parseFloat(value).toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    });
+                    break;
+                case "est_super":
+                    $("#tbody_summary #est_super").text(function () {
+                        return "$" + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                     });
                     break;
                 default:
@@ -764,6 +791,9 @@ function summaryPaymentData(chart, data) {
             }
         }
     };
+
+    console.log(chart.data.labels);
+    console.log(summarydata);
 
     chart.data.datasets.forEach(function (dataset) {
         dataset.data = [];
