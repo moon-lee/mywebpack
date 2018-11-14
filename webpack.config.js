@@ -15,6 +15,7 @@ module.exports = {
         myCommon: ["./src/js/myCommonModule.js", "./src/scss/mycss.scss"],
         myDashboard: "./src/js/myDashboardModule.js",
         myPayments: "./src/js/myPaymentsModule.js",
+        mySpendings: "./src/js/mySpendingsModule.js",
         vendorCalendar: "./src/js/myFullcalendar.js"
         //vendorFlatpickr: "./src/js/myFlatpickr.js"
     },
@@ -142,12 +143,12 @@ module.exports = {
         ],
         splitChunks: {
             cacheGroups: {
-/*                 "bundles-web": {
-                    name: 'bundles.web',
-                    test: /[\\/]node_modules[\\/](jquery|bootstrap|popper.js)[\\/]/,
-                    chunks: "all",
-                    priority: 2
-                }, */
+                // "bundles-utils": {
+                //     name: 'bundles.utils',
+                //     test: /.[\\/]src[\\/]js[\\/]myUtils.js/,
+                //     chunks: "all",
+                //     priority: 2
+                // }, 
                 "bundles-flatpickr": {
                     name: 'bundles.flatpickr',
                     test: /[\\/]node_modules[\\/]flatpickr[\\/]/,
