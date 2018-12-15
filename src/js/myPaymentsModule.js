@@ -337,9 +337,6 @@ var paymentBarChart = new Chart(payment_barctx, {
     options: payment_BarChartOptions
 });
 
-
-
-
 var payment_PieChartData = {
     labels: [],
     datasets: [{
