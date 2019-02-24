@@ -452,7 +452,7 @@ function payment_crud() {
                 }
             },
             error: function (xhr, status, errorThrown) {
-                alert("Sorry, there was a problem!");
+                alert("Sorry, there was a problem to add payment data");
                 console.log("Error: " + errorThrown);
                 console.log("Status: " + status);
                 console.dir(xhr);
@@ -573,7 +573,7 @@ function delete_payment_detail(payment_id, payment_date) {
                 get_payment_summary();
             },
             error: function (xhr, status, errorThrown) {
-                alert("Sorry, there was a problem!");
+                alert("Sorry, there was a problem to delete payment detail");
                 console.log("Error: " + errorThrown);
                 console.log("Status: " + status);
                 console.dir(xhr);
@@ -594,7 +594,7 @@ function get_payment_detail(page) {
             listPaymentData(paymentBarChart, data.payment_details);
         },
         error: function (xhr, status, errorThrown) {
-            alert("Sorry, there was a problem!");
+            alert("Sorry, there was a problem to get payment details");
             console.log("Error: " + errorThrown);
             console.log("Status: " + status);
             console.dir(xhr);
@@ -715,7 +715,7 @@ function get_payment_summary() {
             summaryPaymentData(paymentPieChart, data);
         },
         error: function (xhr, status, errorThrown) {
-            alert("Sorry, there was a problem!");
+            alert("Sorry, there was a problem to get payment summary");
             console.log("Error: " + errorThrown);
             console.log("Status: " + status);
             console.dir(xhr);
