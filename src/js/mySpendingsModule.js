@@ -64,20 +64,6 @@ function spending_crud() {
         $(this).next("invalid-tooltip").empty();
     });
 
-    // $("#grossPay").on("keyup", function () {
-    //     var gross = $(this).val().replace(/,/g, "");
-    //     var net = $("#netPay").val().replace(/,/g, "");
-    //     var payg = -(parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2));
-    //     myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
-    // })
-
-    // $("#netPay").on("keyup", function () {
-    //     var gross = $("#grossPay").val().replace(/,/g, "");
-    //     var net = $(this).val().replace(/,/g, "");
-    //     var payg = -(parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2));
-    //     myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
-    // })
-
     //format currency
     $("input[data-format-type='currency']").on({
         keyup: function () {
@@ -88,66 +74,6 @@ function spending_crud() {
         }
     });
 
-    // payment_barctx.on("click", function (event) {
-    //     event.preventDefault();
-    //     $("#paymentContextMenu").removeClass("show").hide();
-    // });
-
-    // $("body").on("click", function () {
-    //     $("#paymentContextMenu").removeClass("show").hide();
-    // });
-
-    // payment_barctx.contextmenu(function (event) {
-    //     event.preventDefault();
-
-    //     var activePoints = paymentBarChart.getElementsAtEvent(event);
-    //     if (activePoints.length > 0) {
-
-    //         var clickedElementindex = activePoints[0]._index;
-    //         var label = paymentBarChart.data.labels[clickedElementindex];
-    //         var meta = paymentBarChart.getDatasetMeta(8);
-    //         var value = meta.controller._data[activePoints[0]._index]
-    //         // console.log("Clicked: " + label + " - " + value);
-
-    //         var chartTop = activePoints[0]._chart.canvas.offsetTop;
-    //         var chartLeft = activePoints[0]._chart.canvas.offsetLeft;
-    //         var contextTop = event.offsetY + chartTop;
-    //         var contextLeft = event.offsetX + chartLeft;
-
-    //         $("#paymentContextMenu").css({
-    //             display: "block",
-    //             position: "absolute",
-    //             left: contextLeft,
-    //             top: contextTop
-    //         }).addClass("show");
-    //         $("#paymentContextMenu .dropdown-item").data("paymentDetailKey", {
-    //             payDate: label,
-    //             payId: value
-    //         });
-    //     }
-    // });
-
-    // $("#paymentContextMenu a").on("click", function () {
-    //     $(this).parent().removeClass("show").hide();
-
-    //     var selectOpt = $(this).text();
-    //     var selectedId = $(this).data("paymentDetailKey").payId;
-    //     var selectedDate = $(this).data("paymentDetailKey").payDate;
-
-
-    //     switch (selectOpt) {
-    //         case "Update":
-    //             // console.log(selectOpt);
-    //             break;
-    //         case "Delete":
-    //             // console.log(selectOpt);
-    //             delete_payment_detail(selectedId, selectedDate);
-    //             break;
-    //         default:
-    //             // break;
-    //     }
-
-    // });
 
 }
 
