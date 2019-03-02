@@ -707,7 +707,7 @@ function listPaymentData(chart, data) {
 function get_payment_summary() {
 
     $.ajax({
-        url: "/wom/payments/summary_paydata",
+        url: "payments/summary_paydata",
         type: "POST",
         datatype: "JSON",
         success: function (data) {

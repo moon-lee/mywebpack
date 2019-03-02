@@ -74,7 +74,31 @@ function spending_crud() {
         }
     });
 
-
+    // Dynamic select options 
+    $("#mainCategory").change(function (event) {
+        var mCategory = $(this).val();
+        console.log(mCategory);
+        if (mCategory != '') {
+            $.ajax({
+                url: "spendings/get_subcategory",
+                type: "POST",
+                datatype: "JSON",
+                data: {mcategory_code : mCategory },
+                success: function (data) {
+                    $("#subCategory").html(data);
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem to get sub category");
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + status);
+                    console.dir(xhr);
+                }
+            });
+        } else {
+            $("#subCategory").html('<option value="">-- Select Main Category first --</option>');
+        }
+    
+    });
 }
 
 $(document).ready(function () {
