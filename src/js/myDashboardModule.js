@@ -1,25 +1,16 @@
-import flatpickr from "flatpickr";
-
-var fp_task = $("#taskDueDate").flatpickr({
-    //defaultDate: "today",
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    weekNumbers: true,
-    onChange: function (selectedDates, dateStr, instance) {
-        $("#taskDueDate").next().removeClass("is-invalid");
-        $("#taskDueDate").next().next().empty();
-    }
-});
+import * as myFlatPicker from "./myFlatPicker";
 
 function tasklist_crud() {
+    // init flatpicker
+    myFlatPicker.init_flatpicker($("#taskDueDate"));
+  
+    // Open Modal
     $("#addTaskList").click(function (event) {
         $("#form_task").find("input").removeClass("is-invalid");
         $("#form_task").find("input invalid-tooltip").empty();
         $("#form_task").find("select").removeClass("is-invalid");
         $("#form_task").find("select").next().empty();
         $("#form_task").find("select").val("0");
-        fp_task.clear();
         $("#taskItem").val("");
         $("#taskItemLength").text("[" + $("#taskItem").val().length + "/" + $("#taskItem").attr('maxlength') + "]");
 

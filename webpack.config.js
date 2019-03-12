@@ -17,7 +17,6 @@ module.exports = {
         myPayments: "./src/js/myPaymentsModule.js",
         mySpendings: "./src/js/mySpendingsModule.js",
         vendorCalendar: "./src/js/myFullcalendar.js"
-        //vendorFlatpickr: "./src/js/myFlatpickr.js"
     },
 
     output: {
@@ -74,6 +73,10 @@ module.exports = {
                 },
                 {
                     from: "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+                    to: "../js/"
+                },
+                {
+                    from: "./node_modules/flatpickr/dist/flatpickr.min.js",
                     to: "../js/"
                 }
             ],
@@ -149,12 +152,12 @@ module.exports = {
                 //     chunks: "all",
                 //     priority: 2
                 // }, 
-                "bundles-flatpickr": {
-                    name: 'bundles.flatpickr',
-                    test: /[\\/]node_modules[\\/]flatpickr[\\/]/,
-                    chunks: "all",
-                    priority: 2
-                }, 
+                // "bundles-flatpickr": {
+                //     name: 'bundles.flatpickr',
+                //     test: /[\\/]node_modules[\\/]flatpickr[\\/]/,
+                //     chunks: "all",
+                //     priority: 2
+                // }, 
                 "bundles-moment": {
                     name: 'bundles.moment',
                     test: /[\\/]node_modules[\\/]moment[\\/]/,

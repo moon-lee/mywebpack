@@ -1,6 +1,6 @@
-import * as myUtils from "./myUtils";
 import Chart from "chart.js";
-import flatpickr from "flatpickr";
+import * as myUtils from "./myUtils";
+import * as myFlatPicker from "./myFlatPicker";
 
 
 const chartColors = {
@@ -391,19 +391,10 @@ var paymentPieChart = new Chart(payment_piectx, {
     options: payment_PieChartOptions
 });
 
-var fp_task = $("#paymentDate").flatpickr({
-    defaultDate: "today",
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    weekNumbers: true,
-    onChange: function (selectedDates, dateStr, instance) {
-        $("#paymentDate").next().removeClass("is-invalid");
-        $("#paymentDate").next().next().empty();
-    }
-});
-
 function payment_crud() {
+    // init flatpicker
+    myFlatPicker.init_flatpicker($("#paymentDate"));
+
     // Open Modal
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
@@ -420,7 +411,6 @@ function payment_crud() {
         $("#holidayLoad").val("");
         $("#holidayHours").val("");
         $("#superAnnuation").val("");
-        fp_task.clear();
         $("#addPaymentinfo").modal("show");
     });
 

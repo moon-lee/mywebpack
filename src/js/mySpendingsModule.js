@@ -1,24 +1,14 @@
 import * as myUtils from "./myUtils";
-import flatpickr from "flatpickr";
-
-var fp_spendingDate = $("#spendingDate").flatpickr({
-    defaultDate: "today",
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    weekNumbers: true,
-    onChange: function (selectedDates, dateStr, instance) {
-        $("#spendingDate").next().removeClass("is-invalid");
-        $("#spendingDate").next().next().empty();
-    }
-});
+import * as myFlatPicker from "./myFlatPicker";
 
 function spending_crud() {
+    // init flatpicker
+    myFlatPicker.init_flatpicker($("#spendingDate"));
+
     // Open Modal
     $("#addSpending").click(function (event) {
         $("#form_spending").find("input").removeClass("is-invalid");
         $("#form_spending").find("input invalid-tooltip").empty();
-        fp_spendingDate.clear();
         $("#addSpendinginfo").modal("show");
     });
 
