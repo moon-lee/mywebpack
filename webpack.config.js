@@ -74,10 +74,10 @@ module.exports = {
                 {
                     from: "./node_modules/bootstrap/dist/js/bootstrap.min.js",
                     to: "../js/"
-                },
-                {
-                    from: "./node_modules/flatpickr/dist/flatpickr.min.js",
-                    to: "../js/"
+                // },
+                // {
+                //     from: "./node_modules/flatpickr/dist/flatpickr.min.js",
+                //     to: "../js/"
                 }
             ],
             {
@@ -146,18 +146,18 @@ module.exports = {
         ],
         splitChunks: {
             cacheGroups: {
-                // "bundles-utils": {
-                //     name: 'bundles.utils',
-                //     test: /.[\\/]src[\\/]js[\\/]myUtils.js/,
-                //     chunks: "all",
-                //     priority: 2
-                // }, 
-                // "bundles-flatpickr": {
-                //     name: 'bundles.flatpickr',
-                //     test: /[\\/]node_modules[\\/]flatpickr[\\/]/,
-                //     chunks: "all",
-                //     priority: 2
-                // }, 
+                "bundles-datatable": {
+                    name: 'bundles.datatable',
+                    test: /[\\/]node_modules[\\/](datatables.net|datatables.net-bs4)[\\/]/,
+                    chunks: "all",
+                    priority: 2
+                }, 
+                "bundles-flatpickr": {
+                    name: 'bundles.flatpickr',
+                    test: /[\\/]node_modules[\\/]flatpickr[\\/]/,
+                    chunks: "all",
+                    priority: 2
+                }, 
                 "bundles-moment": {
                     name: 'bundles.moment',
                     test: /[\\/]node_modules[\\/]moment[\\/]/,

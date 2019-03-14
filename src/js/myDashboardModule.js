@@ -1,4 +1,4 @@
-import { init_flatpicker } from "./myWebExtensions";
+import { init_flatpicker } from "./myWebext_Flatpickr";
 
 function tasklist_crud() {
     // Open Modal

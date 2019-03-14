@@ -1,5 +1,6 @@
 import * as myUtils from "./myUtils";
-import { init_flatpicker, ini } from "./myWebExtensions";
+import { init_flatpicker } from "./myWebext_Flatpickr";
+import { init_datatables } from "./myWebext_datatables";
 
 function spending_crud() {
     // Open Modal

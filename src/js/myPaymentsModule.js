@@ -1,6 +1,6 @@
 import Chart from "chart.js";
 import * as myUtils from "./myUtils";
-import { init_flatpicker } from "./myWebExtensions";
+import { init_flatpicker } from "./myWebext_Flatpickr";
 
 
 const chartColors = {

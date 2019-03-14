@@ -1,4 +1,4 @@
-import * as dt from "datatables.net";
+import * as fp from "flatpickr";
 
 export function init_flatpicker(obj) {
     return obj.flatpickr({
@@ -12,8 +12,4 @@ export function init_flatpicker(obj) {
             $("#obj").next().next().empty();
         }
     });
-}
-
-export function init_datatables(obj) {
-    return obj.DataTable();
 }
