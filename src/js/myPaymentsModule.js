@@ -1,6 +1,6 @@
 import Chart from "chart.js";
 import * as myUtils from "./myUtils";
-import * as myFlatPicker from "./myFlatPicker";
+import { init_flatpicker } from "./myWebExtensions";
 
 
 const chartColors = {
@@ -69,76 +69,76 @@ var color = Chart.helpers.color;
 var payment_BarChartData = {
     labels: [],
     datasets: [{
-            label: "BASE",
-            data: [],
-            fill: 'origin',
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
-            id: "pay_base",
-        },
-        {
-            label: "SHIFT",
-            data: [],
-            fill: '-1',
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
-            id: "pay_shift"
-        },
-        {
-            label: "OVERTIME(1.5)",
-            data: [],
-            //fill: 1,
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
-            id: "pay_overtime_1_5"
-        },
-        {
-            label: "OVERTIME(2)",
-            data: [],
-            fill: 1,
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.green).alpha(1.5).rgbString(),
-            id: "pay_overtime_2"
-        },
-        {
-            label: "PERSONAL LEAVE",
-            data: [],
-            fill: 1,
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.purple).alpha(0.5).rgbString(),
-            id: "pay_personal_leave"
-        },
-        {
-            label: "HOLIDAY PAY",
-            data: [],
-            fill: 1,
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.yellow).alpha(1.5).rgbString(),
-            id: "pay_holiday_pay"
-        },
-        {
-            label: "HOLIDAY LOAD",
-            data: [],
-            fill: 1,
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
-            id: "pay_holiday_load"
-        },
-        {
-            label: "WITHHOLDING (PAYG)",
-            data: [],
-            fill: 1,
-            stack: "Stack 0",
-            backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
-            id: "pay_withholding"
-        },
-        {
-            label: "ID",
-            data: [],
-            stack: "Stack 0",
-            hidden: true,
-            id: "pay_id"
-        }
+        label: "BASE",
+        data: [],
+        fill: 'origin',
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
+        id: "pay_base",
+    },
+    {
+        label: "SHIFT",
+        data: [],
+        fill: '-1',
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
+        id: "pay_shift"
+    },
+    {
+        label: "OVERTIME(1.5)",
+        data: [],
+        //fill: 1,
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
+        id: "pay_overtime_1_5"
+    },
+    {
+        label: "OVERTIME(2)",
+        data: [],
+        fill: 1,
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.green).alpha(1.5).rgbString(),
+        id: "pay_overtime_2"
+    },
+    {
+        label: "PERSONAL LEAVE",
+        data: [],
+        fill: 1,
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.purple).alpha(0.5).rgbString(),
+        id: "pay_personal_leave"
+    },
+    {
+        label: "HOLIDAY PAY",
+        data: [],
+        fill: 1,
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.yellow).alpha(1.5).rgbString(),
+        id: "pay_holiday_pay"
+    },
+    {
+        label: "HOLIDAY LOAD",
+        data: [],
+        fill: 1,
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
+        id: "pay_holiday_load"
+    },
+    {
+        label: "WITHHOLDING (PAYG)",
+        data: [],
+        fill: 1,
+        stack: "Stack 0",
+        backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
+        id: "pay_withholding"
+    },
+    {
+        label: "ID",
+        data: [],
+        stack: "Stack 0",
+        hidden: true,
+        id: "pay_id"
+    }
     ]
 };
 
@@ -392,9 +392,6 @@ var paymentPieChart = new Chart(payment_piectx, {
 });
 
 function payment_crud() {
-    // init flatpicker
-    myFlatPicker.init_flatpicker($("#paymentDate"));
-
     // Open Modal
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
@@ -536,7 +533,7 @@ function payment_crud() {
                 delete_payment_detail(selectedId, selectedDate);
                 break;
             default:
-                // break;
+            // break;
         }
 
     });
@@ -687,7 +684,7 @@ function listPaymentData(chart, data) {
                 });
                 break;
             default:
-                // break;
+            // break;
         }
     });
 
@@ -779,8 +776,8 @@ function summaryPaymentData(chart, data) {
         }
     };
 
-    console.log(chart.data.labels);
-    console.log(summarydata);
+    // console.log(chart.data.labels);
+    // console.log(summarydata);
 
     chart.data.datasets.forEach(function (dataset) {
         dataset.data = [];
@@ -800,10 +797,9 @@ function payment_pagination() {
     });
 }
 
-
-
 $(document).ready(function () {
     //call function
+    init_flatpicker($("#paymentDate"));
     payment_crud();
     get_payment_detail(1);
     payment_pagination();

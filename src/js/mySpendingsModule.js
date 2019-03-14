@@ -1,10 +1,7 @@
 import * as myUtils from "./myUtils";
-import * as myFlatPicker from "./myFlatPicker";
+import { init_flatpicker, ini } from "./myWebExtensions";
 
 function spending_crud() {
-    // init flatpicker
-    myFlatPicker.init_flatpicker($("#spendingDate"));
-
     // Open Modal
     $("#addSpending").click(function (event) {
         $("#form_spending").find("input").removeClass("is-invalid");
@@ -93,5 +90,6 @@ function spending_crud() {
 
 $(document).ready(function () {
     //call function
+    init_flatpicker($("#spendingDate"));
     spending_crud();
 });

@@ -1,9 +1,6 @@
-import * as myFlatPicker from "./myFlatPicker";
+import { init_flatpicker } from "./myWebExtensions";
 
 function tasklist_crud() {
-    // init flatpicker
-    myFlatPicker.init_flatpicker($("#taskDueDate"));
-  
     // Open Modal
     $("#addTaskList").click(function (event) {
         $("#form_task").find("input").removeClass("is-invalid");
@@ -168,6 +165,7 @@ function get_task_detail(page) {
 
 $(document).ready(function () {
     //call function
+    init_flatpicker($("#taskDueDate"));
     tasklist_crud();
     get_task_detail(1);
 });
