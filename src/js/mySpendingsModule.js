@@ -83,7 +83,7 @@ function spending_crud() {
                 }
             });
         } else {
-            $("#subCategory").html('<option value="">-- Select Main Category first --</option>');
+            $("#subCategory").html('<option value="">Select Main Category first</option>');
         }
     
     });
@@ -92,5 +92,6 @@ function spending_crud() {
 $(document).ready(function () {
     //call function
     init_flatpicker($("#spendingDate"));
+    init_datatables($("#tb-spending"));
     spending_crud();
 });

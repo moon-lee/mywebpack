@@ -64,6 +64,10 @@ module.exports = {
                     to: "../css/"
                 },
                 {
+                    from: "./node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+                    to: "../css/"
+                },
+                {
                     from: "./node_modules/jquery/dist/jquery.min.js",
                     to: "../js/"
                 },
