@@ -2,11 +2,24 @@ import * as myUtils from "./myUtils";
 import { init_flatpicker } from "./myWebext_Flatpickr";
 import { init_datatables } from "./myWebext_datatables";
 
+var fp;
+
 function spending_crud() {
     // Open Modal
     $("#addSpending").click(function (event) {
         $("#form_spending").find("input").removeClass("is-invalid");
         $("#form_spending").find("input invalid-tooltip").empty();
+
+        fp.setDate(new Date());
+        $("#spendingAmount").val("");
+
+        $("#accountType").val("");
+        $("#mainCategory").val("");
+        $("#subCategory").val("");
+
+        $("#spendingTax").prop("checked",false);
+        $("#spendingDesc").val("");
+
         $("#addSpendinginfo").modal("show");
     });
 
@@ -91,7 +104,7 @@ function spending_crud() {
 
 $(document).ready(function () {
     //call function
-    init_flatpicker($("#spendingDate"));
+    fp = init_flatpicker($("#spendingDate"));
     init_datatables($("#tb-spending"));
     spending_crud();
 });
