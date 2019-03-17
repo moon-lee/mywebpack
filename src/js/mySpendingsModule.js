@@ -9,16 +9,10 @@ function spending_crud() {
     $("#addSpending").click(function (event) {
         $("#form_spending").find("input").removeClass("is-invalid");
         $("#form_spending").find("input invalid-tooltip").empty();
-
+        $("#form_spending").find("input[type=text]").val("");
+        $("#form_spending").find("select").val("");
+        $("#form_spending").find("input[type=checkbox]").prop("checked",false);        
         fp.setDate(new Date());
-        $("#spendingAmount").val("");
-
-        $("#accountType").val("");
-        $("#mainCategory").val("");
-        $("#subCategory").val("");
-
-        $("#spendingTax").prop("checked",false);
-        $("#spendingDesc").val("");
 
         $("#addSpendinginfo").modal("show");
     });

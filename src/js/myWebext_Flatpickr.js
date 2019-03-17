@@ -10,10 +10,6 @@ export function init_flatpicker(obj) {
         onChange: function (selectedDates, dateStr, instance) {
             $("#obj").next().removeClass("is-invalid");
             $("#obj").next().next().empty();
-            console.log(dateStr);
-        },
-        onOpen: function (selectedDates, dateStr, instance) {
-            console.log(dateStr);
         }
     });
 }

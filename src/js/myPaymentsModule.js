@@ -391,23 +391,15 @@ var paymentPieChart = new Chart(payment_piectx, {
     options: payment_PieChartOptions
 });
 
+var fp;
+
 function payment_crud() {
     // Open Modal
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
         $("#form_payment").find("input invalid-tooltip").empty();
-        $("#grossPay").val("");
-        $("#netPay").val("");
-        $("#withHolding").val("");
-        $("#overTime_15").val("");
-        $("#shiftAllow").val("");
-        $("#baseHour").val("");
-        $("#overTime_2").val("");
-        $("#personalLeave").val("");
-        $("#holidayPay").val("");
-        $("#holidayLoad").val("");
-        $("#holidayHours").val("");
-        $("#superAnnuation").val("");
+        $("#form_payment").find("input[type=text]").val("");
+        fp.setDate(new Date());
         $("#addPaymentinfo").modal("show");
     });
 
@@ -799,7 +791,7 @@ function payment_pagination() {
 
 $(document).ready(function () {
     //call function
-    init_flatpicker($("#paymentDate"));
+    fp = init_flatpicker($("#paymentDate"));
     payment_crud();
     get_payment_detail(1);
     payment_pagination();
