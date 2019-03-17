@@ -9,6 +9,10 @@ function spending_crud() {
     $("#addSpending").click(function (event) {
         $("#form_spending").find("input").removeClass("is-invalid");
         $("#form_spending").find("input invalid-tooltip").empty();
+
+        $("#form_spending").find("select").removeClass("is-invalid");
+        $("#form_spending").find("select invalid-tooltip").empty();
+
         $("#form_spending").find("input[type=text]").val("");
         $("#form_spending").find("select").val("");
         $("#form_spending").find("input[type=checkbox]").prop("checked",false);        
@@ -20,41 +24,44 @@ function spending_crud() {
     //Submit Data
     $("#form_spending").submit(function (event) {
         event.preventDefault();
-        // $.ajax({
-        //     url: "payments/add_paydata",
-        //     type: "POST",
-        //     data: $("#form_payment").serialize(),
-        //     datatype: "JSON",
-        //     success: function (data) {
-        //         data = JSON.parse(data);
-        //         if (data.status) {
-        //             $("#addPaymentinfo").modal("hide");
-        //             get_payment_detail(1);
-        //             get_payment_summary();
-        //         } else {
-        //             for (var i = 0; i < data.inputerror.length; i++) {
-        //                 if (data.inputerror[i] == "bpaymentdate") {
-        //                     $('[name="' + data.inputerror[i] + '"]').next().addClass('is-invalid');
-        //                     $('[name="' + data.inputerror[i] + '"]').next().next().text(data.error_string[i]);
+        $.ajax({
+            url: "spendings/add_spendingdata",
+            type: "POST",
+            data: $("#form_spending").serialize(),
+            datatype: "JSON",
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    $("#addSpendinginfo").modal("hide");
+                } else {
+                    for (var i = 0; i < data.inputerror.length; i++) {
+                        // if (data.inputerror[i] == "bpaymentdate") {
+                        //     $('[name="' + data.inputerror[i] + '"]').next().addClass('is-invalid');
+                        //     $('[name="' + data.inputerror[i] + '"]').next().next().text(data.error_string[i]);
 
-        //                 } else {
-        //                     $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
-        //                     $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
-        //                 }
-        //             }
-        //         }
-        //     },
-        //     error: function (xhr, status, errorThrown) {
-        //         alert("Sorry, there was a problem!");
-        //         console.log("Error: " + errorThrown);
-        //         console.log("Status: " + status);
-        //         console.dir(xhr);
-        //     }
-        // });
+                        // } else {
+                            $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                            $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                        // }
+                    }
+                }
+            },
+            error: function (xhr, status, errorThrown) {
+                alert("Sorry, there was a problem to add spending data");
+                console.log("Error: " + errorThrown);
+                console.log("Status: " + status);
+                console.dir(xhr);
+            }
+        });
     });
 
     // Clear Error
     $("#form_spending").find("input").change(function () {
+        $(this).removeClass("is-invalid");
+        $(this).next("invalid-tooltip").empty();
+    });
+
+    $("#form_spending").find("select").change(function() {
         $(this).removeClass("is-invalid");
         $(this).next("invalid-tooltip").empty();
     });
@@ -99,6 +106,6 @@ function spending_crud() {
 $(document).ready(function () {
     //call function
     fp = init_flatpicker($("#spendingDate"));
-    init_datatables($("#tb-spending"));
+    init_datatables($("#tb-spending"),"spendings/list_spendingdata");
     spending_crud();
 });
