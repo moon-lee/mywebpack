@@ -3,10 +3,11 @@ import { init_flatpicker } from "./myWebext_Flatpickr";
 import { init_datatables } from "./myWebext_datatables";
 
 var fp;
+var dt;
 
 function spending_crud() {
     // Open Modal
-    $("#addSpending").click(function (event) {
+    $("#addSpending").click(function () {
         $("#form_spending").find("input").removeClass("is-invalid");
         $("#form_spending").find("input invalid-tooltip").empty();
 
@@ -15,7 +16,7 @@ function spending_crud() {
 
         $("#form_spending").find("input[type=text]").val("");
         $("#form_spending").find("select").val("");
-        $("#form_spending").find("input[type=checkbox]").prop("checked",false);        
+        $("#form_spending").find("input[type=checkbox]").prop("checked", false);
         fp.setDate(new Date());
 
         $("#addSpendinginfo").modal("show");
@@ -33,16 +34,11 @@ function spending_crud() {
                 data = JSON.parse(data);
                 if (data.status) {
                     $("#addSpendinginfo").modal("hide");
+                    dt.draw();
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
-                        // if (data.inputerror[i] == "bpaymentdate") {
-                        //     $('[name="' + data.inputerror[i] + '"]').next().addClass('is-invalid');
-                        //     $('[name="' + data.inputerror[i] + '"]').next().next().text(data.error_string[i]);
-
-                        // } else {
-                            $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
-                            $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
-                        // }
+                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
                     }
                 }
             },
@@ -61,7 +57,7 @@ function spending_crud() {
         $(this).next("invalid-tooltip").empty();
     });
 
-    $("#form_spending").find("select").change(function() {
+    $("#form_spending").find("select").change(function () {
         $(this).removeClass("is-invalid");
         $(this).next("invalid-tooltip").empty();
     });
@@ -77,7 +73,7 @@ function spending_crud() {
     });
 
     // Dynamic select options 
-    $("#mainCategory").change(function (event) {
+    $("#mainCategory").change(function () {
         var mCategory = $(this).val();
         console.log(mCategory);
         if (mCategory != '') {
@@ -85,7 +81,7 @@ function spending_crud() {
                 url: "spendings/get_subcategory",
                 type: "POST",
                 datatype: "JSON",
-                data: {mcategory_code : mCategory },
+                data: { mcategory_code: mCategory },
                 success: function (data) {
                     $("#subCategory").html(data);
                 },
@@ -99,13 +95,13 @@ function spending_crud() {
         } else {
             $("#subCategory").html('<option value="">Select Main Category first</option>');
         }
-    
+
     });
 }
 
 $(document).ready(function () {
     //call function
     fp = init_flatpicker($("#spendingDate"));
-    init_datatables($("#tb-spending"),"spendings/list_spendingdata");
+    dt = init_datatables($("#tb-spending"), "spendings/list_spendingdata");
     spending_crud();
 });

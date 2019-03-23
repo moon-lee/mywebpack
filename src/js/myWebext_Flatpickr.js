@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import * as fp from "flatpickr";
 
 export function init_flatpicker(obj) {
@@ -7,7 +8,7 @@ export function init_flatpicker(obj) {
         altFormat: "F j, Y",
         dateFormat: "Y-m-d",
         weekNumbers: true,
-        onChange: function (selectedDates, dateStr, instance) {
+        onChange: function () {
             $("#obj").next().removeClass("is-invalid");
             $("#obj").next().next().empty();
         }

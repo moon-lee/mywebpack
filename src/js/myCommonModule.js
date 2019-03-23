@@ -5,7 +5,7 @@ function sidebar_toggle() {
         $('#sidebar').toggleClass('active');
     });
 
-    $('.sidebar-list > ul > li').find('a').click(function (e) {
+    $('.sidebar-list > ul > li').find('a').click(function () {
         var parent_element = $(this).parent();
         if (parent_element.is('.active')) {
             parent_element.removeClass('active');

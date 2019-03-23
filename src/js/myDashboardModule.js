@@ -2,7 +2,7 @@ import { init_flatpicker } from "./myWebext_Flatpickr";
 
 function tasklist_crud() {
     // Open Modal
-    $("#addTaskList").click(function (event) {
+    $("#addTaskList").click(function () {
         $("#form_task").find("input").removeClass("is-invalid");
         $("#form_task").find("input invalid-tooltip").empty();
         $("#form_task").find("select").removeClass("is-invalid");
@@ -90,6 +90,7 @@ function tasklist_crud() {
                     id: task_id,
                     task_status: 99
                 },
+                // eslint-disable-next-line no-unused-vars
                 success: function (data) {
                     data = JSON.parse(data);
                     get_task_detail(1);
@@ -106,7 +107,7 @@ function tasklist_crud() {
 
 
     //Update task status
-    $(document).on("click", ".task-list li input", function (event) {
+    $(document).on("click", ".task-list li input", function () {
         console.log($(this));
 
         var element_parent = $(this).parents(".task_item");
@@ -129,7 +130,6 @@ function tasklist_crud() {
                 id: task_id,
                 task_status: task_status
             },
-            success: function (data) {},
             error: function (xhr, status, errorThrown) {
                 alert("Sorry, there was a problem!");
                 console.log("Error: " + errorThrown);

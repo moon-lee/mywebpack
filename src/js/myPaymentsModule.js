@@ -142,6 +142,7 @@ var payment_BarChartData = {
     ]
 };
 
+// eslint-disable-next-line no-unused-vars
 var tooltips_callbacks = {
     label: function (tooltipItem, data) {
         var label = data.datasets[tooltipItem.datasetIndex].label;
@@ -280,7 +281,7 @@ var payment_BarChartOptions = {
         position: 'left',
         padding: 20,
         labels: {
-            filter: function (legendItem, data) {
+            filter: function (legendItem) {
                 // console.log(legendItem);
                 return legendItem.text != "ID";
             }
@@ -310,7 +311,7 @@ var payment_BarChartOptions = {
             },
             ticks: {
                 beginAtZero: true,
-                callback: function (value, index, values) {
+                callback: function (value) {
                     if (value < 0) {
                         return '-$' + value.toFixed(2).replace(/-/g, "").replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
                     } else {
@@ -395,6 +396,7 @@ var fp;
 
 function payment_crud() {
     // Open Modal
+    // eslint-disable-next-line no-unused-vars
     $("#addPayment").click(function (event) {
         $("#form_payment").find("input").removeClass("is-invalid");
         $("#form_payment").find("input invalid-tooltip").empty();
@@ -546,6 +548,7 @@ function delete_payment_detail(payment_id, payment_date) {
                 pay_date: payment_date,
                 pay_status: 99
             },
+            // eslint-disable-next-line no-unused-vars
             success: function (data) {
                 data = JSON.parse(data);
                 get_payment_detail(1);
@@ -766,7 +769,7 @@ function summaryPaymentData(chart, data) {
                     break;
             }
         }
-    };
+    }
 
     // console.log(chart.data.labels);
     // console.log(summarydata);
