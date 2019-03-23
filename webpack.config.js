@@ -22,6 +22,7 @@ module.exports = {
     output: {
         filename: "[name].js",
         chunkFilename: "[name].js",
+        // eslint-disable-next-line no-undef
         path: path.join(__dirname, "dist/js")
     },
 
@@ -118,6 +119,7 @@ module.exports = {
         ), */
 
         new webpack.ContextReplacementPlugin(
+            // eslint-disable-next-line no-useless-escape
             /moment[\/\\]locale$/, /en-au/
         ) 
     ],
