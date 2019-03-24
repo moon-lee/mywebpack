@@ -12,10 +12,14 @@ export function init_datatables(obj,url) {
         },
         "columns": [
             {"data": "spend_date"},
-            {"data": "spend_description"},
-            {"data": "spend_account"},
             {"data": "spend_category"},
-            {"data": "spend_amount"}
-        ]
+            {"data": "spend_amount"},
+            {"data": "spend_account"},
+            {"data": "spend_description"}
+        ],
+        "order":[[0,'desc']],
+        "orderFixed": { 
+            "post": [ 0, 'desc' ]
+        }
     });
 }
