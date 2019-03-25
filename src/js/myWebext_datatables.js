@@ -6,6 +6,7 @@ export function init_datatables(obj,url) {
     return obj.DataTable({
         "processing": true,
         "serverSide": true,
+        "lengthMenu": [ 15, 30, 50 ],
         "ajax": {
             "url": url,
             "type": "POST"
