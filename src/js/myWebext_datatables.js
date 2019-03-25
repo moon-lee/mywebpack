@@ -18,9 +18,10 @@ export function init_datatables(obj,url) {
             {"data": "spend_account"},
             {"data": "spend_description"}
         ],
-        "order":[[0,'desc']],
-        "orderFixed": { 
-            "post": [ 0, 'desc' ]
-        }
+        "order":[[0,'desc']]
+        // "orderFixed": { 
+        //     "pre": [ 0, 'desc' ],
+        //     "post": [ 0, 'desc' ]
+        // }
     });
 }
