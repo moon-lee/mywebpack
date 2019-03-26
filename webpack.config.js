@@ -23,7 +23,7 @@ module.exports = {
         filename: "[name].js",
         chunkFilename: "[name].js",
         // eslint-disable-next-line no-undef
-        path: path.join(__dirname, "dist/js")
+        path: path.join(__dirname, "dist/js"),
     },
 
     module: {
@@ -68,27 +68,32 @@ module.exports = {
                     from: "./node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
                     to: "../css/"
                 },
+                // {
+                //     from: "./node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
+                //     to: "../css/"
+                // },
                 {
                     from: "./node_modules/jquery/dist/jquery.min.js",
                     to: "../js/"
                 },
                 {
-                    from:  "./node_modules/popper.js/dist/umd/popper.min.js",
+                    from: "./node_modules/popper.js/dist/umd/popper.min.js",
                     to: "../js/"
                 },
                 {
                     from: "./node_modules/bootstrap/dist/js/bootstrap.min.js",
                     to: "../js/"
-                // },
-                // {
-                //     from: "./node_modules/flatpickr/dist/flatpickr.min.js",
-                //     to: "../js/"
+                },
+                {
+                    from: "./node_modules/datatables.net-dt/images/",
+                    to: "../images/"
                 }
+
             ],
             {
                 debug: 'debug'
             }
-        ), 
+        ),
 
         new MiniCssExtractPlugin(
             {
@@ -108,20 +113,20 @@ module.exports = {
             }
         ),
 
-/*         new webpack.ProvidePlugin(
-            {
-                $: "jquery",
-                jQuery: "jquery",
-                "window.jQuery": "jquery",
-                Popper: ["popper.js", "defualt"]
-            }
-
-        ), */
+        /*         new webpack.ProvidePlugin(
+                    {
+                        $: "jquery",
+                        jQuery: "jquery",
+                        "window.jQuery": "jquery",
+                        Popper: ["popper.js", "defualt"]
+                    }
+        
+                ), */
 
         new webpack.ContextReplacementPlugin(
             // eslint-disable-next-line no-useless-escape
             /moment[\/\\]locale$/, /en-au/
-        ) 
+        )
     ],
 
     performance: {
@@ -137,9 +142,9 @@ module.exports = {
 
     resolve: {
         extensions: [".js", ".css", ".scss"],
-/*          alias: {
-            "jquery": "jquery/dist/jquery.slim.min.js"
-        }  */
+        /*          alias: {
+                    "jquery": "jquery/dist/jquery.slim.min.js"
+                }  */
     },
 
     optimization: {
@@ -157,19 +162,19 @@ module.exports = {
                     test: /[\\/]node_modules[\\/](datatables.net|datatables.net-bs4)[\\/]/,
                     chunks: "all",
                     priority: 2
-                }, 
+                },
                 "bundles-flatpickr": {
                     name: 'bundles.flatpickr',
                     test: /[\\/]node_modules[\\/]flatpickr[\\/]/,
                     chunks: "all",
                     priority: 2
-                }, 
+                },
                 "bundles-moment": {
                     name: 'bundles.moment',
                     test: /[\\/]node_modules[\\/]moment[\\/]/,
                     chunks: "all",
                     priority: 2
-                }              
+                }
             }
         }
     }
