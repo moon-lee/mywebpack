@@ -15,13 +15,16 @@ export function init_datatables(obj,url) {
         "columns": [
             {"data": "spend_date"},
             {"data": "spend_category"},
+            {"data": "spend_account"},
             {
                 data:'spend_amount',
                 render:$.fn.dataTable.render.number( ',', '.', 2, '$' ),
-                className: 'dt-body-right'
+                className:'dt-body-right table-primary' 
             },
-            {"data": "spend_account"},
-            {"data": "spend_description"}
+            {
+                "data": "spend_description",
+                className:'dt-body-right'
+            }
         ],
         "order":[[0,'desc']]
     });
