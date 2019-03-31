@@ -6,22 +6,6 @@ var fp;
 var dt;
 
 function spending_crud() {
-    // Open Modal
-    $("#addSpending").click(function () {
-        $("#form_spending").find("input").removeClass("is-invalid");
-        $("#form_spending").find("input invalid-tooltip").empty();
-
-        $("#form_spending").find("select").removeClass("is-invalid");
-        $("#form_spending").find("select invalid-tooltip").empty();
-
-        $("#form_spending").find("input[type=text]").val("");
-        $("#form_spending").find("select").val("");
-        $("#form_spending").find("input[type=checkbox]").prop("checked", false);
-        fp.setDate(new Date());
-
-        $("#addSpendinginfo").modal("show");
-    });
-
     //Submit Data
     $("#form_spending").submit(function (event) {
         event.preventDefault();
@@ -101,7 +85,7 @@ function spending_crud() {
     // datatables select and deselect
     dt.on('select deselect', function() {
         var selectedRows = dt.rows({selected:true}).count();
-        dt.button(0).enable(selectedRows === 1);
+        dt.button(2).enable(selectedRows === 1);
     });
 }
 
@@ -109,6 +93,6 @@ function spending_crud() {
 $(document).ready(function () {
     //call function
     fp = init_flatpicker($("#spendingDate"));
-    dt = init_datatables($("#tb-spending"), "spendings/list_spendingdata");
+    dt = init_datatables($("#tb-spending"), "spendings/list_spendingdata", fp);
     spending_crud();
 });

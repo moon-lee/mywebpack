@@ -20,10 +20,11 @@ import { faTrashAlt } from "@fortawesome/free-regular-svg-icons/faTrashAlt";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons/faPlusCircle";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons/faMinusCircle";
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
+import { faFileUpload } from "@fortawesome/free-solid-svg-icons/faFileUpload";
 
 export function init_fonts() {
     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
     library.add(faPlusSquare, faMinusSquare, faCog, faCogs, faPalette);
-    library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlusCircle, faMinusCircle, faClock, faMoneyCheck);
+    library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlusCircle, faMinusCircle, faClock, faMoneyCheck,faFileUpload);
     dom.i2svg();
 }

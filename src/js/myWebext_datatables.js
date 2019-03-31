@@ -7,7 +7,7 @@ import * as dt_select_bs4 from "datatables.net-select-bs4"
 // eslint-disable-next-line no-unused-vars
 import * as dt_buttons_bs4 from "datatables.net-buttons-bs4"
 
-export function init_datatables(obj,url) {
+export function init_datatables(obj,url,fp) {
     return obj.DataTable({
         dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
              "<'row'<'col-sm-12'tr>>" +
@@ -52,15 +52,40 @@ export function init_datatables(obj,url) {
             dom: {
                 button: {
                     className: 'btn btn-primary btn-sm',
+                },
+                container:{
+                    className:''
                 }
             },
             buttons: [
+                {
+                    text: '<svg class="icon"><use xlink:href="#plus-circle"></use></svg> Add Data',
+                    action: function () {
+                        $("#form_spending").find("input").removeClass("is-invalid");
+                        $("#form_spending").find("input invalid-tooltip").empty();
+                
+                        $("#form_spending").find("select").removeClass("is-invalid");
+                        $("#form_spending").find("select invalid-tooltip").empty();
+                
+                        $("#form_spending").find("input[type=text]").val("");
+                        $("#form_spending").find("select").val("");
+                        $("#form_spending").find("input[type=checkbox]").prop("checked", false);
+                        fp.setDate(new Date());
+                
+                        $("#addSpendinginfo").modal("show");
+                    }
+                },
+                {
+                    text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Load Data',
+                    action: function () {
+                        console.log('click Load button');
+                    }
+                },
                 {
                     text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg> Delete Data',
                     // eslint-disable-next-line no-unused-vars
                     action: function(e, dt, node, config) {
                         var rowId = dt.row({ selected: true }).id();
-                        console.log(rowId);
                         $.ajax({
                             url: "spendings/delete_spendingdata/",
                             type: "POST",
@@ -82,8 +107,11 @@ export function init_datatables(obj,url) {
                         });
                     },
                     enabled: false
-                }
+                },
             ]
+        },
+        drawCallback: function () {
+            $('.dataTables_paginate > .pagination').addClass('pagination-sm');
         }
     });
 }
