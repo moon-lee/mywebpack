@@ -68,10 +68,14 @@ module.exports = {
                     from: "./node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
                     to: "../css/"
                 },
-                // {
-                //     from: "./node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
-                //     to: "../css/"
-                // },
+                {
+                    from: "./node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css",
+                    to: "../css/"
+                },
+                {
+                    from: "./node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css",
+                    to: "../css/"
+                },
                 {
                     from: "./node_modules/jquery/dist/jquery.min.js",
                     to: "../js/"
@@ -84,10 +88,10 @@ module.exports = {
                     from: "./node_modules/bootstrap/dist/js/bootstrap.min.js",
                     to: "../js/"
                 },
-                {
-                    from: "./node_modules/datatables.net-dt/images/",
-                    to: "../images/"
-                }
+                // {
+                //     from: "./node_modules/datatables.net-dt/images/",
+                //     to: "../images/"
+                // }
 
             ],
             {
@@ -157,12 +161,12 @@ module.exports = {
         ],
         splitChunks: {
             cacheGroups: {
-                "bundles-datatable": {
-                    name: 'bundles.datatable',
-                    test: /[\\/]node_modules[\\/](datatables.net|datatables.net-bs4)[\\/]/,
-                    chunks: "all",
-                    priority: 2
-                },
+                // "bundles-datatable": {
+                //     name: 'bundles.datatable',
+                //     test: /[\\/]node_modules[\\/](datatables.net|datatables.net-bs4)[\\/]/,
+                //     chunks: "all",
+                //     priority: 2
+                // },
                 "bundles-flatpickr": {
                     name: 'bundles.flatpickr',
                     test: /[\\/]node_modules[\\/]flatpickr[\\/]/,

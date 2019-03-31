@@ -17,12 +17,13 @@ import { faClipboard } from "@fortawesome/free-regular-svg-icons/faClipboard";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons/faEllipsisV";
 import { faEdit } from "@fortawesome/free-regular-svg-icons/faEdit";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons/faTrashAlt";
-import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons/faPlusCircle";
+import { faMinusCircle } from "@fortawesome/free-solid-svg-icons/faMinusCircle";
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 
 export function init_fonts() {
     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
     library.add(faPlusSquare, faMinusSquare, faCog, faCogs, faPalette);
-    library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlus, faClock, faMoneyCheck);
+    library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlusCircle, faMinusCircle, faClock, faMoneyCheck);
     dom.i2svg();
 }

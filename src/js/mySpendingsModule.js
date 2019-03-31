@@ -97,7 +97,14 @@ function spending_crud() {
         }
 
     });
+
+    // datatables select and deselect
+    dt.on('select deselect', function() {
+        var selectedRows = dt.rows({selected:true}).count();
+        dt.button(0).enable(selectedRows === 1);
+    });
 }
+
 
 $(document).ready(function () {
     //call function
