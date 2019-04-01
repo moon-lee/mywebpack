@@ -451,13 +451,15 @@ function payment_crud() {
         var gross = $(this).val().replace(/,/g, "");
         var net = $("#netPay").val().replace(/,/g, "");
         var payg = -(parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2));
-        myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
+        //$("#withHolding").val(parseFloat(payg).toFixed(2));
+         myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
     })
 
     $("#netPay").on("keyup", function () {
         var gross = $("#grossPay").val().replace(/,/g, "");
         var net = $(this).val().replace(/,/g, "");
         var payg = -(parseFloat(gross).toFixed(2) - parseFloat(net).toFixed(2));
+        //$("#withHolding").val(parseFloat(payg).toFixed(2));
         myUtils.formatCurrency($("#withHolding").val(parseFloat(payg).toFixed(2)), "blur");
     })
 
