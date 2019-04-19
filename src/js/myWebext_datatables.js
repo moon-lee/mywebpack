@@ -76,6 +76,12 @@ export function init_datatables(obj,url,fp) {
                 {
                     text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Load Data',
                     action: function () {
+                        $("#form_upload").find("input").removeClass("is-invalid");
+                        $("#form_upload").find("input invalid-tooltip").empty();
+                        $("#form_upload").find("input[type=file]").val("");
+                        $("#form_upload").find("label.custom-file-label").text("Choose file");
+                        $("#upload_status").html("");
+
                         $("#uploadFile").modal("show");
                     }
                 },
