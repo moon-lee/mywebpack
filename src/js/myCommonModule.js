@@ -18,11 +18,11 @@ function sidebar_toggle() {
 function getNewColor() {
     $("#getColor").click(function () {
         var symbols, color;
-        symbols ="0123456789ABCDEF";
+        symbols = "0123456789ABCDEF";
 
         color = "#";
 
-        for (var i = 0; i < 6; i ++ ) {
+        for (var i = 0; i < 6; i++) {
             color += symbols[Math.floor(Math.random() * 16)];
         }
 
@@ -30,7 +30,13 @@ function getNewColor() {
         $("#hex").text(color);
 
     });
+}
 
+function getUploadFileName() {
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
 }
 
 $(document).ready(function () {
@@ -38,6 +44,7 @@ $(document).ready(function () {
     myFonts.init_fonts();
     sidebar_toggle();
     getNewColor();
+    getUploadFileName();
 });
 
 

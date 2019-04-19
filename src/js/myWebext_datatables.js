@@ -76,7 +76,7 @@ export function init_datatables(obj,url,fp) {
                 {
                     text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Load Data',
                     action: function () {
-                        console.log('click Load button');
+                        $("#uploadFile").modal("show");
                     }
                 },
                 {
