@@ -100,20 +100,6 @@ function upload_spend_data() {
             contentType: false,
             cache: false,
             async: false,
-
-            // xhr: function () {
-            //     var xhr = $.ajaxSettings.xhr();
-            //     //Upload progress
-            //     xhr.onprogress = function (evt) {
-            //         if (evt.lengthComputable) {
-            //             var percentComplete = (evt.loaded / evt.total) * 100;
-            //             //Do something with upload progress
-            //             console.log(percentComplete);
-            //         }
-            //     };
-            //     return xhr;
-            // },
-
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.status) {
@@ -129,7 +115,7 @@ function upload_spend_data() {
                 }
             },
             error: function (xhr, status, errorThrown) {
-                alert("Sorry, there was a problem to add spending data");
+                alert("Sorry, there was a problem to upload spending data");
                 console.log("Error: " + errorThrown);
                 console.log("Status: " + status);
                 console.dir(xhr);
