@@ -105,7 +105,7 @@ function upload_spend_data() {
                 if (data.status) {
                     $("#form_upload").find("input[type=file]").val("");
                     $("#form_upload").find("label.custom-file-label").text("Choose file");
-                    var msg = data.msg + "  " + data.file_name + "  " + data.file_size + " (Kb).";
+                    var msg = data.msg + "  " + data.upload_orig_name + "  " + data.upload_file_size + " (Kb).";
                     $("#upload_status").html("<p>" + msg + "</p>");
                 } else {
                     for (var i = 0; i < data.inputerror.length; i++) {
