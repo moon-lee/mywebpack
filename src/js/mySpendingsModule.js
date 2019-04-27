@@ -128,6 +128,10 @@ function upload_spend_data() {
         $(this).removeClass("is-invalid");
         $(this).next("invalid-tooltip").empty();
     });
+
+    $('#uploadFile').on('hidden.bs.modal', function () {
+        dt.draw();
+    });
 }
 
 $(document).ready(function () {
