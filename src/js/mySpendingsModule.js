@@ -59,7 +59,6 @@ function spending_crud() {
     // Dynamic select options 
     $("#mainCategory").change(function () {
         var mCategory = $(this).val();
-        console.log(mCategory);
         if (mCategory != '') {
             $.ajax({
                 url: "spendings/get_subcategory",
@@ -87,6 +86,16 @@ function spending_crud() {
         var selectedRows = dt.rows({ selected: true }).count();
         dt.button(2).enable(selectedRows === 1);
     });
+
+    // Filer selection change
+    $("#sp_year_month").change(function(){
+        dt.ajax.reload();
+    });
+
+    $("#sp_category").change(function(){
+        dt.ajax.reload();
+    });
+
 }
 
 function upload_spend_data() {

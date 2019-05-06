@@ -15,7 +15,11 @@ export function init_datatables(obj,url,fp) {
         pageLength: 15,
         ajax: {
             url: url,
-            type: 'POST'
+            type: 'POST',
+            data: function(d) {
+                d.spend_year_month = $("#sp_year_month").val(),
+                d.spend_category_code = $("#sp_category").val()
+            }
         },
         columns: [
             {
