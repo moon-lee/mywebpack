@@ -89,6 +89,7 @@ function spending_crud() {
 
     // Filer selection change
     $("#sp_year_month").change(function(){
+        summary_spend_data();
         dt.ajax.reload();
     });
 
@@ -143,10 +144,35 @@ function upload_spend_data() {
     });
 }
 
+function summary_spend_data() {
+    var spend_ym = $("#sp_year_month").val();
+    var spend_ccode = $("#sp_category").val();
+    $.ajax({
+        url: "spendings/summary_spendingdata",
+        type: "POST",
+        datatype: "JSON",
+        data: {
+            spend_year_month : spend_ym,
+            spend_category_code : spend_ccode
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            $("#test").html(data.summary_year_month);
+        },
+        error: function (xhr, status, errorThrown) {
+            alert("Sorry, there was a problem to get summary spending");
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
+        }
+    });
+}
+
 $(document).ready(function () {
     //call function
     fp = init_flatpicker($("#spendingDate"));
     dt = init_datatables($("#tb-spending"), "spendings/list_spendingdata", fp);
     spending_crud();
+    summary_spend_data();
     upload_spend_data();
 });
