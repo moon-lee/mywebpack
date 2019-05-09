@@ -19,6 +19,10 @@ export function init_datatables(obj,url,fp) {
             data: function(d) {
                 d.spend_year_month = $("#sp_year_month").val(),
                 d.spend_category_code = $("#sp_category").val()
+            },
+            dataSrc: function (json) {
+                $("#test").html(json.summary_year_month);
+                return json.data;
             }
         },
         columns: [
