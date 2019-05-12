@@ -139,7 +139,8 @@ function upload_spend_data() {
     });
 
     $('#uploadFile').on('hidden.bs.modal', function () {
-        dt.draw();
+        dt.ajax.reload();
+       // dt.draw();
     });
 }
 

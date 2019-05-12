@@ -12,7 +12,7 @@ export function init_datatables(obj,url,fp) {
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         processing: true,
         serverSide: true,
-        pageLength: 15,
+        pageLength: 10,
         ajax: {
             url: url,
             type: 'POST',
