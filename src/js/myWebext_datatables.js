@@ -21,7 +21,8 @@ export function init_datatables(obj,url,fp) {
                 d.spend_category_code = $("#sp_category").val()
             },
             dataSrc: function (json) {
-                $("#spending_summary_wrapper").html(json.summary_year_month);
+                $("#spending_main_summary_wrapper").html(json.main_summary_year_month);
+                $("#spending_sub_summary_wrapper").html(json.sub_summary_year_month);
                 return json.data;
             }
         },
