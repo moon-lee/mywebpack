@@ -1,6 +1,6 @@
 import * as myUtils from "./myUtils";
 import { init_flatpicker } from "./myWebext_Flatpickr";
-import { init_datatables } from "./myWebext_datatables";
+import { init_datatables } from "./myDataTables_Spending";
 
 var fp;
 var dt;
