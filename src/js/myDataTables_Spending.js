@@ -12,6 +12,8 @@ export function init_datatables(obj,url,fp) {
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         processing: true,
         serverSide: true,
+        scrollY: 180,
+        scrollCollapse: true,
         pageLength: 10,
         ajax: {
             url: url,
@@ -31,19 +33,31 @@ export function init_datatables(obj,url,fp) {
         columns: [
             {
                 data: null,
-                defaultContent: ''
+                defaultContent: '',
+                width: '3%'
             },
-            {data: 'spend_date'},
-            {data: 'spend_category'},
-            {data: 'spend_account'},
+            {
+                data: 'spend_date',
+                width: '11%'
+            },
+            {
+                data: 'spend_category',
+                width: '16%'
+            },
+            {
+                data: 'spend_account',
+                width: '11%'
+            },
             {
                 data:'spend_amount',
                 render:$.fn.dataTable.render.number( ',', '.', 2, '$' ),
-                className:'dt-body-right' 
+                className:'dt-body-right',
+                width: '11%' 
             },
             {
                 data: "spend_description",
-                className:'dt-body-right'
+                className:'dt-body-right',
+                width: '50%'
             }
         ],
         order:[[1,'desc']],
