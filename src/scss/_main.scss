@@ -315,6 +315,20 @@
     vertical-align: -.125em;
 }
 
+.icon_trend_up {
+    width: 1em;
+    height: 1em;
+    vertical-align: -.125em;
+    color: #0000ff;
+}
+
+.icon_trend_down {
+    width: 1em;
+    height: 1em;
+    vertical-align: -.125em;
+    color: #ff0000;
+}
+
 #chartjs-tooltip {
     opacity: 1;
     position: absolute;
@@ -365,7 +379,3 @@
     margin-bottom: 1rem;
 }
 
-.table .thead-light .tr .th.table_red_font {
-    color: #ff0000;
-    background-color: #f1ff6f;
-}
