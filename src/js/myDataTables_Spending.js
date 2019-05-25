@@ -25,7 +25,6 @@ export function init_datatables(obj,url,fp) {
             dataSrc: function (json) {
                 $("#spending_main_summary_wrapper").html(json.main_summary_year_month);
                 $("#spending_sub_summary_wrapper").html(json.sub_summary_year_month);
-                $("#spending_financial_summary_wrapper").html(json.financial_year_summary);
                 $("#spending_financial_trends_wrapper").html(json.financial_trends);
                 return json.data;
             }
