@@ -139,8 +139,8 @@ function upload_spend_data() {
     });
 
     $('#uploadFile').on('hidden.bs.modal', function () {
-        dt.ajax.reload();
-       // dt.draw();
+        // dt.ajax.reload();
+       location.reload(true);
     });
 }
 

@@ -16,6 +16,7 @@ module.exports = {
         myDashboard: "./src/js/myDashboardModule.js",
         myPayments: "./src/js/myPaymentsModule.js",
         mySpendings: "./src/js/mySpendingsModule.js",
+        mySettings: "./src/js/mySettingsModule.js",
         vendorCalendar: "./src/js/myFullcalendar.js"
     },
 

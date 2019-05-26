@@ -15,37 +15,19 @@ function sidebar_toggle() {
     });
 }
 
-function getNewColor() {
-    $("#getColor").click(function () {
-        var symbols, color;
-        symbols = "0123456789ABCDEF";
-
-        color = "#";
-
-        for (var i = 0; i < 6; i++) {
-            color += symbols[Math.floor(Math.random() * 16)];
-        }
-
-        $(".cd-color").css("background", color);
-        $("#hex").text(color);
-
-    });
-}
-
-function getUploadFileName() {
-    $(".custom-file-input").on("change", function () {
-        var fileName = $(this).val().split("\\").pop();
-        //$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        $(this).siblings(".custom-file-label").html(fileName);
-    });
-}
+// function getUploadFileName() {
+//     $(".custom-file-input").on("change", function () {
+//         var fileName = $(this).val().split("\\").pop();
+//         //$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+//         $(this).siblings(".custom-file-label").html(fileName);
+//     });
+// }
 
 $(document).ready(function () {
     //call function
     myFonts.init_fonts();
     sidebar_toggle();
-    getNewColor();
-    getUploadFileName();
+    //getUploadFileName();
 });
 
 
