@@ -15,7 +15,7 @@ export function init_datatables(obj, url) {
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         processing: true,
         serverSide: true,
-        scrollY: 500,
+        scrollY: 450,
         scrollCollapse: true,
         pageLength: 25,
         ordering: false,
