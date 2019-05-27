@@ -45,7 +45,7 @@ export function init_datatables(obj, url) {
             targets: 0
         }],
         select: {
-            style: 'os',
+            style: 'single',
             selector: 'td:first-child'
         },
         buttons: {

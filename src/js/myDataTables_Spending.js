@@ -41,7 +41,7 @@ export function init_datatables(obj,url,fp) {
             },
             {
                 data: 'spend_category',
-                width: '16%'
+                width: '21%'
             },
             {
                 data: 'spend_account',
@@ -56,7 +56,7 @@ export function init_datatables(obj,url,fp) {
             {
                 data: "spend_description",
                 className:'dt-body-right',
-                width: '50%'
+                width: '45%'
             }
         ],
         order:[[1,'desc']],
@@ -67,7 +67,7 @@ export function init_datatables(obj,url,fp) {
             targets: 0
         }],
         select: {
-            style: 'os',
+            style: 'single',
             selector: 'td:first-child'
         },
         buttons: {
