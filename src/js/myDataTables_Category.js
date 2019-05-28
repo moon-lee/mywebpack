@@ -10,12 +10,12 @@ export var save_method;
 // eslint-disable-next-line no-unused-vars
 export function init_datatables(obj, url) {
     return obj.DataTable({
-        dom: "<'row'<'col-sm-12 col-md-6'B>>" +
+        dom: "<'row'<'col-sm-12 'B>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         processing: true,
         serverSide: true,
-        scrollY: 450,
+        scrollY: 150,
         scrollCollapse: true,
         pageLength: 25,
         ordering: false,
