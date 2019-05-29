@@ -1,7 +1,8 @@
 import * as dtCategory from "./myDataTables_Category";
 import * as dtKeyword from "./myDataTables_Keyword";
+import * as dtTransaction from "./myDataTables_Transaction";
 
-var dt_category, dt_keyword;
+var dt_category, dt_keyword, dt_transaction;
 
 function setting_category_crud() {
     //Submit Data
@@ -90,10 +91,26 @@ function setting_keyword_crud() {
     });
 }
 
+function setting_transaction_crud() {
+    // datatables select and deselect
+    dt_transaction.on('select deselect', function () {
+        var selectedRows = dt_transaction.rows({ selected: true }).count();
+        dt_transaction.button(1).enable(selectedRows === 1);
+        dt_transaction.button(2).enable(selectedRows === 1);
+    });
+
+    // Filer selection change
+    $("#setting_keyword").change(function () {
+        dt_transaction.ajax.reload();
+    });
+}
+
 $(document).ready(function () {
     //call function
     dt_category = dtCategory.init_datatables($("#tb-categories"), "settings/list_categories");
     dt_keyword = dtKeyword.init_datatables($("#tb-keywords"), "settings/list_keywords");
+    dt_transaction = dtTransaction.init_datatables($("#tb-load-spend"), "settings/list_tranactions");
     setting_category_crud();
     setting_keyword_crud();
+    setting_transaction_crud();
 });
