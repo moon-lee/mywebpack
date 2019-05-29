@@ -83,6 +83,11 @@ function setting_keyword_crud() {
         dt_keyword.button(1).enable(selectedRows === 1);
         dt_keyword.button(2).enable(selectedRows === 1);
     });
+
+    // Filer selection change
+    $("#setting_keyword").change(function () {
+        dt_keyword.ajax.reload();
+    });
 }
 
 $(document).ready(function () {

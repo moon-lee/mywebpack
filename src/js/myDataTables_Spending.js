@@ -13,7 +13,7 @@ export function init_datatables(obj,url,fp) {
         processing: true,
         serverSide: true,
         scrollY: 220,
-        scrollCollapse: true,
+        scrollCollapse: false,
         pageLength: 10,
         ajax: {
             url: url,

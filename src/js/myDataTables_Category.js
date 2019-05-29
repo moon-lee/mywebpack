@@ -16,7 +16,7 @@ export function init_datatables(obj, url) {
         processing: true,
         serverSide: true,
         scrollY: 150,
-        scrollCollapse: true,
+        scrollCollapse: false,
         pageLength: 25,
         ordering: false,
         ajax: {
@@ -59,7 +59,7 @@ export function init_datatables(obj, url) {
             },
             buttons: [
                 {
-                    text: '<svg class="icon"><use xlink:href="#plus-circle"></use></svg> Add Data',
+                    text: '<svg class="icon"><use xlink:href="#plus-circle"></use></svg> Add',
                     action: function () {
                         save_method = "add";
 
@@ -79,7 +79,7 @@ export function init_datatables(obj, url) {
                     }
                 },
                 {
-                    text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Edit Data',
+                    text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Edit',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         save_method = "edit";
@@ -121,7 +121,7 @@ export function init_datatables(obj, url) {
                     enabled: false
                 },
                 {
-                    text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg> Delete Data',
+                    text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg> Delete',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         var rowId = dt.row({ selected: true }).id();
