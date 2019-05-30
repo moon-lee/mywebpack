@@ -83,7 +83,7 @@ export function init_datatables(obj, url) {
                     }
                 },
                 {
-                    text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Edit',
+                    text: '<svg class="icon"><use xlink:href="#edit"></use></svg> Edit',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         save_method = "edit";

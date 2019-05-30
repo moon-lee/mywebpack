@@ -31,22 +31,31 @@ export function init_datatables(obj, url) {
             {
                 data: null,
                 defaultContent: '',
+                width: '3%'
             },
             {
                 data: 'trans_date',
+                width: '12%'
             },
             {
                 data: 'trans_desc',
+                width: '40%'
             },
             {
                 data: 'trans_code',
-            },
-            {
-                data: 'trans_amount',
+                width: '25%'
             },
             {
                 data: 'trans_status',
+                 width: '10%'
+            },
+            {
+                data: 'trans_amount',
+                render:$.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                className:'dt-body-right',
+                width: '10%'
             }
+ 
         ],
         columnDefs: [{
             searchable: false,
@@ -89,7 +98,7 @@ export function init_datatables(obj, url) {
                     }
                 },
                 {
-                    text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Edit',
+                    text: '<svg class="icon"><use xlink:href="#edit"></use></svg> Edit',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         save_method = "edit";
