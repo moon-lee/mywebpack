@@ -81,11 +81,11 @@ export function init_datatables(obj, url) {
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         $.ajax({
-                            url: "settings/match_transactions/",
+                            url: "settings/match_transactions",
                             type: "POST",
                             dataType: "JSON",
                             success: function(data) {
-                                data = JSON.parse(data);
+                                //data = JSON.parse(data);
                                 if (data.status) {
                                     dt.draw();
                                 }
