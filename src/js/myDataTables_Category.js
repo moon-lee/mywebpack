@@ -59,7 +59,8 @@ export function init_datatables(obj, url) {
             },
             buttons: [
                 {
-                    text: '<svg class="icon"><use xlink:href="#plus-circle"></use></svg> Add',
+                    text: '<svg class="icon"><use xlink:href="#plus-circle"></use></svg>',
+                    titleAttr: 'Add',
                     action: function () {
                         save_method = "add";
 
@@ -79,7 +80,8 @@ export function init_datatables(obj, url) {
                     }
                 },
                 {
-                    text: '<svg class="icon"><use xlink:href="#edit"></use></svg> Edit',
+                    text: '<svg class="icon"><use xlink:href="#edit"></use></svg>',
+                    titleAttr: 'Edit',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         save_method = "edit";
@@ -121,7 +123,8 @@ export function init_datatables(obj, url) {
                     enabled: false
                 },
                 {
-                    text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg> Delete',
+                    text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg>',
+                    titleAttr: 'Delete',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
                         var rowId = dt.row({ selected: true }).id();

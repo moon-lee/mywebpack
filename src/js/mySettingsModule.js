@@ -2,6 +2,7 @@ import * as dtCategory from "./myDataTables_Category";
 import * as dtKeyword from "./myDataTables_Keyword";
 import * as dtTransaction from "./myDataTables_Transaction";
 
+// eslint-disable-next-line no-unused-vars
 var dt_category, dt_keyword, dt_transaction;
 
 function setting_category_crud() {
@@ -92,16 +93,59 @@ function setting_keyword_crud() {
 }
 
 function setting_transaction_crud() {
-    // datatables select and deselect
-    dt_transaction.on('select deselect', function () {
-        var selectedRows = dt_transaction.rows({ selected: true }).count();
-        dt_transaction.button(1).enable(selectedRows === 1);
-        dt_transaction.button(2).enable(selectedRows === 1);
+    // Filer selection change
+    $("#setting_trans").change(function () {
+        dt_transaction.ajax.reload();
     });
 
-    // Filer selection change
-    $("#setting_keyword").change(function () {
+    $("#setting_tStatus").change(function () {
         dt_transaction.ajax.reload();
+    });
+}
+
+function load_transaction_data() {
+    $("#form_load_trans").submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "settings/load_transactions",
+            type: "POST",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            async: false,
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    $("#form_load_trans").find("input[type=file]").val("");
+                    $("#form_load_trans").find("label.custom-file-label").text("Choose file");
+                    var msg = data.msg + "  " + data.upload_orig_name + "  " + data.upload_file_size + " (Kb).";
+                    $("#load_trans_status").html("<p>" + msg + "</p>");
+                } else {
+                    for (var i = 0; i < data.inputerror.length; i++) {
+                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                    }
+                }
+            },
+            error: function (xhr, status, errorThrown) {
+                alert("Sorry, there was a problem to upload spending data");
+                console.log("Error: " + errorThrown);
+                console.log("Status: " + status);
+                console.dir(xhr);
+            }
+        });
+    });
+
+    // Clear Error
+    $("#form_load_trans").find("input").change(function () {
+        $(this).removeClass("is-invalid");
+        $(this).next("invalid-tooltip").empty();
+    });
+
+    $('#loadTransModal').on('hidden.bs.modal', function () {
+        // dt.ajax.reload();
+        location.reload(true);
     });
 }
 
@@ -112,5 +156,6 @@ $(document).ready(function () {
     dt_transaction = dtTransaction.init_datatables($("#tb-load-spend"), "settings/list_tranactions");
     setting_category_crud();
     setting_keyword_crud();
+    load_transaction_data();
     setting_transaction_crud();
 });

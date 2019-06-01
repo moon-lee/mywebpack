@@ -20,16 +20,20 @@ import { faTrashAlt } from "@fortawesome/free-regular-svg-icons/faTrashAlt";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons/faPlusCircle";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons/faMinusCircle";
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
-import { faFileUpload } from "@fortawesome/free-solid-svg-icons/faFileUpload";
 import { faCaretUp } from "@fortawesome/free-solid-svg-icons/faCaretUp";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons/faCaretDown";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import { faFileUpload } from "@fortawesome/free-solid-svg-icons/faFileUpload";
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons/faFileAlt";
+import { faFileImport } from "@fortawesome/free-solid-svg-icons/faFileImport";
 
 
 export function init_fonts() {
     library.add(faCloud, faTable, faBars, faTachometerAlt, faSignOutAlt, faGooglePlusSquare, faWeight, faMoneyCheckAlt);
     library.add(faPlusSquare, faMinusSquare, faCog, faCogs, faPalette);
-    library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlusCircle, faMinusCircle, faClock, faMoneyCheck,faFileUpload);
+    library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlusCircle, faMinusCircle, faClock, faMoneyCheck);
     library.add(faCaretUp, faCaretDown, faCheck);
+    library.add(faFileUpload, faFileAlt, faFileImport);
+
     dom.i2svg();
 }

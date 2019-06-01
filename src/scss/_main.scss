@@ -213,6 +213,10 @@
     background-color: #727272;
 }
 
+.card-settings p {
+    margin: 0.5rem 0rem;
+}
+
 .table-summary {
     table-layout: fixed;
     width: 100%;
@@ -383,7 +387,8 @@
 
 #sp_summary_section,
 #categories_section,
-#keywords_section {
+#keywords_section,
+#trans_section {
     margin-bottom: 1rem;
 }
 
