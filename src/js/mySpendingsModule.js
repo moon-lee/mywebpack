@@ -84,7 +84,7 @@ function spending_crud() {
     // datatables select and deselect
     dt.on('select deselect', function () {
         var selectedRows = dt.rows({ selected: true }).count();
-        dt.button(2).enable(selectedRows === 1);
+        dt.button(1).enable(selectedRows === 1);
     });
 
     // Filer selection change
@@ -98,56 +98,56 @@ function spending_crud() {
 
 }
 
-function upload_spend_data() {
-    $("#form_upload").submit(function (event) {
-        event.preventDefault();
-        $.ajax({
-            url: "spendings/upload_spendingdata",
-            type: "POST",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            async: false,
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data.status) {
-                    $("#form_upload").find("input[type=file]").val("");
-                    $("#form_upload").find("label.custom-file-label").text("Choose file");
-                    var msg = data.msg + "  " + data.upload_orig_name + "  " + data.upload_file_size + " (Kb).";
-                    $("#upload_status").html("<p>" + msg + "</p>");
-                } else {
-                    for (var i = 0; i < data.inputerror.length; i++) {
-                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
-                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
-                    }
-                }
-            },
-            error: function (xhr, status, errorThrown) {
-                alert("Sorry, there was a problem to upload spending data");
-                console.log("Error: " + errorThrown);
-                console.log("Status: " + status);
-                console.dir(xhr);
-            }
-        });
-    });
+// function upload_spend_data() {
+//     $("#form_upload").submit(function (event) {
+//         event.preventDefault();
+//         $.ajax({
+//             url: "spendings/upload_spendingdata",
+//             type: "POST",
+//             data: new FormData(this),
+//             processData: false,
+//             contentType: false,
+//             cache: false,
+//             async: false,
+//             success: function (data) {
+//                 data = JSON.parse(data);
+//                 if (data.status) {
+//                     $("#form_upload").find("input[type=file]").val("");
+//                     $("#form_upload").find("label.custom-file-label").text("Choose file");
+//                     var msg = data.msg + "  " + data.upload_orig_name + "  " + data.upload_file_size + " (Kb).";
+//                     $("#upload_status").html("<p>" + msg + "</p>");
+//                 } else {
+//                     for (var i = 0; i < data.inputerror.length; i++) {
+//                         $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+//                         $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+//                     }
+//                 }
+//             },
+//             error: function (xhr, status, errorThrown) {
+//                 alert("Sorry, there was a problem to upload spending data");
+//                 console.log("Error: " + errorThrown);
+//                 console.log("Status: " + status);
+//                 console.dir(xhr);
+//             }
+//         });
+//     });
 
-    // Clear Error
-    $("#form_upload").find("input").change(function () {
-        $(this).removeClass("is-invalid");
-        $(this).next("invalid-tooltip").empty();
-    });
+//     // Clear Error
+//     $("#form_upload").find("input").change(function () {
+//         $(this).removeClass("is-invalid");
+//         $(this).next("invalid-tooltip").empty();
+//     });
 
-    $('#uploadFile').on('hidden.bs.modal', function () {
-        // dt.ajax.reload();
-       location.reload(true);
-    });
-}
+//     $('#uploadFile').on('hidden.bs.modal', function () {
+//         // dt.ajax.reload();
+//        location.reload(true);
+//     });
+// }
 
 $(document).ready(function () {
     //call function
     fp = init_flatpicker($("#spendingDate"));
     dt = init_datatables($("#tb-spending"), "spendings/list_spendingdata", fp);
     spending_crud();
-    upload_spend_data();
+    //upload_spend_data();
 });

@@ -118,6 +118,22 @@ export function init_datatables(obj, url) {
                     titleAttr: 'Apply Data',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
+                        $.ajax({
+                            url: "settings/apply_transactions",
+                            type: "POST",
+                            dataType: "JSON",
+                            success: function(data) {
+                                if (data.status) {
+                                    dt.draw();
+                                }
+                            },
+                            error: function (xhr, status, errorThrown) {
+                                alert("Sorry, there was a problem to get category data");
+                                console.log("Error: " + errorThrown);
+                                console.log("Status: " + status);
+                                console.dir(xhr);
+                            }
+                        });
                     }
                 },
                 {
