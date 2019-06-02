@@ -83,51 +83,6 @@ export function init_datatables(obj, url) {
                         $(".modal-title").text("Add Keyword");
                     }
                 },
-                // {
-                //     text: '<svg class="icon"><use xlink:href="#edit"></use></svg>',
-                //     titleAttr: 'Edit',
-                //     // eslint-disable-next-line no-unused-vars
-                //     action: function (e, dt, node, config) {
-                //         save_method = "edit";
-
-                //         $("#form_keywords").find("input").removeClass("is-invalid");
-                //         $("#form_keywords").find("input invalid-tooltip").empty();
-
-                //         $("#form_keywords").find("select").removeClass("is-invalid");
-                //         $("#form_keywords").find("select invalid-tooltip").empty();
-
-                //         $("#form_keywords").find("input[type=text]").val("");
-                //         $("#form_keywords").find("select").val("");
-                //         $("#form_keywords").find("select").attr('disabled', false);
-                //         $("#form_keywords").find("input[type=checkbox]").prop("checked", false);
-
-                //         var rowId = dt.row({ selected: true }).id();
-                //         $.ajax({
-                //             url: "settings/edit_keywords",
-                //             type: "POST",
-                //             dataType: "JSON",
-                //             data: {
-                //                 id: rowId
-                //             },
-                //             success: function(data) {
-                //                 $('[name="maincategory"]').val(data.mastercode);
-                //                 $('[name="maincategory"]').attr('disabled', true);
-                //                 $('[name="subcategory"]').val(data.subcode);
-                //                 $('[name="subcategory"]').attr('disabled', true);
-                //                 $('[name="keywordname"]').val(data.keyname);
-                //                 $("#keywordsInfo").modal("show");
-                //                 $(".modal-title").text("Edit Keyword");
-                //             },
-                //             error: function (xhr, status, errorThrown) {
-                //                 alert("Sorry, there was a problem to get keyword data");
-                //                 console.log("Error: " + errorThrown);
-                //                 console.log("Status: " + status);
-                //                 console.dir(xhr);
-                //             }
-                //         });
-                //     },
-                //     enabled: false
-                // },
                 {
                     text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg>',
                     titleAttr: 'Delete',
