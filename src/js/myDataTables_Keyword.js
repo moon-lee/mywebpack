@@ -68,91 +68,93 @@ export function init_datatables(obj, url) {
                     action: function () {
                         save_method = "add";
 
-                        // $("#form_categories").find("input").removeClass("is-invalid");
-                        // $("#form_categories").find("input invalid-tooltip").empty();
+                        $("#form_keywords").find("input").removeClass("is-invalid");
+                        $("#form_keywords").find("input invalid-tooltip").empty();
 
-                        // $("#form_categories").find("select").removeClass("is-invalid");
-                        // $("#form_categories").find("select invalid-tooltip").empty();
+                        $("#form_keywords").find("select").removeClass("is-invalid");
+                        $("#form_keywords").find("select invalid-tooltip").empty();
 
-                        // $("#form_categories").find("input[type=text]").val("");
-                        // $("#form_categories").find("select").val("");
-                        // $("#form_categories").find("select").attr('disabled', false);
+                        $("#form_keywords").find("input[type=text]").val("");
+                        $("#form_keywords").find("select").val("");
+                        $("#form_keywords").find("select").attr('disabled', false);
 
-                        // $("#categoriesInfo").modal("show");
+                        $("#keywordsInfo").modal("show");
 
-                        // $(".modal-title").text("Add Category");
+                        $(".modal-title").text("Add Keyword");
                     }
                 },
-                {
-                    text: '<svg class="icon"><use xlink:href="#edit"></use></svg>',
-                    titleAttr: 'Edit',
-                    // eslint-disable-next-line no-unused-vars
-                    action: function (e, dt, node, config) {
-                        save_method = "edit";
+                // {
+                //     text: '<svg class="icon"><use xlink:href="#edit"></use></svg>',
+                //     titleAttr: 'Edit',
+                //     // eslint-disable-next-line no-unused-vars
+                //     action: function (e, dt, node, config) {
+                //         save_method = "edit";
 
-                    //     $("#form_categories").find("input").removeClass("is-invalid");
-                    //     $("#form_categories").find("input invalid-tooltip").empty();
+                //         $("#form_keywords").find("input").removeClass("is-invalid");
+                //         $("#form_keywords").find("input invalid-tooltip").empty();
 
-                    //     $("#form_categories").find("select").removeClass("is-invalid");
-                    //     $("#form_categories").find("select invalid-tooltip").empty();
+                //         $("#form_keywords").find("select").removeClass("is-invalid");
+                //         $("#form_keywords").find("select invalid-tooltip").empty();
 
-                    //     $("#form_categories").find("input[type=text]").val("");
-                    //     $("#form_categories").find("select").val("");
-                    //     $("#form_categories").find("select").attr('disabled', false);
-                    //     $("#form_categories").find("input[type=checkbox]").prop("checked", false);
+                //         $("#form_keywords").find("input[type=text]").val("");
+                //         $("#form_keywords").find("select").val("");
+                //         $("#form_keywords").find("select").attr('disabled', false);
+                //         $("#form_keywords").find("input[type=checkbox]").prop("checked", false);
 
-                    //     var rowId = dt.row({ selected: true }).id();
-                    //     $.ajax({
-                    //         url: "settings/edit_categories/",
-                    //         type: "POST",
-                    //         dataType: "JSON",
-                    //         data: {
-                    //             id: rowId
-                    //         },
-                    //         success: function(data) {
-                    //             $('[name="maincategory"]').val(data.mastercode);
-                    //             $('[name="maincategory"]').attr('disabled', true);
-                    //             $('[name="subcategoryname"]').val(data.subcodename);
-                    //             $("#categoriesInfo").modal("show");
-                    //             $(".modal-title").text("Edit Category");
-                    //         },
-                    //         error: function (xhr, status, errorThrown) {
-                    //             alert("Sorry, there was a problem to get category data");
-                    //             console.log("Error: " + errorThrown);
-                    //             console.log("Status: " + status);
-                    //             console.dir(xhr);
-                    //         }
-                    //     });
-                    },
-                    enabled: false
-                },
+                //         var rowId = dt.row({ selected: true }).id();
+                //         $.ajax({
+                //             url: "settings/edit_keywords",
+                //             type: "POST",
+                //             dataType: "JSON",
+                //             data: {
+                //                 id: rowId
+                //             },
+                //             success: function(data) {
+                //                 $('[name="maincategory"]').val(data.mastercode);
+                //                 $('[name="maincategory"]').attr('disabled', true);
+                //                 $('[name="subcategory"]').val(data.subcode);
+                //                 $('[name="subcategory"]').attr('disabled', true);
+                //                 $('[name="keywordname"]').val(data.keyname);
+                //                 $("#keywordsInfo").modal("show");
+                //                 $(".modal-title").text("Edit Keyword");
+                //             },
+                //             error: function (xhr, status, errorThrown) {
+                //                 alert("Sorry, there was a problem to get keyword data");
+                //                 console.log("Error: " + errorThrown);
+                //                 console.log("Status: " + status);
+                //                 console.dir(xhr);
+                //             }
+                //         });
+                //     },
+                //     enabled: false
+                // },
                 {
                     text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg>',
                     titleAttr: 'Delete',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
-                    //     var rowId = dt.row({ selected: true }).id();
-                    //     if (confirm("Are you sure you wish to delete this?")) {
-                    //         $.ajax({
-                    //             url: "settings/delete_categories/",
-                    //             type: "POST",
-                    //             datatype: "JSON",
-                    //             data: {
-                    //                 id: rowId
-                    //             },
-                    //             // eslint-disable-next-line no-unused-vars
-                    //             success: function (data) {
-                    //                 dt.row({ selected: true }).deselect();
-                    //                 dt.draw();
-                    //             },
-                    //             error: function (xhr, status, errorThrown) {
-                    //                 alert("Sorry, there was a problem to delete category data");
-                    //                 console.log("Error: " + errorThrown);
-                    //                 console.log("Status: " + status);
-                    //                 console.dir(xhr);
-                    //             }
-                    //         });
-                    //     }
+                        var rowId = dt.row({ selected: true }).id();
+                        if (confirm("Are you sure you wish to delete this?")) {
+                            $.ajax({
+                                url: "settings/delete_keywords",
+                                type: "POST",
+                                datatype: "JSON",
+                                data: {
+                                    id: rowId
+                                },
+                                // eslint-disable-next-line no-unused-vars
+                                success: function (data) {
+                                    dt.row({ selected: true }).deselect();
+                                    dt.draw();
+                                },
+                                error: function (xhr, status, errorThrown) {
+                                    alert("Sorry, there was a problem to delete keyword data");
+                                    console.log("Error: " + errorThrown);
+                                    console.log("Status: " + status);
+                                    console.dir(xhr);
+                                }
+                            });
+                        }
                     },
                     enabled: false
                 },

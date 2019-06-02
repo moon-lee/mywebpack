@@ -28,12 +28,17 @@ export function init_datatables(obj, url) {
         },
         columns: [
             {
+                data: null,
+                defaultContent: '',
+                width: '3%'
+            },
+            {
                 data: 'trans_date',
                 width: '12%'
             },
             {
                 data: 'trans_desc',
-                width: '53%'
+                width: '50%'
             },
             {
                 data: 'trans_code',
@@ -51,6 +56,16 @@ export function init_datatables(obj, url) {
             }
  
         ],
+        columnDefs: [{
+            searchable: false,
+            orderable: false,
+            className: 'select-checkbox',
+            targets: 0
+        }],
+        select: {
+            style: 'single',
+            selector: 'td:first-child'
+        },
         buttons: {
             dom: {
                 button: {
@@ -85,7 +100,6 @@ export function init_datatables(obj, url) {
                             type: "POST",
                             dataType: "JSON",
                             success: function(data) {
-                                //data = JSON.parse(data);
                                 if (data.status) {
                                     dt.draw();
                                 }
@@ -104,31 +118,23 @@ export function init_datatables(obj, url) {
                     titleAttr: 'Apply Data',
                     // eslint-disable-next-line no-unused-vars
                     action: function (e, dt, node, config) {
-                    //     var rowId = dt.row({ selected: true }).id();
-                    //     if (confirm("Are you sure you wish to delete this?")) {
-                    //         $.ajax({
-                    //             url: "settings/delete_categories/",
-                    //             type: "POST",
-                    //             datatype: "JSON",
-                    //             data: {
-                    //                 id: rowId
-                    //             },
-                    //             // eslint-disable-next-line no-unused-vars
-                    //             success: function (data) {
-                    //                 dt.row({ selected: true }).deselect();
-                    //                 dt.draw();
-                    //             },
-                    //             error: function (xhr, status, errorThrown) {
-                    //                 alert("Sorry, there was a problem to delete category data");
-                    //                 console.log("Error: " + errorThrown);
-                    //                 console.log("Status: " + status);
-                    //                 console.dir(xhr);
-                    //             }
-                    //         });
-                    //     }
+                    }
+                },
+                {
+                    text: '<svg class="icon"><use xlink:href="#edit"></use></svg>',
+                    titleAttr: 'Edit',
+                    action: function () {
                     },
                     enabled: false
                 },
+                {
+                    text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg>',
+                    titleAttr: 'Delete',
+                    // eslint-disable-next-line no-unused-vars
+                    action: function (e, dt, node, config) {
+                    },
+                    enabled: false
+                }
             ]
         },
         drawCallback: function () {

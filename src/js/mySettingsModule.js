@@ -79,11 +79,92 @@ function setting_category_crud() {
 
 
 function setting_keyword_crud() {
+    //Submit Data
+    $("#form_keywords").submit(function (event) {
+        event.preventDefault();
+
+        var ajax_url, error_msg, post_data;
+        var rowId = dt_keyword.row({ selected: true }).id();
+
+        if (dtKeyword.save_method == 'add') {
+            ajax_url = "settings/add_keywords";
+            error_msg = "Sorry, there was a problem to add keyword data";
+            post_data = $("#form_keywords").serialize();
+        } else {
+            ajax_url = "settings/update_keywords";
+            error_msg = "Sorry, there was a problem to update keyword data";
+            post_data = $("#form_keywords").serialize() + "&id=" + rowId;
+        }
+
+        $.ajax({
+            url: ajax_url,
+            type: "POST",
+            data: post_data,
+            datatype: "JSON",
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    $("#keywordsInfo").modal("hide");
+                    if (dtKeyword.save_method == 'edit') {
+                        dt_keyword.row({ selected: true }).deselect();
+                    }
+                    dt_keyword.draw();
+                } else {
+                    for (var i = 0; i < data.inputerror.length; i++) {
+                        $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid');
+                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                    }
+                }
+            },
+            error: function (xhr, status, errorThrown) {
+                alert(error_msg);
+                console.log("Error: " + errorThrown);
+                console.log("Status: " + status);
+                console.dir(xhr);
+            }
+        });
+    });
+
+    // Clear Error
+    $("#form_keywords").find("input").change(function () {
+        $(this).removeClass("is-invalid");
+        $(this).next("invalid-tooltip").empty();
+    });
+
+    $("#form_keywords").find("select").change(function () {
+        $(this).removeClass("is-invalid");
+        $(this).next("invalid-tooltip").empty();
+    });
+
+    // Dynamic select options 
+    $("#keyword_mainCategory").change(function () {
+        var mCategory = $(this).val();
+        if (mCategory != '') {
+            $.ajax({
+                url: "settings/get_subcategory",
+                type: "POST",
+                datatype: "JSON",
+                data: { mcategory_code: mCategory },
+                success: function (data) {
+                    $("#subCategory").html(data);
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem to get sub category");
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + status);
+                    console.dir(xhr);
+                }
+            });
+        } else {
+            $("#subCategory").html('<option value="">Select Main Category first</option>');
+        }
+
+    });
+
     // datatables select and deselect
     dt_keyword.on('select deselect', function () {
         var selectedRows = dt_keyword.rows({ selected: true }).count();
         dt_keyword.button(1).enable(selectedRows === 1);
-        dt_keyword.button(2).enable(selectedRows === 1);
     });
 
     // Filer selection change
@@ -93,6 +174,11 @@ function setting_keyword_crud() {
 }
 
 function setting_transaction_crud() {
+    dt_transaction.on('select deselect', function () {
+         var selectedRows = dt_transaction.rows({ selected: true }).count();
+        dt_transaction.button(3).enable(selectedRows === 1);
+        dt_transaction.button(4).enable(selectedRows === 1);
+    });
     // Filer selection change
     $("#setting_trans").change(function () {
         dt_transaction.ajax.reload();
