@@ -230,7 +230,6 @@ function load_transaction_data() {
     });
 
     $('#loadTransModal').on('hidden.bs.modal', function () {
-        // dt.ajax.reload();
         location.reload(true);
     });
 }

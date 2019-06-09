@@ -26,6 +26,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons/faFileUpload";
 import { faFileAlt } from "@fortawesome/free-solid-svg-icons/faFileAlt";
 import { faFileImport } from "@fortawesome/free-solid-svg-icons/faFileImport";
+import { faArchive } from "@fortawesome/free-solid-svg-icons/faArchive";
 
 
 export function init_fonts() {
@@ -33,7 +34,7 @@ export function init_fonts() {
     library.add(faPlusSquare, faMinusSquare, faCog, faCogs, faPalette);
     library.add(faClipboard, faEllipsisV, faEdit, faTrashAlt, faPlusCircle, faMinusCircle, faClock, faMoneyCheck);
     library.add(faCaretUp, faCaretDown, faCheck);
-    library.add(faFileUpload, faFileAlt, faFileImport);
+    library.add(faFileUpload, faFileAlt, faFileImport, faArchive);
 
     dom.i2svg();
 }

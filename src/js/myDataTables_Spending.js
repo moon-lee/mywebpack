@@ -97,18 +97,6 @@ export function init_datatables(obj,url,fp) {
                         $("#addSpendinginfo").modal("show");
                     }
                 },
-                // {
-                //     text: '<svg class="icon"><use xlink:href="#file-upload"></use></svg> Load Data',
-                //     action: function () {
-                //         $("#form_upload").find("input").removeClass("is-invalid");
-                //         $("#form_upload").find("input invalid-tooltip").empty();
-                //         $("#form_upload").find("input[type=file]").val("");
-                //         $("#form_upload").find("label.custom-file-label").text("Choose file");
-                //         $("#upload_status").html("");
-
-                //         $("#uploadFile").modal("show");
-                //     }
-                // },
                 {
                     text: '<svg class="icon"><use xlink:href="#minus-circle"></use></svg> Delete Data',
                     // eslint-disable-next-line no-unused-vars
